@@ -10,9 +10,9 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>pago-factura-ws</module>
-        <module>venta-entradas-ws</module>
+
         <module>ws-facturas</module>
+        <module>lealtad</module>
 
     </modules>
 
