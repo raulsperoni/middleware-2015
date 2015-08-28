@@ -16,7 +16,7 @@ import javax.ws.rs.core.MediaType;
 @Path("/helloworld")
 public class HelloWorld {
 
-    //http://localhost:8080/rest/helloworld/echo/d
+    //http://localhost:8080/ws-entradas/helloworld/echo/ff
 
     @GET
     @Path("echo/{echostr}")
