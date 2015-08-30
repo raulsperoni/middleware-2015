@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is JAX-WS RI 2.2.10 svn-revision#919b322c92f13ad085a933e8dd6dd35d4947364b. -->
+<xs:schema xmlns:tns="http://services.middleware.fing.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://services.middleware.fing.org/">
+
+<xs:element name="recepcionPagos" type="tns:recepcionPagos"/>
+
+<xs:element name="recepcionPagosResponse" type="tns:recepcionPagosResponse"/>
+
+<xs:complexType name="recepcionPagos">
+<xs:sequence>
+<xs:element name="arg0" type="tns:transaccionPago" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="transaccionPago">
+<xs:sequence>
+<xs:element name="fechaCobro" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="formaPago" type="xs:string" minOccurs="0"/>
+<xs:element name="identificadorCliente" type="xs:long"/>
+<xs:element name="numeroSucursal" type="xs:long"/>
+<xs:element name="pagos" type="tns:pago" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="pago">
+<xs:sequence>
+<xs:element name="codigoMoneda" type="xs:string" minOccurs="0"/>
+<xs:element name="datoAdicional" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="identificadorPago" type="xs:long"/>
+<xs:element name="monto" type="xs:double"/>
+<xs:element name="nombreGestion" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="recepcionPagosResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:confirmacionTransaccion" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="confirmacionTransaccion">
+<xs:sequence>
+<xs:element name="confirmacion" type="tns:confirmacionPago" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="confirmacionPago">
+<xs:sequence>
+<xs:element name="descripcion" type="xs:string" minOccurs="0"/>
+<xs:element name="identificadorPago" type="xs:long"/>
+<xs:element name="resultado" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
