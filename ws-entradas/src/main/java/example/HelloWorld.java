@@ -1,11 +1,8 @@
-package main.java.example;
-import com.sun.net.httpserver.HttpServer;
-import com.sun.jersey.api.container.httpserver.HttpServerFactory;
+package example;
 import sun.misc.BASE64Decoder;
 
-import java.io.IOException;
-
 import javax.ws.rs.*;
+import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -62,4 +59,12 @@ public class HelloWorld {
     }
 
 
+    /**
+     * Created by RSperoni on 28/08/2015.
+     */
+    @ApplicationPath("/")
+    public static class Controlador extends Application {
+
+
+    }
 }
