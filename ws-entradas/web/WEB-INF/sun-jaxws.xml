@@ -5,5 +5,5 @@
     <endpoint
             name="HelloWorld"
             implementation="example.HelloWorld"
-            url-pattern="/hello2"/>
+            url-pattern="/hello"/>
 </endpoints>
