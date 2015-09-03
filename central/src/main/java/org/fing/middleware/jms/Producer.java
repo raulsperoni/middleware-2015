@@ -10,6 +10,7 @@ import javax.jms.*;
 public class Producer {
 
     public static String brokerURL = "tcp://localhost:61616";
+    public static String queue = "INTROMIDDL2015";
     public final Connection connection;
     public final Session session;
     public final Destination destination;
@@ -23,7 +24,7 @@ public class Producer {
         // Create a Session
         session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
         // Create the destination (Topic or Queue)
-        destination = session.createQueue("TEST.FOO");
+        destination = session.createQueue(queue);
     }
 
     public void send() throws JMSException {
