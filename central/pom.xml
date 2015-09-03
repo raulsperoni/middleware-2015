@@ -32,6 +32,8 @@
             <artifactId>activemq-core</artifactId>
             <version>5.7.0</version>
         </dependency>
+
+        <!--JUNIT -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

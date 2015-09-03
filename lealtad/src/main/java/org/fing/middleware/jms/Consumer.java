@@ -41,5 +41,11 @@ public class Consumer implements MessageListener {
         }
     }
 
+    public void close() throws JMSException {
+        // Clean up
+        session.close();
+        connection.close();
+    }
+
 
 }
