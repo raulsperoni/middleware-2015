@@ -1,7 +1,9 @@
+import org.fing.middleware.jms.DataLealtad;
 import org.fing.middleware.jms.Producer;
 import org.junit.Test;
 
 import javax.jms.JMSException;
+import java.util.Random;
 
 /**
  * Created by raul on 03/09/15.
@@ -13,7 +15,7 @@ public class ProduceMessage {
         Producer p = null;
         try {
             p = new Producer();
-            p.send();
+            p.send(new DataLealtad(new Random().nextInt(), "USD", 100, null));
         } catch (JMSException e) {
             e.printStackTrace();
         }
