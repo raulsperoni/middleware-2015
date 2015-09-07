@@ -7,7 +7,7 @@ import javax.jms.*;
 /**
  * Created by raul on 03/09/15.
  */
-public class Consumer implements MessageListener {
+public abstract class Consumer implements MessageListener {
 
     public static String brokerURL = "tcp://localhost:61616";
     public static String queue = "INTROMIDDL2015";
@@ -27,19 +27,22 @@ public class Consumer implements MessageListener {
     }
 
     public void onMessage(Message message) {
-
         try {
-            if (message instanceof TextMessage) {
-                TextMessage txtMessage = (TextMessage) message;
-                System.out.println("Message received: " + txtMessage.getText());
+            if (message instanceof ObjectMessage) {
+                ObjectMessage obj = (ObjectMessage) message;
+                DataLealtad dataLealtad = (DataLealtad) obj.getObject();
+                guardarMensaje(dataLealtad);
+                System.out.println("Message received: " + dataLealtad.hashCode());
             } else {
                 System.out.println("Invalid message received.");
             }
         } catch (JMSException e) {
-            System.out.println("Caught:" + e);
             e.printStackTrace();
         }
     }
+
+    //Lo guardo en donde me llaman.
+    public abstract void guardarMensaje(DataLealtad mensaje);
 
     public void close() throws JMSException {
         // Clean up

@@ -27,13 +27,14 @@ public class Producer {
         destination = session.createQueue(queue);
     }
 
-    public void send() throws JMSException {
+    public void send(DataLealtad dataLealtad) throws JMSException {
         // Create a MessageProducer from the Session to the Topic or Queue
         MessageProducer producer = session.createProducer(destination);
         producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
         // Create a messages
         String text = "Hello world! From: " + Thread.currentThread().getName() + " : " + this.hashCode();
-        TextMessage message = session.createTextMessage(text);
+        //TextMessage message = session.createTextMessage(text);
+        ObjectMessage message = session.createObjectMessage(dataLealtad);
         // Tell the producer to send the message
         System.out.println("Sent message: " + message.hashCode() + " : " + Thread.currentThread().getName());
         producer.send(message);
