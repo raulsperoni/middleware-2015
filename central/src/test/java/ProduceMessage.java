@@ -15,7 +15,7 @@ public class ProduceMessage {
         Producer p = null;
         try {
             p = new Producer();
-            p.send(new DataLealtad(new Random().nextInt(), "USD", 100, null));
+            p.send(new DataLealtad(new Random().nextInt(), DataLealtad.Monto.USD, 100, null));
         } catch (JMSException e) {
             e.printStackTrace();
         }
