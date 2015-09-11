@@ -1,5 +1,6 @@
 package org.fing.middleware.servlet;
 
+import org.fing.middleware.beans.Usuario;
 import org.fing.middleware.jms.Consumer;
 import org.fing.middleware.jms.DataLealtad;
 
@@ -19,7 +20,7 @@ public class Config implements ServletContextListener {
     //Singleton
     private static Config _instance;
     //Mensajes
-    private final HashMap<Long, DataLealtad> mensajes = new HashMap<Long, DataLealtad>();
+    private final HashMap<Long, Usuario> mensajes = new HashMap<Long, Usuario>();
     //MessageListener preparado para recibir.
     Consumer consumer;
     private ServletContext context = null;
@@ -37,7 +38,19 @@ public class Config implements ServletContextListener {
             consumer = new Consumer() {
                 @Override
                 public void guardarMensaje(DataLealtad mensaje) {
-                    mensajes.put(mensaje.getIdentificadorCliente(), mensaje);
+                    Usuario u = null;
+                    //Todavia no existe el usuario
+                    if (mensajes.get(mensaje.getIdentificadorCliente()) == null) {
+                        //Nuevo Usuario
+                        u = new Usuario(mensaje.getIdentificadorCliente());
+                        //Lo agrego a la estructura
+                        mensajes.put(mensaje.getIdentificadorCliente(), u);
+                    } else {
+                        //Ya existe.
+                        u = mensajes.get(mensaje.getIdentificadorCliente());
+                    }
+                    //Agrego el pago, y los puntos.
+                    u.addPago(mensaje);
                 }
             };
         } catch (JMSException e) {
@@ -55,7 +68,7 @@ public class Config implements ServletContextListener {
         }
     }
 
-    public HashMap<Long, DataLealtad> getMensajes() {
+    public HashMap<Long, Usuario> getMensajes() {
         return mensajes;
     }
 }

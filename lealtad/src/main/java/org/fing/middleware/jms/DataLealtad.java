@@ -1,7 +1,7 @@
 package org.fing.middleware.jms;
 
-import javax.xml.datatype.XMLGregorianCalendar;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by raul on 06/09/15.
@@ -9,11 +9,11 @@ import java.io.Serializable;
 public class DataLealtad implements Serializable {
 
     protected long identificadorCliente;
-    protected String codigoMoneda;
+    protected Monto codigoMoneda;
     protected double monto;
-    protected XMLGregorianCalendar fechaCobro;
+    protected Date fechaCobro;
 
-    public DataLealtad(long identificadorCliente, String codigoMoneda, double monto, XMLGregorianCalendar fechaCobro) {
+    public DataLealtad(long identificadorCliente, Monto codigoMoneda, double monto, Date fechaCobro) {
         this.identificadorCliente = identificadorCliente;
         this.codigoMoneda = codigoMoneda;
         this.monto = monto;
@@ -28,11 +28,11 @@ public class DataLealtad implements Serializable {
         this.identificadorCliente = identificadorCliente;
     }
 
-    public String getCodigoMoneda() {
+    public Monto getCodigoMoneda() {
         return codigoMoneda;
     }
 
-    public void setCodigoMoneda(String codigoMoneda) {
+    public void setCodigoMoneda(Monto codigoMoneda) {
         this.codigoMoneda = codigoMoneda;
     }
 
@@ -44,11 +44,15 @@ public class DataLealtad implements Serializable {
         this.monto = monto;
     }
 
-    public XMLGregorianCalendar getFechaCobro() {
+    public Date getFechaCobro() {
         return fechaCobro;
     }
 
-    public void setFechaCobro(XMLGregorianCalendar fechaCobro) {
+    public void setFechaCobro(Date fechaCobro) {
         this.fechaCobro = fechaCobro;
+    }
+
+    public enum Monto {
+        UYU, USD
     }
 }
