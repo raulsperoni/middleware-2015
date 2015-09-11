@@ -1,5 +1,7 @@
 package org.fing.middleware.services;
 
+import org.springframework.integration.annotation.Gateway;
+
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
@@ -24,8 +26,9 @@ public interface ServicioRecepcionPagos {
     @RequestWrapper(localName = "recepcionPagos", targetNamespace = "http://services.middleware.fing.org/", className = "org.fing.middleware.services.RecepcionPagos")
     @ResponseWrapper(localName = "recepcionPagosResponse", targetNamespace = "http://services.middleware.fing.org/", className = "org.fing.middleware.services.RecepcionPagosResponse")
     @WebResult(name = "return", targetNamespace = "")
-    public org.fing.middleware.services.ConfirmacionTransaccion recepcionPagos(
-        @WebParam(name = "arg0", targetNamespace = "")
-        org.fing.middleware.services.TransaccionPago arg0
+    @Gateway(requestChannel = "inputChannel")
+    org.fing.middleware.services.ConfirmacionTransaccion recepcionPagos(
+            @WebParam(name = "arg0", targetNamespace = "")
+            org.fing.middleware.services.TransaccionPago arg0
     );
 }
