@@ -3,9 +3,7 @@ package org.fing.middleware.services;
 import org.fing.middleware.integration.RecepcionPagosGateway;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import uy.mgcoders.listener.IProcesarPagos;
 
-import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -27,15 +25,13 @@ public class ServicioRecepcionPagosPortImpl implements ServicioRecepcionPagos {
     private static final Logger LOG = Logger.getLogger(ServicioRecepcionPagosPortImpl.class.getName());
 
     public ConfirmacionTransaccion recepcionPagos(TransaccionPago arg0) {
-
         LOG.info("Executing operation recepcionPagos");
-        System.out.println(arg0);
         ApplicationContext context =  new ClassPathXmlApplicationContext("META-INF/spring-integration-config.xml");
         RecepcionPagosGateway broker = context.getBean("recepcionPagosGateway", RecepcionPagosGateway.class);
-        //LoanRequest loanRequest = new LoanRequest();
-        //loanRequest.setCustomer(new Customer());
+
         ConfirmacionTransaccion resultado = new ConfirmacionTransaccion();
         resultado.confirmacion = broker.procesarPagos(arg0);
+
         return  resultado;
     }
 

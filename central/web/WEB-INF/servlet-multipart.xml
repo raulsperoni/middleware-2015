@@ -9,7 +9,7 @@ http://www.springframework.org/schema/integration http://www.springframework.org
 http://www.springframework.org/schema/integration/http http://www.springframework.org/schema/integration/http/spring-integration-http.xsd"
         >
 
-    <int-http:inbound-gateway request-channel="inputChannel"
+    <!--int-http:inbound-gateway request-channel="inputChannel"
                               path="/ws-facturas/otherservices"
                               supported-methods="POST"/>
 
@@ -24,5 +24,5 @@ http://www.springframework.org/schema/integration/http http://www.springframewor
 
     <int:channel id="outputChannel"/>
 
-    <bean id="splitterBean" class="org.fing.middleware.SplitterBean"/>
+    <bean id="splitterBean" class="org.fing.middleware.integration.SplitterBean"/-->
 </beans>

@@ -12,8 +12,9 @@ import java.util.List;
 
 public class SplitterBean {
 
-    @Splitter
     public List<Pago> extraerPagos(TransaccionPago transaccionPago) {
+
+        System.out.println("### splitter: sucursal " + transaccionPago.getNumeroSucursal());
         return transaccionPago.getPagos();
     }
 }
