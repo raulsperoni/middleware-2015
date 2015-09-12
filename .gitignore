@@ -16,7 +16,10 @@ ws-facturas/target
 ws-facturas/ws-facturas.iml
 intMiddl2015.iml
 lealtad/lealtad.iml
+lealtad/target
 ws-entradas/ws-entradas.iml
+ws-entradas/target
 central/central.iml
+central/target
 central/src/main/java/build.xml
 central/activemq-data

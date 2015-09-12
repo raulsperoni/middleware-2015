@@ -10,7 +10,7 @@ public class PagosRouter {
     public String route(Pago pago) {
         String channel = pago.getNombreGestion().toLowerCase();
         System.out.println("### router channel  " + channel);
-        return "splitterChannel";
+        return channel.equals("facturas") ? channel+"Channel" : "splitterChannel";
     }
 
 }
