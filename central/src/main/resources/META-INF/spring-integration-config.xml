@@ -4,6 +4,7 @@
              xmlns:beans="http://www.springframework.org/schema/beans"
              xmlns:ws="http://www.springframework.org/schema/integration/ws"
              xmlns:stream="http://www.springframework.org/schema/integration/stream"
+             xmlns:task="http://www.springframework.org/schema/task"
              xsi:schemaLocation="http://www.springframework.org/schema/beans
                   http://www.springframework.org/schema/beans/spring-beans.xsd
                   http://www.springframework.org/schema/integration
@@ -11,8 +12,12 @@
                   http://www.springframework.org/schema/integration/ws
 			      http://www.springframework.org/schema/integration/ws/spring-integration-ws.xsd
 			      http://www.springframework.org/schema/integration/stream
-			      http://www.springframework.org/schema/integration/stream/spring-integration-stream.xsd">
+			      http://www.springframework.org/schema/integration/stream/spring-integration-stream.xsd
+			      http://www.springframework.org/schema/task
+			      http://www.springframework.org/schema/task/spring-task.xsd">
 
+
+    <!-- Gateway para enviar los request desde ServicioRecepcionPagosPortImpl -->
     <gateway id="recepcionPagosGateway"
              default-request-channel="inputPagosChannel"
              default-reply-channel="outputChannel"
@@ -20,8 +25,10 @@
         <method name="procesarPagos" />
     </gateway>
 
+    <!-- Transporta TransaccionPago -->
     <channel id="inputPagosChannel"/>
 
+    <!-- Splitter para separar los mensajes -->
     <splitter
             id="pagosSplitter"
             ref="splitterBean"
@@ -29,24 +36,32 @@
             input-channel="inputPagosChannel"
             output-channel="splitterChannel"/>
 
-    <channel id="splitterChannel"/>
+    <channel id="splitterChannel">
+    </channel>
 
     <beans:bean id="splitterBean" class="org.fing.middleware.integration.SplitterBean"/>
 
-    <router ref="pagosRouter" method="route" input-channel="splitterChannel" />
+    <!-- Router para ruteat los pagos a los canales adecuados -->
+    <router ref="pagosRouter" method="route" input-channel="splitterChannel" >
+    </router>
 
     <beans:bean id="pagosRouter" class="org.fing.middleware.integration.PagosRouter"/>
+
+    <channel id="resultChannel"/>
+
+    <!--###############################################################-->
+    <!-- Proceso de facturas -->
 
     <channel id="facturasChannel"/>
 
     <transformer
-            id="testTransformer"
-            ref="testTransformerBean"
+            id="facturasTransformer"
+            ref="facturasTransformerBean"
             input-channel="facturasChannel"
             method="tranformarFacturas"
             output-channel="fahrenheitChannel"/>
 
-    <beans:bean id="testTransformerBean" class="org.fing.middleware.integration.FacturasTransformerBean" />
+    <beans:bean id="facturasTransformerBean" class="org.fing.middleware.integration.FacturasTransformerBean" />
 
     <chain input-channel="fahrenheitChannel" output-channel="celsiusChannel">
         <ws:header-enricher>
@@ -58,17 +73,47 @@
     <!-- The response from the service is logged to the console. -->
     <stream:stdout-channel-adapter id="celsiusChannel"/>
 
+
+
+    <!--###############################################################-->
+    <!-- Proceso de entradas -->
+
+    <channel id="entradasChannel"/>
+
+
+    <!--###############################################################-->
+    <!-- Proceso offline -->
+
+    <channel id="offlineChannel"/>
+
+    <transformer
+            id="offlineTransformer"
+            ref="csvTransformerBean"
+            input-channel="offlineChannel"
+            method="crearCSV"
+            output-channel="ftpChannel"/>
+
+    <beans:bean id="csvTransformerBean" class="org.fing.middleware.integration.CSVTransformerBean" />
+
+    <channel id="ftpChannel"/>
+
+    <!--###############################################################-->
+
+    <!-- Aggregator para unir las respuestas y retornar el resultado al pedido -->
     <aggregator
             id="pagosAggregator"
-            input-channel="splitterChannel"
+            input-channel="resultChannel"
             method="confirmarPagos"
             ref="recepcionPagosAggregator"
             output-channel="outputChannel"
-            group-timeout="15"
-            send-partial-result-on-expiry="true"/>
+            group-timeout="3000"
+            send-partial-result-on-expiry="true">
+    </aggregator>
 
     <beans:bean id="recepcionPagosAggregator" class="org.fing.middleware.integration.RecepcionPagosAggregator"/>
 
     <channel id="outputChannel"/>
+
+    <beans:import resource="outbound-config.xml"/>
 
 </beans:beans>
