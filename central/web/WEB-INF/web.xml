@@ -6,7 +6,18 @@
            version="3.0">
 
     <display-name>Sistema Central - Middleware 2015</display-name>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            /WEB-INF/applicationContext.xml
+        </param-value>
+    </context-param>
 
+    <listener>
+        <listener-class>
+            org.springframework.web.context.ContextLoaderListener
+        </listener-class>
+    </listener>
     <servlet>
         <servlet-name>ServicioRecepcionPagosService</servlet-name>
         <servlet-class>com.sun.xml.ws.transport.http.servlet.WSSpringServlet</servlet-class>
@@ -16,10 +27,5 @@
         <servlet-name>ServicioRecepcionPagosService</servlet-name>
         <url-pattern>/ws-facturas/otherservices</url-pattern>
     </servlet-mapping>
-    <listener>
-        <listener-class>
-            org.springframework.web.context.ContextLoaderListener
-        </listener-class>
-    </listener>
 
 </web-app>

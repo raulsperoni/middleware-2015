@@ -1,7 +1,9 @@
 package org.fing.middleware.services;
 
 import org.fing.middleware.integration.RecepcionPagosGateway;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.logging.Logger;
@@ -24,15 +26,16 @@ public class ServicioRecepcionPagosPortImpl implements ServicioRecepcionPagos {
 
     private static final Logger LOG = Logger.getLogger(ServicioRecepcionPagosPortImpl.class.getName());
 
+    @Autowired
+    ApplicationContext applicationContext;
+
     public ConfirmacionTransaccion recepcionPagos(TransaccionPago arg0) {
-        LOG.info("Executing operation recepcionPagos");
-        ApplicationContext context =  new ClassPathXmlApplicationContext("META-INF/spring-integration-config.xml");
-        RecepcionPagosGateway broker = context.getBean("recepcionPagosGateway", RecepcionPagosGateway.class);
+
+        RecepcionPagosGateway broker = applicationContext.getBean("recepcionPagosGateway", RecepcionPagosGateway.class);
 
         ConfirmacionTransaccion resultado = new ConfirmacionTransaccion();
         resultado.confirmacion = broker.procesarPagos(arg0);
 
         return  resultado;
     }
-
 }
