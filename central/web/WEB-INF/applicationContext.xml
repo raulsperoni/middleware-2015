@@ -3,12 +3,17 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:ws="http://jax-ws.dev.java.net/spring/core"
        xmlns:wss="http://jax-ws.dev.java.net/spring/servlet"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans.xsd
            http://jax-ws.dev.java.net/spring/core
            http://jax-ws.dev.java.net/spring/core.xsd
            http://jax-ws.dev.java.net/spring/servlet
-           http://jax-ws.dev.java.net/spring/servlet.xsd">
+           http://jax-ws.dev.java.net/spring/servlet.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:annotation-config />
 
     <!-- jax-ws endpoint -->
     <wss:binding url="/ws-facturas/otherservices">
@@ -19,7 +24,8 @@
 
     <!-- Metodo del WS -->
     <bean id="ws-facturas-method" class="org.fing.middleware.services.ServicioRecepcionPagosPortImpl">
-
     </bean>
+
+    <import resource="classpath:/META-INF/spring-integration-config.xml"/>
 
 </beans>
