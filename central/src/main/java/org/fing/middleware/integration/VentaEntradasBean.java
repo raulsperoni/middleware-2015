@@ -1,9 +1,9 @@
 package org.fing.middleware.integration;
 
 import org.fing.middleware.datatypes.PagoInfo;
-import org.fing.middleware.serviceCobroFactura.IServicioCobroDeFacturas;
-import org.fing.middleware.serviceCobroFactura.ServicioCobroDeFacturasService;
-import org.fing.middleware.serviceCobroFactura.WsResult;
+import org.fing.middleware.serviceVentaEntradas.IServicioVentaDeEntradas;
+import org.fing.middleware.serviceVentaEntradas.ServicioVentaDeEntradasService;
+import org.fing.middleware.serviceVentaEntradas.WsResult;
 import org.fing.middleware.services.ConfirmacionPago;
 import org.springframework.messaging.Message;
 
@@ -15,21 +15,24 @@ import java.math.BigDecimal;
 import java.util.GregorianCalendar;
 
 /**
- * Created by RSperoni on 15/09/2015.
+ * Created by raul on 15/09/15.
  */
-public class CobroFacturasBean {
-    public Message<PagoInfo> cobro(Message<PagoInfo> pagoInfoMessage) {
-        ServicioCobroDeFacturasService servicioCobroDeFacturasService = new ServicioCobroDeFacturasService();
+public class VentaEntradasBean {
 
-        IServicioCobroDeFacturas port = servicioCobroDeFacturasService.getServicioCobroDeFacturasPort();
+    public Message<PagoInfo> cobrar(Message<PagoInfo> pagoInfoMessage) {
+        ServicioVentaDeEntradasService servicioVentaDeEntradasService = new ServicioVentaDeEntradasService();
+
+        IServicioVentaDeEntradas port = servicioVentaDeEntradasService.getServicioVentaDeEntradasPort();
         BindingProvider prov = (BindingProvider) port;
         prov.getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "admin");
         prov.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "admin");
 
         //CONVIERTO LOS CAMPOS QUE NECESITO
+        String codMoneda = pagoInfoMessage.getPayload().getPago().getCodigoMoneda().equals("UYU") ? "854" : "840";
         Long idPago = pagoInfoMessage.getPayload().getPago().getIdentificadorPago();
-        Short codMoneda = pagoInfoMessage.getPayload().getPago().getCodigoMoneda().equals("UYU") ? (short) 1 : (short) 2;
-        BigDecimal monto = new BigDecimal(pagoInfoMessage.getPayload().getPago().getMonto());
+        //TODO: WTF!
+        Short cantEntradas = 12;
+        BigDecimal precioUnitario = new BigDecimal("22");
         GregorianCalendar calendar = new GregorianCalendar();
         calendar.setTime(pagoInfoMessage.getPayload().getFechaCobro());
         XMLGregorianCalendar xmlGregorianCalendar = null;
@@ -40,12 +43,13 @@ public class CobroFacturasBean {
         }
 
         //INVOCO WS
-        WsResult result = port.cobrar(idPago, codMoneda, monto, xmlGregorianCalendar);
+        WsResult result = port.cobrar(cantEntradas, codMoneda, precioUnitario, xmlGregorianCalendar);
 
         //ARMO RESPUESTA
         ConfirmacionPago confirmacionPago = new ConfirmacionPago();
         confirmacionPago.setDescripcion(result.getMensaje());
         confirmacionPago.setIdentificadorPago(result.getIdCobro());
+        //TODO: ojo errores
         confirmacionPago.setResultado(result.isStatus() ? "OK" : "Error");
 
         pagoInfoMessage.getPayload().setConfirmacionPago(confirmacionPago);

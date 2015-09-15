@@ -1,5 +1,6 @@
 package org.fing.middleware.datatypes;
 
+import org.fing.middleware.services.ConfirmacionPago;
 import org.fing.middleware.services.Pago;
 
 import java.util.Date;
@@ -15,6 +16,7 @@ public class PagoInfo {
     protected long identificadorCliente;
     protected long numeroSucursal;
     private Pago pago;
+    private ConfirmacionPago confirmacionPago = null;
 
     public PagoInfo(Pago pago, Date fechaCobro, String formaPago, long identificadorCliente, long numeroSucursal) {
         this.pago = pago;
@@ -62,5 +64,13 @@ public class PagoInfo {
 
     public void setNumeroSucursal(long numeroSucursal) {
         this.numeroSucursal = numeroSucursal;
+    }
+
+    public ConfirmacionPago getConfirmacionPago() {
+        return confirmacionPago;
+    }
+
+    public void setConfirmacionPago(ConfirmacionPago confirmacionPago) {
+        this.confirmacionPago = confirmacionPago;
     }
 }

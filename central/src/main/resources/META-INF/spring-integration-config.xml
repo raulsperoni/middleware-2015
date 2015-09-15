@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans:beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xmlns:beans="http://www.springframework.org/schema/beans"
-             xmlns:ws="http://www.springframework.org/schema/integration/ws"
-             xmlns:stream="http://www.springframework.org/schema/integration/stream"
              xmlns="http://www.springframework.org/schema/integration"
              xsi:schemaLocation="http://www.springframework.org/schema/beans
                   http://www.springframework.org/schema/beans/spring-beans.xsd
                   http://www.springframework.org/schema/integration
-                  http://www.springframework.org/schema/integration/spring-integration.xsd
-                  http://www.springframework.org/schema/integration/ws
-			      http://www.springframework.org/schema/integration/ws/spring-integration-ws.xsd
-			      http://www.springframework.org/schema/integration/stream
-			      http://www.springframework.org/schema/integration/stream/spring-integration-stream.xsd">
+                  http://www.springframework.org/schema/integration/spring-integration.xsd">
 
 
     <!-- Gateway para enviar los request desde ServicioRecepcionPagosPortImpl -->
@@ -39,10 +33,13 @@
     <beans:bean id="splitterBean" class="org.fing.middleware.integration.SplitterBean"/>
 
     <!-- Router para ruteat los pagos a los canales adecuados -->
-    <router ref="pagosRouter" method="route" input-channel="splitterChannel" >
+    <router input-channel="splitterChannel" expression="payload.pago.nombreGestion">
+        <mapping value="Entradas" channel="entradasChannel"/>
+        <mapping value="Facturas" channel="facturasChannel"/>
+        <mapping value="Offline" channel="offlineChannel"/>
     </router>
 
-    <beans:bean id="pagosRouter" class="org.fing.middleware.integration.PagosRouter"/>
+
 
     <channel id="resultChannel"/>
 
@@ -51,32 +48,12 @@
 
     <channel id="facturasChannel"/>
 
-    <transformer
-            id="facturasTransformer"
-            ref="facturasTransformerBean"
-            input-channel="facturasChannel"
-            method="tranformarFacturas"
-            output-channel="cobroFacturasChannel"/>
 
-    <beans:bean id="facturasTransformerBean" class="org.fing.middleware.integration.FacturasTransformerBean" />
-
-    <channel id="cobroFacturasChannel"/>
-
-    <chain input-channel="cobroFacturasChannel" output-channel="resultChannel">
+    <chain input-channel="facturasChannel" output-channel="resultChannel">
         <service-activator ref="cobroFacturasBean" method="cobro"/>
     </chain>
 
     <beans:bean id="cobroFacturasBean" class="org.fing.middleware.integration.CobroFacturasBean"/>
-
-    <chain input-channel="fahrenheitChannel" output-channel="celsiusChannel">
-        <ws:header-enricher>
-            <ws:soap-action value="http://www.w3schools.com/webservices/FahrenheitToCelsius"/>
-        </ws:header-enricher>
-        <ws:outbound-gateway uri="http://www.w3schools.com/webservices/tempconvert.asmx"/>
-    </chain>
-
-    <!-- The response from the service is logged to the console. -->
-    <stream:stdout-channel-adapter id="celsiusChannel"/>
 
 
 
@@ -84,6 +61,12 @@
     <!-- Proceso de entradas -->
 
     <channel id="entradasChannel"/>
+
+    <chain input-channel="entradasChannel" output-channel="resultChannel">
+        <service-activator ref="ventaEntradasBean" method="cobrar"/>
+    </chain>
+
+    <beans:bean id="ventaEntradasBean" class="org.fing.middleware.integration.VentaEntradasBean"/>
 
 
     <!--###############################################################-->

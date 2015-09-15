@@ -26,18 +26,16 @@ public class RecepcionPagosAggregator {
             try {
 
                 PagoInfo pagoInfo = pagoInfoMessage.getPayload();
+
+                //MANDO JMS LEALTAD
                 Producer p = new Producer();
                 DataLealtad.Moneda moneda = pagoInfo.getPago().getCodigoMoneda().equals("USD") ? DataLealtad.Moneda.USD : DataLealtad.Moneda.UYU;
                 p.send(new DataLealtad(pagoInfo.getIdentificadorCliente(), moneda, pagoInfo.getPago().getMonto(), pagoInfo.getFechaCobro()));
 
-                ConfirmacionPago c1 = new ConfirmacionPago();
-                c1.setDescripcion("prueba agregaaa");
-                c1.setIdentificadorPago(pagoInfo.getPago().getIdentificadorPago());
-                c1.setResultado("resultado gateway");
 
                 System.out.println("### size: " + pagoInfoMessage.getHeaders().get(IntegrationMessageHeaderAccessor.SEQUENCE_SIZE));
 
-                confirmacion.add(c1);
+                confirmacion.add(pagoInfo.getConfirmacionPago());
 
             } catch (JMSException e) {
                 e.printStackTrace();
