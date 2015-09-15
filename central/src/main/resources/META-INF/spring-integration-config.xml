@@ -3,13 +3,14 @@
              xmlns:beans="http://www.springframework.org/schema/beans"
              xmlns:si-xml="http://www.springframework.org/schema/integration/xml"
              xmlns:stream="http://www.springframework.org/schema/integration/stream"
+             xmlns:ftp="http://www.springframework.org/schema/integration/ftp"
              xmlns="http://www.springframework.org/schema/integration"
              xsi:schemaLocation="http://www.springframework.org/schema/beans
                   http://www.springframework.org/schema/beans/spring-beans.xsd
                   http://www.springframework.org/schema/integration
                   http://www.springframework.org/schema/integration/spring-integration.xsd
                   http://www.springframework.org/schema/integration/xml
-                  http://www.springframework.org/schema/integration/xml/spring-integration-xml.xsd http://www.springframework.org/schema/integration/stream http://www.springframework.org/schema/integration/stream/spring-integration-stream.xsd">
+                  http://www.springframework.org/schema/integration/xml/spring-integration-xml.xsd http://www.springframework.org/schema/integration/stream http://www.springframework.org/schema/integration/stream/spring-integration-stream.xsd http://www.springframework.org/schema/integration/ftp http://www.springframework.org/schema/integration/ftp/spring-integration-ftp.xsd">
 
 
     <!-- Gateway para enviar los request desde ServicioRecepcionPagosPortImpl -->
@@ -98,6 +99,24 @@
     <channel id="ftpChannel"/>
 
     <stream:stdout-channel-adapter channel="ftpChannel" append-newline="true"></stream:stdout-channel-adapter>
+
+    <beans:bean id="ftpClient" class="org.springframework.integration.ftp.session.DefaultFtpSessionFactory">
+        <beans:property name="host" value="localhost"/>
+        <beans:property name="port" value="2221"/>
+        <beans:property name="username" value="username"/>
+        <beans:property name="password" value="password"/>
+    </beans:bean>
+
+
+    <ftp:outbound-channel-adapter id="ftpOutbound"
+
+                                  channel="ftpChannel"
+                                  remote-directory="/tmp"
+                                  session-factory="ftpClientFactory">
+        <ftp:request-handler-advice-chain>
+            <retry-advice/>
+        </ftp:request-handler-advice-chain>
+    </ftp:outbound-channel-adapter>
 
     <!--###############################################################-->
 
