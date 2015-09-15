@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans xmlns="http://www.springframework.org/schema/integration"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans:beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xmlns:beans="http://www.springframework.org/schema/beans"
              xmlns:ws="http://www.springframework.org/schema/integration/ws"
              xmlns:stream="http://www.springframework.org/schema/integration/stream"
-             xmlns:task="http://www.springframework.org/schema/task"
+             xmlns="http://www.springframework.org/schema/integration"
              xsi:schemaLocation="http://www.springframework.org/schema/beans
                   http://www.springframework.org/schema/beans/spring-beans.xsd
                   http://www.springframework.org/schema/integration
@@ -12,9 +11,7 @@
                   http://www.springframework.org/schema/integration/ws
 			      http://www.springframework.org/schema/integration/ws/spring-integration-ws.xsd
 			      http://www.springframework.org/schema/integration/stream
-			      http://www.springframework.org/schema/integration/stream/spring-integration-stream.xsd
-			      http://www.springframework.org/schema/task
-			      http://www.springframework.org/schema/task/spring-task.xsd">
+			      http://www.springframework.org/schema/integration/stream/spring-integration-stream.xsd">
 
 
     <!-- Gateway para enviar los request desde ServicioRecepcionPagosPortImpl -->
@@ -59,9 +56,17 @@
             ref="facturasTransformerBean"
             input-channel="facturasChannel"
             method="tranformarFacturas"
-            output-channel="fahrenheitChannel"/>
+            output-channel="cobroFacturasChannel"/>
 
     <beans:bean id="facturasTransformerBean" class="org.fing.middleware.integration.FacturasTransformerBean" />
+
+    <channel id="cobroFacturasChannel"/>
+
+    <chain input-channel="cobroFacturasChannel" output-channel="resultChannel">
+        <service-activator ref="cobroFacturasBean" method="cobro"/>
+    </chain>
+
+    <beans:bean id="cobroFacturasBean" class="org.fing.middleware.integration.CobroFacturasBean"/>
 
     <chain input-channel="fahrenheitChannel" output-channel="celsiusChannel">
         <ws:header-enricher>
