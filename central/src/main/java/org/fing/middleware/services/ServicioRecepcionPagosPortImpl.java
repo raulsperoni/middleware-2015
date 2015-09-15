@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.integration.support.MessageBuilder;
+import org.springframework.messaging.Message;
 
 import java.util.logging.Logger;
 
@@ -34,7 +36,13 @@ public class ServicioRecepcionPagosPortImpl implements ServicioRecepcionPagos {
         RecepcionPagosGateway broker = applicationContext.getBean("recepcionPagosGateway", RecepcionPagosGateway.class);
 
         ConfirmacionTransaccion resultado = new ConfirmacionTransaccion();
-        resultado.confirmacion = broker.procesarPagos(arg0);
+
+        Message<TransaccionPago> mensaje = MessageBuilder.withPayload(arg0)
+                .setSequenceSize(arg0.getPagos().size())
+                .setCorrelationId(arg0.getIdentificadorCliente())
+                .build();
+
+        resultado.confirmacion = broker.procesarPagos(mensaje);
 
         return  resultado;
     }
