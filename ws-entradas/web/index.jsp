@@ -11,6 +11,6 @@
     <title>HOLA</title>
   </head>
   <body>
-    <h3>Servicios de Venta de Entradas.</h3>
+
   </body>
 </html>

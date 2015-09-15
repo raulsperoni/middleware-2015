@@ -14,13 +14,13 @@
         </listener-class>
     </listener>
     <servlet>
-        <servlet-name>ServicioCobroDeFacturaServlet</servlet-name>
+        <servlet-name>Name</servlet-name>
         <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>ServicioCobroDeFacturaServlet</servlet-name>
-        <url-pattern>/ServicioCobroDeFactura</url-pattern>
+        <servlet-name>Name</servlet-name>
+        <url-pattern>/hello</url-pattern>
     </servlet-mapping>
 
 

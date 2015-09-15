@@ -3,7 +3,7 @@
         xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime"
         version="2.0">
     <endpoint
-            name="ServicioCobroDeFacturasServlet"
-            implementation="org.fing.middleware.services.ServicioCobroDeFacturas"
-            url-pattern="/ServicioCobroDeFactura"/>
+            name="HelloWorld"
+            implementation="example.HelloWorld"
+            url-pattern="/hello"/>
 </endpoints>

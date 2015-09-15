@@ -11,6 +11,6 @@
     <title></title>
   </head>
   <body>
-    <h3>Servicios de cobro de facturas.</h3>
+
   </body>
 </html>

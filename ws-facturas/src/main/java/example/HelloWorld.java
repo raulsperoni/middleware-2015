@@ -1,8 +1,5 @@
-package org.fing.middleware.services;
+package example;
 
-import com.sun.corba.se.spi.activation.Server;
-import com.sun.xml.internal.ws.api.policy.PolicyResolver;
-import com.sun.xml.ws.transport.http.servlet.WSServletContextListener;
 import org.apache.commons.codec.binary.Base64;
 
 import javax.annotation.Resource;
@@ -10,42 +7,29 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.Map;
+
 
 /**
  * Created by RSperoni on 28/08/2015.
  */
-
-@WebService(endpointInterface = "org.fing.middleware.services.IServicioCobroDeFacturas")
-public class ServicioCobroDeFacturas implements IServicioCobroDeFacturas {
+@WebService(endpointInterface = "example.IHelloWorld")
+public class HelloWorld implements IHelloWorld {
 
     @Resource
     WebServiceContext wsctx;
 
+    @WebMethod
     public String echo(String echo) {
-        return "Ingreso: " + echo;
+
+        if (!isUserAuthenticated()) {
+            return "{\"error\":\"User not authenticated\"}";
+        }
+
+        return echo;
     }
 
-    public WSResult cobrar(long idFactura, short codMoneda, BigDecimal monto, GregorianCalendar fechaHoraCobro) {
-        try{
-            if(!isUserAuthenticated())
-                throw new Exception("Acceso no autorizado.");
-
-            if(codMoneda != 1 && codMoneda != 2)
-                throw new Exception("Moneda no Válida.");
-
-            if(!this.existeFactura(idFactura))
-                throw new Exception("Factura no Válida.");
-
-            return new WSResult(true, "Pago procesado correctamente", 0); // TODO Ver como hacer para obtener el id de cobro
-        }
-        catch (Exception ex){
-            return new WSResult(false, ex.getMessage(), 0);
-        }
-    }
 
     private boolean isUserAuthenticated() {
 
@@ -78,9 +62,13 @@ public class ServicioCobroDeFacturas implements IServicioCobroDeFacturas {
         } else {
             throw new RuntimeException("Authentication failed! Wrong username / password!");
         }
+
     }
 
-    private boolean existeFactura(long idFactura){
-        return true; // TODO ver como haccer para obtener si el idFactura es correcto o no.
+    public String getHelloWorldAsString(String name) {
+        return "Hello World JAX-WS " + name;
     }
+
+
+
 }
