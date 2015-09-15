@@ -10,7 +10,7 @@ import org.springframework.messaging.Message;
 public class FacturasTransformerBean {
 
 
-    public Message<String> tranformarFacturas(Pago pago) {
+    public Message<String> tranformarFacturas(Message<Pago> pago) {
         System.out.println("$$$  tranformarFacturas ");
         String requestXml =
                 "<FahrenheitToCelsius xmlns=\"http://www.w3schools.com/webservices/\">" +

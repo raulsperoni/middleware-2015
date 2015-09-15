@@ -2,6 +2,7 @@ package org.fing.middleware.integration;
 
 import org.fing.middleware.services.ConfirmacionPago;
 import org.fing.middleware.services.TransaccionPago;
+import org.springframework.messaging.Message;
 
 import java.util.List;
 
@@ -10,6 +11,6 @@ import java.util.List;
  */
 public interface RecepcionPagosGateway {
 
-    List<ConfirmacionPago> procesarPagos(TransaccionPago pagos);
+    List<ConfirmacionPago> procesarPagos(Message<TransaccionPago> pagos);
 
 }
