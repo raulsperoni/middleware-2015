@@ -1,35 +1,49 @@
-package example;
+package org.fing.middleware.services;
 
 import org.apache.commons.codec.binary.Base64;
 
 import javax.annotation.Resource;
-import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Map;
-
 
 /**
  * Created by RSperoni on 28/08/2015.
  */
-@WebService(endpointInterface = "example.IHelloWorld")
-public class HelloWorld implements IHelloWorld {
+
+@WebService(endpointInterface = "org.fing.middleware.services.IServicioVentaDeEntradas")
+public class ServicioVentaDeEntradas implements IServicioVentaDeEntradas {
 
     @Resource
     WebServiceContext wsctx;
 
-    @WebMethod
     public String echo(String echo) {
-
-        if (!isUserAuthenticated()) {
-            return "{\"error\":\"User not authenticated\"}";
-        }
-
-        return echo;
+        return "Ingreso: " + echo;
     }
 
+    public WSResult cobrar(short cantEntradas, String codMoneda, BigDecimal monto, GregorianCalendar fechaHoraCobro) {
+        try{
+            if(!isUserAuthenticated())
+                throw new Exception("Acceso no autorizado.");
+
+            if(!codMoneda.equals("854") && !codMoneda.equals("840"))
+                throw new Exception("Moneda no Válida.");
+
+            int disponibles = this.cantEntradasDisponibles();
+            if((new Integer(disponibles)).shortValue() < cantEntradas)
+                throw new Exception("Cantidad no disponible. Máximo disponible: " + disponibles + ".");
+
+            return new WSResult(true, "Pago procesado correctamente", 0, new ArrayList<String>()); // TODO Ver como hacer para obtener el id de cobro
+        }
+        catch (Exception ex){
+            return new WSResult(false, ex.getMessage(), 0, new ArrayList<String>());
+        }
+    }
 
     private boolean isUserAuthenticated() {
 
@@ -62,13 +76,13 @@ public class HelloWorld implements IHelloWorld {
         } else {
             throw new RuntimeException("Authentication failed! Wrong username / password!");
         }
-
     }
 
-    public String getHelloWorldAsString(String name) {
-        return "Hello World JAX-WS " + name;
+    private int cantEntradasDisponibles(){
+        return 0; // TODO ver como haccer para obtener si el idFactura es correcto o no.
     }
 
-
-
+    private List<String> validarEntradas(short cantidad){
+        return new ArrayList<String>(); // TODO ver como haccer para obtener si el idFactura es correcto o no.
+    }
 }
