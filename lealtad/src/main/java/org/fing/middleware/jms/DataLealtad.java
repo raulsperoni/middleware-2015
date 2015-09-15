@@ -9,11 +9,11 @@ import java.util.Date;
 public class DataLealtad implements Serializable {
 
     protected long identificadorCliente;
-    protected Monto codigoMoneda;
+    protected Moneda codigoMoneda;
     protected double monto;
     protected Date fechaCobro;
 
-    public DataLealtad(long identificadorCliente, Monto codigoMoneda, double monto, Date fechaCobro) {
+    public DataLealtad(long identificadorCliente, Moneda codigoMoneda, double monto, Date fechaCobro) {
         this.identificadorCliente = identificadorCliente;
         this.codigoMoneda = codigoMoneda;
         this.monto = monto;
@@ -28,11 +28,11 @@ public class DataLealtad implements Serializable {
         this.identificadorCliente = identificadorCliente;
     }
 
-    public Monto getCodigoMoneda() {
+    public Moneda getCodigoMoneda() {
         return codigoMoneda;
     }
 
-    public void setCodigoMoneda(Monto codigoMoneda) {
+    public void setCodigoMoneda(Moneda codigoMoneda) {
         this.codigoMoneda = codigoMoneda;
     }
 
@@ -52,7 +52,7 @@ public class DataLealtad implements Serializable {
         this.fechaCobro = fechaCobro;
     }
 
-    public enum Monto {
+    public enum Moneda {
         UYU, USD
     }
 }

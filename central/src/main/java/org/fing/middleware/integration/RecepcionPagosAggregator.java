@@ -1,16 +1,15 @@
 package org.fing.middleware.integration;
 
+import org.fing.middleware.datatypes.PagoInfo;
 import org.fing.middleware.jms.DataLealtad;
 import org.fing.middleware.jms.Producer;
 import org.fing.middleware.services.ConfirmacionPago;
-import org.fing.middleware.services.Pago;
 import org.springframework.integration.IntegrationMessageHeaderAccessor;
 import org.springframework.messaging.Message;
 
 import javax.jms.JMSException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,24 +17,25 @@ import java.util.List;
  */
 public class RecepcionPagosAggregator {
 
-    public List<ConfirmacionPago> confirmarPagos(Collection<Message<Pago>> pagos) {
+    public List<ConfirmacionPago> confirmarPagos(Collection<Message<PagoInfo>> pagosMessages) {
 
         List<ConfirmacionPago> confirmacion = new ArrayList<ConfirmacionPago>();
 
         System.out.println("#################### confirmarPAgos ");
-        for (Message<Pago> pago : pagos)
+        for (Message<PagoInfo> pagoInfoMessage : pagosMessages)
             try {
 
+                PagoInfo pagoInfo = pagoInfoMessage.getPayload();
                 Producer p = new Producer();
-                //TODO: de donde saco el id del cliente aca?
-                p.send(new DataLealtad(1, DataLealtad.Monto.USD, pago.getPayload().getMonto(), new Date()));
+                DataLealtad.Moneda moneda = pagoInfo.getPago().getCodigoMoneda().equals("USD") ? DataLealtad.Moneda.USD : DataLealtad.Moneda.UYU;
+                p.send(new DataLealtad(pagoInfo.getIdentificadorCliente(), moneda, pagoInfo.getPago().getMonto(), pagoInfo.getFechaCobro()));
 
                 ConfirmacionPago c1 = new ConfirmacionPago();
                 c1.setDescripcion("prueba agregaaa");
-                c1.setIdentificadorPago(pago.getPayload().getIdentificadorPago());
+                c1.setIdentificadorPago(pagoInfo.getPago().getIdentificadorPago());
                 c1.setResultado("resultado gateway");
 
-                System.out.println("### size: " + pago.getHeaders().get(IntegrationMessageHeaderAccessor.SEQUENCE_SIZE));
+                System.out.println("### size: " + pagoInfoMessage.getHeaders().get(IntegrationMessageHeaderAccessor.SEQUENCE_SIZE));
 
                 confirmacion.add(c1);
 

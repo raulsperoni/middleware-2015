@@ -1,6 +1,6 @@
 package org.fing.middleware.integration;
 
-import org.fing.middleware.services.Pago;
+import org.fing.middleware.datatypes.PagoInfo;
 import org.springframework.integration.IntegrationMessageHeaderAccessor;
 import org.springframework.messaging.Message;
 
@@ -9,10 +9,11 @@ import org.springframework.messaging.Message;
  */
 public class PagosRouter {
 
-    public String route(Message<Pago> pago) {
-        String channel = pago.getPayload().getNombreGestion().toLowerCase();
+    public String route(Message<PagoInfo> pagoInfoMessage) {
+        PagoInfo pi = pagoInfoMessage.getPayload();
+        String channel = pi.getPago().getNombreGestion().toLowerCase();
         System.out.println("### router channel  " + channel);
-        System.out.println("### idPago " + pago.getPayload().getIdentificadorPago() + " correlationID " + pago.getHeaders().get(IntegrationMessageHeaderAccessor.CORRELATION_ID));
+        System.out.println("### idPago " + pi.getPago().getIdentificadorPago() + " correlationID " + pagoInfoMessage.getHeaders().get(IntegrationMessageHeaderAccessor.CORRELATION_ID));
 
         return channel.equals("facturas") ? channel+"Channel" : "resultChannel";
     }

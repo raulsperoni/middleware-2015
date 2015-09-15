@@ -1,6 +1,6 @@
 package org.fing.middleware.integration;
 
-import org.fing.middleware.services.Pago;
+import org.fing.middleware.datatypes.PagoInfo;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.Message;
 
@@ -10,7 +10,7 @@ import org.springframework.messaging.Message;
 public class FacturasTransformerBean {
 
 
-    public Message<String> tranformarFacturas(Message<Pago> pago) {
+    public Message<String> tranformarFacturas(Message<PagoInfo> pagoInfoMessage) {
         System.out.println("$$$  tranformarFacturas ");
         String requestXml =
                 "<FahrenheitToCelsius xmlns=\"http://www.w3schools.com/webservices/\">" +
