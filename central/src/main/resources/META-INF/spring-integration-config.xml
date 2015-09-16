@@ -2,15 +2,15 @@
 <beans:beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xmlns:beans="http://www.springframework.org/schema/beans"
              xmlns:si-xml="http://www.springframework.org/schema/integration/xml"
-             xmlns:stream="http://www.springframework.org/schema/integration/stream"
              xmlns:ftp="http://www.springframework.org/schema/integration/ftp"
+             xmlns:stream="http://www.springframework.org/schema/integration/stream"
              xmlns="http://www.springframework.org/schema/integration"
              xsi:schemaLocation="http://www.springframework.org/schema/beans
                   http://www.springframework.org/schema/beans/spring-beans.xsd
                   http://www.springframework.org/schema/integration
                   http://www.springframework.org/schema/integration/spring-integration.xsd
                   http://www.springframework.org/schema/integration/xml
-                  http://www.springframework.org/schema/integration/xml/spring-integration-xml.xsd http://www.springframework.org/schema/integration/stream http://www.springframework.org/schema/integration/stream/spring-integration-stream.xsd http://www.springframework.org/schema/integration/ftp http://www.springframework.org/schema/integration/ftp/spring-integration-ftp.xsd">
+                  http://www.springframework.org/schema/integration/xml/spring-integration-xml.xsd   http://www.springframework.org/schema/integration/ftp http://www.springframework.org/schema/integration/ftp/spring-integration-ftp.xsd http://www.springframework.org/schema/integration/stream http://www.springframework.org/schema/integration/stream/spring-integration-stream.xsd">
 
 
     <!-- Gateway para enviar los request desde ServicioRecepcionPagosPortImpl -->
@@ -18,7 +18,7 @@
              default-request-channel="inputPagosChannel"
              default-reply-channel="outputChannel"
              service-interface="org.fing.middleware.integration.RecepcionPagosGateway">
-        <method name="procesarPagos" />
+        <method name="procesarPagos"/>
     </gateway>
 
     <!-- Transporta TransaccionPago -->
@@ -45,7 +45,6 @@
     </router>
 
 
-
     <channel id="resultChannel"/>
 
     <!--###############################################################-->
@@ -59,7 +58,6 @@
     </chain>
 
     <beans:bean id="cobroFacturasBean" class="org.fing.middleware.integration.CobroFacturasBean"/>
-
 
 
     <!--###############################################################-->
@@ -93,12 +91,14 @@
     <si-xml:xslt-transformer id="offlineTransformer"
                              xsl-resource="classpath:XMLaCSV.xsl"
                              input-channel="xmlChannel"
-                             output-channel="ftpChannel"/>
+                             output-channel="ftpPutChannel"/>
 
 
-    <channel id="ftpChannel"/>
+    <channel id="ftpPutChannel"/>
+    <channel id="ftpReplyChannel"/>
 
-    <stream:stdout-channel-adapter channel="ftpChannel" append-newline="true"></stream:stdout-channel-adapter>
+    <!--Saco la respuesta de FTP al stdout, deberia ir al agregator previo transformarla de String a PagoInfo -->
+    <stream:stdout-channel-adapter channel="ftpReplyChannel" append-newline="true"></stream:stdout-channel-adapter>
 
     <beans:bean id="ftpClient" class="org.springframework.integration.ftp.session.DefaultFtpSessionFactory">
         <beans:property name="host" value="localhost"/>
@@ -108,15 +108,15 @@
     </beans:bean>
 
 
-    <ftp:outbound-channel-adapter id="ftpOutbound"
-
-                                  channel="ftpChannel"
-                                  remote-directory="/tmp"
-                                  session-factory="ftpClientFactory">
-        <ftp:request-handler-advice-chain>
-            <retry-advice/>
-        </ftp:request-handler-advice-chain>
-    </ftp:outbound-channel-adapter>
+    <ftp:outbound-gateway session-factory="ftpClient"
+                          request-channel="ftpPutChannel"
+                          command="mput"
+                          auto-create-directory="true"
+                          filename-pattern="*.csv"
+                          expression="payload"
+                          reply-channel="ftpReplyChannel"
+                          remote-directory="~/"
+            />
 
     <!--###############################################################-->
 
