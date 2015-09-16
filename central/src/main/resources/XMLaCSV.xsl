@@ -14,7 +14,7 @@
     </xsl:variable>
     <xsl:param name="fields" select="document('')/*/xsl:variable[@name='fieldArray']/*"/>
 
-    <xsl:template match="/">
+    <xsl:template match="/xmlPagoInfo">
 
         <!-- output the header row -->
         <xsl:for-each select="$fields">
@@ -23,18 +23,16 @@
             </xsl:if>
             <xsl:value-of select="."/>
         </xsl:for-each>
+        <!-- output newline -->
+    <xsl:text>
+</xsl:text>
+
+        <xsl:value-of select="identificadorCliente"/>,<xsl:value-of select="codigoMoneda"/>,<xsl:value-of select="monto"/>,<xsl:value-of select="fechaCobro"/>,<xsl:value-of select="horaCobro"/>
 
         <!-- output newline -->
     <xsl:text>
 </xsl:text>
 
-        <xsl:for-each select="child::*">
-            <xsl:if test="position() != last()">"<xsl:value-of select="normalize-space(.)"/>",
-                <xsl:value-of select="$delimiter"/>
-            </xsl:if>
-            <xsl:if test="position()  = last()">"<xsl:value-of select="normalize-space(.)"/>"<xsl:text></xsl:text>
-            </xsl:if>
-        </xsl:for-each>
 
 
     </xsl:template>
