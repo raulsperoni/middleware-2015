@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans:beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xmlns:beans="http://www.springframework.org/schema/beans"
-             xmlns:si-xml="http://www.springframework.org/schema/integration/xml"
-             xmlns:ftp="http://www.springframework.org/schema/integration/ftp"
-             xmlns:stream="http://www.springframework.org/schema/integration/stream"
+             xmlns:file="http://www.springframework.org/schema/integration/file"
              xmlns="http://www.springframework.org/schema/integration"
              xsi:schemaLocation="http://www.springframework.org/schema/beans
                   http://www.springframework.org/schema/beans/spring-beans.xsd
                   http://www.springframework.org/schema/integration
                   http://www.springframework.org/schema/integration/spring-integration.xsd
-                  http://www.springframework.org/schema/integration/xml
-                  http://www.springframework.org/schema/integration/xml/spring-integration-xml.xsd   http://www.springframework.org/schema/integration/ftp http://www.springframework.org/schema/integration/ftp/spring-integration-ftp.xsd http://www.springframework.org/schema/integration/stream http://www.springframework.org/schema/integration/stream/spring-integration-stream.xsd">
+
+                         http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file.xsd">
 
 
     <!-- Gateway para enviar los request desde ServicioRecepcionPagosPortImpl -->
@@ -77,46 +75,37 @@
 
     <channel id="offlineChannel"/>
 
+
+    <!-- Router para mandar archivo y respuesta -->
+    <recipient-list-router input-channel="offlineChannel">
+        <recipient channel="fileInChannel"/>
+        <recipient channel="fileConfirmacionChannel"/>
+    </recipient-list-router>
+
+    <channel id="fileInChannel"/>
+
     <transformer
-            id="xmlTransformer"
-            ref="xmlTransformerBean"
-            input-channel="offlineChannel"
-            method="transformar"
-            output-channel="xmlChannel"/>
+            id="tranformerAFILE"
+            ref="fileTransformerBean"
+            input-channel="fileInChannel"
+            method="transformarAFile"
+            output-channel="fileOutChannel"/>
 
-    <beans:bean id="xmlTransformerBean" class="org.fing.middleware.integration.XmlTransformerBean"/>
+    <beans:bean id="fileTransformerBean" class="org.fing.middleware.integration.FileTransformerBean"/>
 
-    <channel id="xmlChannel"/>
-
-    <si-xml:xslt-transformer id="offlineTransformer"
-                             xsl-resource="classpath:XMLaCSV.xsl"
-                             input-channel="xmlChannel"
-                             output-channel="ftpPutChannel"/>
+    <channel id="fileConfirmacionChannel"/>
 
 
-    <channel id="ftpPutChannel"/>
-    <channel id="ftpReplyChannel"/>
-
-    <!--Saco la respuesta de FTP al stdout, deberia ir al agregator previo transformarla de String a PagoInfo -->
-    <stream:stdout-channel-adapter channel="ftpReplyChannel" append-newline="true"></stream:stdout-channel-adapter>
-
-    <beans:bean id="ftpClient" class="org.springframework.integration.ftp.session.DefaultFtpSessionFactory">
-        <beans:property name="host" value="localhost"/>
-        <beans:property name="port" value="2221"/>
-        <beans:property name="username" value="username"/>
-        <beans:property name="password" value="password"/>
-    </beans:bean>
+    <file:outbound-channel-adapter id="fileOutChannel" directory="file:${java.io.tmpdir}/middleware/tmp"
+                                   mode="REPLACE" delete-source-files="true"/>
 
 
-    <ftp:outbound-gateway session-factory="ftpClient"
-                          request-channel="ftpPutChannel"
-                          command="mput"
-                          auto-create-directory="true"
-                          filename-pattern="*.csv"
-                          expression="payload"
-                          reply-channel="ftpReplyChannel"
-                          remote-directory="~/"
-            />
+    <chain input-channel="fileConfirmacionChannel" output-channel="resultChannel">
+        <service-activator ref="cobroOfflineBean" method="confirmarFile"/>
+    </chain>
+
+    <beans:bean id="cobroOfflineBean" class="org.fing.middleware.integration.CobroOfflineBean"/>
+
 
     <!--###############################################################-->
 
