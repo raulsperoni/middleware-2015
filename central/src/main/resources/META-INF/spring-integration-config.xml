@@ -77,9 +77,9 @@
 
 
     <!-- Router para mandar archivo y respuesta -->
-    <recipient-list-router input-channel="offlineChannel">
-        <recipient channel="fileInChannel"/>
+    <recipient-list-router input-channel="offlineChannel" apply-sequence="true">
         <recipient channel="fileConfirmacionChannel"/>
+        <recipient channel="fileInChannel"/>
     </recipient-list-router>
 
     <channel id="fileInChannel"/>
@@ -91,20 +91,34 @@
             method="transformarAFile"
             output-channel="fileOutChannel"/>
 
+    <channel id="fileOutChannel"/>
+
     <beans:bean id="fileTransformerBean" class="org.fing.middleware.integration.FileTransformerBean"/>
+
+    <file:outbound-gateway id="escribirArchivo" request-channel="fileOutChannel"
+                           reply-channel="fileConfirmacionChannel"
+                           directory="file:${java.io.tmpdir}/middleware/tmp"
+                           mode="REPLACE" delete-source-files="true"/>
+
 
     <channel id="fileConfirmacionChannel"/>
 
+    <!--<file:outbound-channel-adapter id="fileOutChannel" directory="file:${java.io.tmpdir}/middleware/tmp"
+                                   mode="REPLACE" delete-source-files="true"/>-->
 
-    <file:outbound-channel-adapter id="fileOutChannel" directory="file:${java.io.tmpdir}/middleware/tmp"
-                                   mode="REPLACE" delete-source-files="true"/>
 
+    <aggregator
+            id="offlineAggregator"
+            input-channel="fileConfirmacionChannel"
+            method="confirmarFile"
+            ref="CobroOfflineAggregator"
+            output-channel="resultChannel"
+            group-timeout="3000"
+            send-partial-result-on-expiry="true"
+            >
+    </aggregator>
 
-    <chain input-channel="fileConfirmacionChannel" output-channel="resultChannel">
-        <service-activator ref="cobroOfflineBean" method="confirmarFile"/>
-    </chain>
-
-    <beans:bean id="cobroOfflineBean" class="org.fing.middleware.integration.CobroOfflineBean"/>
+    <beans:bean id="CobroOfflineAggregator" class="org.fing.middleware.integration.CobroOfflineAggregator"/>
 
 
     <!--###############################################################-->

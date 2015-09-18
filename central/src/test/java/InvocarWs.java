@@ -59,4 +59,70 @@ public class InvocarWs {
             System.out.println("CONFIRMACION PAGO: " + confirmacionPago.getResultado());
         }
     }
+
+    @Test
+    public void pagoEntradas() throws DatatypeConfigurationException {
+        ServicioRecepcionPagosService servicioRecepcionPagosService = new ServicioRecepcionPagosService();
+        TransaccionPago transaccionPago = new TransaccionPago();
+        DatatypeFactory datatypeFactory = DatatypeFactory.newInstance();
+        GregorianCalendar gc = new GregorianCalendar();
+        gc.setTimeInMillis(new Date().getTime());
+        XMLGregorianCalendar xmlGregorianCalendar = datatypeFactory.newXMLGregorianCalendar(gc);
+        transaccionPago.setFechaCobro(xmlGregorianCalendar);
+        transaccionPago.setFormaPago("Efectivo");
+        transaccionPago.setIdentificadorCliente(22);
+        transaccionPago.setNumeroSucursal(234);
+        Pago p = new Pago();
+        p.setCodigoMoneda("UYU");
+        p.setIdentificadorPago(2222);
+        p.setMonto(2345);
+        p.setNombreGestion("Entradas");
+        transaccionPago.getPagos().add(p);
+        ConfirmacionTransaccion confirmacionTransaccion = servicioRecepcionPagosService.getServicioRecepcionPagosPort().recepcionPagos(transaccionPago);
+        for (ConfirmacionPago confirmacionPago : confirmacionTransaccion.getConfirmacion()) {
+            System.out.println("CONFIRMACION PAGO: " + confirmacionPago.getResultado());
+        }
+    }
+
+    @Test
+    public void pagoAll() throws DatatypeConfigurationException {
+        ServicioRecepcionPagosService servicioRecepcionPagosService = new ServicioRecepcionPagosService();
+        TransaccionPago transaccionPago = new TransaccionPago();
+        DatatypeFactory datatypeFactory = DatatypeFactory.newInstance();
+        GregorianCalendar gc = new GregorianCalendar();
+        gc.setTimeInMillis(new Date().getTime());
+        XMLGregorianCalendar xmlGregorianCalendar = datatypeFactory.newXMLGregorianCalendar(gc);
+        transaccionPago.setFechaCobro(xmlGregorianCalendar);
+        transaccionPago.setFormaPago("Efectivo");
+        transaccionPago.setIdentificadorCliente(22);
+        transaccionPago.setNumeroSucursal(234);
+
+        Pago p = new Pago();
+        p.setCodigoMoneda("UYU");
+        p.setIdentificadorPago(2222);
+        p.setMonto(2345);
+        p.setNombreGestion("Entradas");
+        transaccionPago.getPagos().add(p);
+
+        p = new Pago();
+        p.setCodigoMoneda("USD");
+        p.setIdentificadorPago(2222);
+        p.setMonto(134);
+        p.setNombreGestion("Offline");
+        transaccionPago.getPagos().add(p);
+
+
+        p = new Pago();
+        p.setCodigoMoneda("UYU");
+        p.setIdentificadorPago(2222);
+        p.setMonto(1069);
+        p.setNombreGestion("Facturas");
+        transaccionPago.getPagos().add(p);
+
+
+        ConfirmacionTransaccion confirmacionTransaccion = servicioRecepcionPagosService.getServicioRecepcionPagosPort().recepcionPagos(transaccionPago);
+        for (ConfirmacionPago confirmacionPago : confirmacionTransaccion.getConfirmacion()) {
+            System.out.println("CONFIRMACION PAGO: " + confirmacionPago.getResultado());
+        }
+    }
 }
