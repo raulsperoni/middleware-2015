@@ -5,6 +5,7 @@ import org.fing.middleware.services.ConfirmacionPago;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.Message;
 
+import java.io.File;
 import java.util.Collection;
 
 /**
@@ -20,7 +21,7 @@ public class CobroOfflineAggregator {
         if (messages.size() == 2) {
             for (Message m : messages) {
                 if (m.getPayload() instanceof PagoInfo) pagoInfoMessage = m;
-                else fileReplyMessage = m;
+                if (m.getPayload() instanceof File) fileReplyMessage = m;
             }
         }
 

@@ -98,7 +98,8 @@
     <file:outbound-gateway id="escribirArchivo" request-channel="fileOutChannel"
                            reply-channel="fileConfirmacionChannel"
                            directory="file:${java.io.tmpdir}/middleware/tmp"
-                           mode="REPLACE" delete-source-files="true"/>
+                           mode="REPLACE" delete-source-files="true"
+                           requires-reply="true"/>
 
 
     <channel id="fileConfirmacionChannel"/>
