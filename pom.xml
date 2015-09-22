@@ -15,7 +15,6 @@
         <module>lealtad</module>
         <module>ws-entradas</module>
         <module>ws-facturas</module>
-        <module>ftp-server</module>
 
     </modules>
 
