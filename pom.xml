@@ -11,7 +11,7 @@
 
     <modules>
 
-    <module>central</module>
+        <module>central</module>
         <module>lealtad</module>
         <module>ws-entradas</module>
         <module>ws-facturas</module>
