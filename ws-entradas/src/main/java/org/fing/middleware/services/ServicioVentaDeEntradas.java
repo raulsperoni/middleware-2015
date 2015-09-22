@@ -4,12 +4,17 @@ import org.apache.commons.codec.binary.Base64;
 
 import javax.annotation.Resource;
 import javax.jws.WebService;
+import javax.servlet.ServletContext;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,21 +32,41 @@ public class ServicioVentaDeEntradas implements IServicioVentaDeEntradas {
     }
 
     public WSResult cobrar(short cantEntradas, String codMoneda, BigDecimal monto, GregorianCalendar fechaHoraCobro) {
+
+        WSResult result = new WSResult();
+
         try{
             if(!isUserAuthenticated())
                 throw new Exception("Acceso no autorizado.");
 
             if(!codMoneda.equals("854") && !codMoneda.equals("840"))
-                throw new Exception("Moneda no Válida.");
+                throw new Exception("Moneda no VÃ¡lida.");
 
-            int disponibles = this.cantEntradasDisponibles();
-            if((new Integer(disponibles)).shortValue() < cantEntradas)
-                throw new Exception("Cantidad no disponible. Máximo disponible: " + disponibles + ".");
+            if(cantEntradas < 1)
+                throw new Exception("La cantidad de entradas tiene que ser mayor que 0.");
 
-            return new WSResult(true, "Pago procesado correctamente", 0, new ArrayList<String>()); // TODO Ver como hacer para obtener el id de cobro
+            ArrayList<String> codigos = new ArrayList<String>();
+            long idCobro = venderEntradas(cantEntradas, codigos);
+
+            result = new WSResult(true, "Pago procesado correctamente", idCobro, codigos); // TODO Ver como hacer para obtener el id de cobro
         }
         catch (Exception ex){
-            return new WSResult(false, ex.getMessage(), 0, new ArrayList<String>());
+            result = new WSResult(false, ex.getMessage(), 0, new ArrayList<String>());
+        }
+        finally {
+            SimpleDateFormat fmt = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+            fmt.setCalendar(fechaHoraCobro);
+
+            boolean resultLog = appendToLog((new java.util.Date()) + "  ---->  Inbound: " +
+                            cantEntradas  + ";" +
+                            codMoneda + ";" +
+                            monto + ";" +
+                            fmt.format(fechaHoraCobro.getTime())  + "\r\n                                     Outbound: " +
+                            result.toString(),
+
+                    (ServletContext) wsctx.getMessageContext().get(MessageContext.SERVLET_CONTEXT));
+
+            return result;
         }
     }
 
@@ -78,11 +103,52 @@ public class ServicioVentaDeEntradas implements IServicioVentaDeEntradas {
         }
     }
 
-    private int cantEntradasDisponibles(){
-        return 0; // TODO ver como haccer para obtener si el idFactura es correcto o no.
+    private long venderEntradas(int cantidad, ArrayList<String> codigos) throws Exception {
+
+        ServletContext servletContext =
+                (ServletContext) wsctx.getMessageContext().get(MessageContext.SERVLET_CONTEXT);
+
+        Integer cantEntradasDisponibles;
+        if((Integer)servletContext.getAttribute("cantEntradasDisponibles") == null) {
+            servletContext.setAttribute("cantEntradasDisponibles", 100);
+            cantEntradasDisponibles = 100;
+        }
+        else
+            cantEntradasDisponibles = (Integer)servletContext.getAttribute("cantEntradasDisponibles");
+
+        Long idCobro;
+        if((Long)servletContext.getAttribute("idCobro") == null) {
+            servletContext.setAttribute("idCobro", new Long(0));
+            idCobro = new Long(0);
+        }
+        else
+            idCobro = (Long)servletContext.getAttribute("idCobro");
+
+        if(cantEntradasDisponibles < cantidad)
+            throw new Exception("Cantidad no disponible. MÃ¡ximo disponible: " + cantEntradasDisponibles + ".");
+        else
+        {
+            for(Integer i = 1; i <= cantidad; i++)
+                codigos.add((new Integer(100 - cantEntradasDisponibles + i)).toString());
+
+            servletContext.setAttribute("cantEntradasDisponibles", cantEntradasDisponibles - cantidad);
+            idCobro ++;
+            servletContext.setAttribute("idCobro", idCobro);
+            return idCobro;
+        }
     }
 
-    private List<String> validarEntradas(short cantidad){
-        return new ArrayList<String>(); // TODO ver como haccer para obtener si el idFactura es correcto o no.
+    private boolean appendToLog(String text, ServletContext context){
+
+        String path = context.getRealPath("/");
+
+        try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(path + "/logServicioEntradas.txt", true)))) {
+            out.append(text);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return  false;
+        }
     }
 }
+

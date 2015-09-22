@@ -1,16 +1,17 @@
 package org.fing.middleware.services;
 
-import com.sun.corba.se.spi.activation.Server;
-import com.sun.xml.internal.ws.api.policy.PolicyResolver;
-import com.sun.xml.ws.transport.http.servlet.WSServletContextListener;
 import org.apache.commons.codec.binary.Base64;
-
 import javax.annotation.Resource;
-import javax.jws.WebMethod;
 import javax.jws.WebService;
+import javax.servlet.ServletContext;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Map;
@@ -30,6 +31,9 @@ public class ServicioCobroDeFacturas implements IServicioCobroDeFacturas {
     }
 
     public WSResult cobrar(long idFactura, short codMoneda, BigDecimal monto, GregorianCalendar fechaHoraCobro) {
+
+        WSResult result = new WSResult();
+
         try{
             if(!isUserAuthenticated())
                 throw new Exception("Acceso no autorizado.");
@@ -37,13 +41,26 @@ public class ServicioCobroDeFacturas implements IServicioCobroDeFacturas {
             if(codMoneda != 1 && codMoneda != 2)
                 throw new Exception("Moneda no Válida.");
 
-            if(!this.existeFactura(idFactura))
-                throw new Exception("Factura no Válida.");
+            long idCobro = cobrarFactura(idFactura);
 
-            return new WSResult(true, "Pago procesado correctamente", 0); // TODO Ver como hacer para obtener el id de cobro
+            result = new WSResult(true, "Pago procesado correctamente", idCobro);
         }
         catch (Exception ex){
-            return new WSResult(false, ex.getMessage(), 0);
+            result = new WSResult(false, ex.getMessage(), 0);
+        }
+        finally {
+            SimpleDateFormat fmt = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+            fmt.setCalendar(fechaHoraCobro);
+
+            boolean resultLog = appendToLog((new java.util.Date()) + "  ---->  Inbound: " +
+                                            idFactura  + ";" +
+                                            codMoneda + ";" +
+                                            monto + ";" +
+                                            fmt.format(fechaHoraCobro.getTime())  + "\r\n                                     Outbound: " +
+                                            result.toString(),
+
+                    (ServletContext) wsctx.getMessageContext().get(MessageContext.SERVLET_CONTEXT));
+            return result;
         }
     }
 
@@ -80,7 +97,39 @@ public class ServicioCobroDeFacturas implements IServicioCobroDeFacturas {
         }
     }
 
-    private boolean existeFactura(long idFactura){
-        return true; // TODO ver como haccer para obtener si el idFactura es correcto o no.
+    private long cobrarFactura(long idFactura) throws Exception {
+
+        ServletContext servletContext =
+                (ServletContext) wsctx.getMessageContext().get(MessageContext.SERVLET_CONTEXT);
+
+        Long idCobro;
+        if((Long)servletContext.getAttribute("idCobro") == null) {
+            servletContext.setAttribute("idCobro", new Long(0));
+            idCobro = new Long(0);
+        }
+        else
+            idCobro = (Long)servletContext.getAttribute("idCobro");
+
+        if(idFactura < 1 || idFactura > 100)
+            throw new Exception("Factura no válida.");
+        else
+        {
+            idCobro ++;
+            servletContext.setAttribute("idCobro", idCobro);
+            return idCobro;
+        }
+    }
+
+    private boolean appendToLog(String text, ServletContext context){
+
+        String path = context.getRealPath("/");
+
+        try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(path + "/logServicioFactura.txt", true)))) {
+            out.append(text);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return  false;
+        }
     }
 }

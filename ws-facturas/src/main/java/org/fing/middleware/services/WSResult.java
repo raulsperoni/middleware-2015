@@ -18,6 +18,11 @@ public class WSResult {
         this.idCobro = idCobro;
     }
 
+    @Override
+    public String toString(){
+        return status + ";" + mensaje + ";" + idCobro + "\r\n";
+    }
+
     public boolean isStatus() {
         return status;
     }

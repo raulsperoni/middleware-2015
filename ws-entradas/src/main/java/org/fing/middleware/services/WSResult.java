@@ -25,6 +25,16 @@ public class WSResult {
         this.lCodigosEntrada = lCodigosEntrada;
     }
 
+    @Override
+    public String toString(){
+
+        String codsEntradas = "";
+        for(int i = 0; i < lCodigosEntrada.size(); i++)
+            codsEntradas += lCodigosEntrada.get(i) + "-";
+
+        return status + ";" + mensaje + ";" + idCobro + ";" + codsEntradas + "\r\n";
+    }
+
     public boolean isStatus() {
         return status;
     }
