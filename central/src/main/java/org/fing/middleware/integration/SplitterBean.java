@@ -18,9 +18,6 @@ public class SplitterBean {
 
     public List<Message<PagoInfo>> extraerPagos(Message<TransaccionPago> transaccionPago) {
 
-        System.out.println("### splitter: sucursal " + transaccionPago.getPayload().getNumeroSucursal());
-
-        int size = transaccionPago.getPayload().getPagos().size();
         List<Message<PagoInfo>> mensajes = new ArrayList<Message<PagoInfo>>();
 
         //Para cada pago

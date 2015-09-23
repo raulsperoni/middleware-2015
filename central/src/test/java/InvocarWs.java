@@ -6,7 +6,8 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by raul on 15/09/15.
@@ -108,6 +109,7 @@ public class InvocarWs {
         p.setIdentificadorPago(2222);
         p.setMonto(2345);
         p.setNombreGestion("Entradas");
+        p.getDatoAdicional().add("-5"); // Cantidad de entradas
         transaccionPago.getPagos().add(p);
         ConfirmacionTransaccion confirmacionTransaccion = servicioRecepcionPagosService.getServicioRecepcionPagosPort().recepcionPagos(transaccionPago);
         for (ConfirmacionPago confirmacionPago : confirmacionTransaccion.getConfirmacion()) {
@@ -134,6 +136,7 @@ public class InvocarWs {
         p.setIdentificadorPago(2);
         p.setMonto(150);
         p.setNombreGestion("Entradas");
+        p.getDatoAdicional().add("3"); // Cantidad de entradas
         transaccionPago.getPagos().add(p);
         ConfirmacionTransaccion confirmacionTransaccion = servicioRecepcionPagosService.getServicioRecepcionPagosPort().recepcionPagos(transaccionPago);
         for (ConfirmacionPago confirmacionPago : confirmacionTransaccion.getConfirmacion()) {
@@ -160,6 +163,7 @@ public class InvocarWs {
         p.setIdentificadorPago(2);
         p.setMonto(15);
         p.setNombreGestion("Entradas");
+        p.getDatoAdicional().add("5"); // Cantidad de entradas
         transaccionPago.getPagos().add(p);
         ConfirmacionTransaccion confirmacionTransaccion = servicioRecepcionPagosService.getServicioRecepcionPagosPort().recepcionPagos(transaccionPago);
         for (ConfirmacionPago confirmacionPago : confirmacionTransaccion.getConfirmacion()) {
@@ -211,6 +215,7 @@ public class InvocarWs {
         p.setIdentificadorPago(2222);
         p.setMonto(2345);
         p.setNombreGestion("Entradas");
+        p.getDatoAdicional().add("5"); // Cantidad de entradas
         transaccionPago.getPagos().add(p);
 
         p = new Pago();
@@ -234,4 +239,5 @@ public class InvocarWs {
             System.out.println("CONFIRMACION PAGO: " + confirmacionPago.getResultado());
         }
     }
+
 }

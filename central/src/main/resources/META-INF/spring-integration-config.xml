@@ -139,6 +139,4 @@
 
     <channel id="outputChannel"/>
 
-    <beans:import resource="outbound-config.xml"/>
-
 </beans:beans>

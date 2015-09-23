@@ -20,31 +20,22 @@ public class RecepcionPagosAggregator {
     public List<ConfirmacionPago> confirmarPagos(Collection<Message<PagoInfo>> pagosMessages) {
 
         List<ConfirmacionPago> confirmacion = new ArrayList<ConfirmacionPago>();
-
-        System.out.println("#################### confirmarPAgos ");
-        for (Message<PagoInfo> pagoInfoMessage : pagosMessages)
-            try {
-
-                PagoInfo pagoInfo = pagoInfoMessage.getPayload();
-
-                //MANDO JMS LEALTAD
-                Producer p = new Producer();
-                DataLealtad.Moneda moneda = pagoInfo.getPago().getCodigoMoneda().equals("USD") ? DataLealtad.Moneda.USD : DataLealtad.Moneda.UYU;
-                p.send(new DataLealtad(pagoInfo.getIdentificadorCliente(), moneda, pagoInfo.getPago().getMonto(), pagoInfo.getFechaCobro()));
-
-
-                System.out.println("### size: " + pagoInfoMessage.getHeaders().get(IntegrationMessageHeaderAccessor.SEQUENCE_SIZE));
-
-                confirmacion.add(pagoInfo.getConfirmacionPago());
-
-            } catch (JMSException e) {
-                e.printStackTrace();
+        for (Message<PagoInfo> pagoInfoMessage : pagosMessages) {
+            PagoInfo pagoInfo = pagoInfoMessage.getPayload();
+            // Si el pago fue efectuado de forma correcta se envia los datos a lealtad.
+            if(pagoInfo.getConfirmacionPago().getResultado().equals("OK")) {
+                try {
+                    //MANDO JMS LEALTAD
+                    Producer p = new Producer();
+                    DataLealtad.Moneda moneda = pagoInfo.getPago().getCodigoMoneda().equals("USD") ? DataLealtad.Moneda.USD : DataLealtad.Moneda.UYU;
+                    p.send(new DataLealtad(pagoInfo.getIdentificadorCliente(), moneda, pagoInfo.getPago().getMonto(), pagoInfo.getFechaCobro()));
+                } catch (JMSException e) {
+                    e.printStackTrace();
+                }
             }
-        System.out.println("#################### confirmarPAgos ");
-
-
+            confirmacion.add(pagoInfo.getConfirmacionPago());
+        }
         return confirmacion;
-
     }
 
 
