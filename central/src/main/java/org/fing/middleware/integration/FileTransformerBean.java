@@ -58,7 +58,9 @@ public class FileTransformerBean {
             String outputString = transform(resultado, getClass().getClassLoader().getResource("XMLaCSV.xsl").getFile());
 
 
-            csvfile = new File(pi.getPago().getIdentificadorPago() + ".csv");
+            SimpleDateFormat sdfFecha = new SimpleDateFormat("yyyymmdd");
+            SimpleDateFormat sdfHora = new SimpleDateFormat("HHmmss");
+            csvfile = new File("middleware-" + sdfFecha.format(pi.getFechaCobro()) + "-" + sdfHora.format(pi.getFechaCobro()) + "-" + pi.getPago().getIdentificadorPago() + ".csv");
             FileWriter fileWriter = new FileWriter(csvfile);
             BufferedWriter bufferWritter = new BufferedWriter(fileWriter);
             bufferWritter.write(outputString);
