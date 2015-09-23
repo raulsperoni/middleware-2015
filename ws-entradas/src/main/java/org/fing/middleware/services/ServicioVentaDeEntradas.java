@@ -77,7 +77,7 @@ public class ServicioVentaDeEntradas implements IServicioVentaDeEntradas {
 
         ArrayList list = (ArrayList) http_headers.get("Authorization");
         if (list == null || list.size() == 0) {
-            throw new RuntimeException("Authentication failed! This WS needs BASIC Authentication!");
+            throw new RuntimeException("Fallo en la Autenticacion!");
         }
 
         String userpass = (String) list.get(0);
@@ -92,14 +92,14 @@ public class ServicioVentaDeEntradas implements IServicioVentaDeEntradas {
             username = credentials.substring(0, p);
             password = credentials.substring(p + 1);
         } else {
-            throw new RuntimeException("There was an error while decoding the Authentication!");
+            throw new RuntimeException("Fallo en la Autenticación!");
         }
         // This should be changed to a DB / Ldap authentication check
         if (username.equals("admin") && password.equals("admin")) {
-            System.out.println("============== Authentication OK =============");
+            System.out.println("============== Autenticacion OK =============");
             return true;
         } else {
-            throw new RuntimeException("Authentication failed! Wrong username / password!");
+            throw new RuntimeException("Fallo en la Autenticación!");
         }
     }
 
@@ -109,7 +109,7 @@ public class ServicioVentaDeEntradas implements IServicioVentaDeEntradas {
                 (ServletContext) wsctx.getMessageContext().get(MessageContext.SERVLET_CONTEXT);
 
         Integer cantEntradasDisponibles;
-        if((Integer)servletContext.getAttribute("cantEntradasDisponibles") == null) {
+        if (servletContext.getAttribute("cantEntradasDisponibles") == null) {
             servletContext.setAttribute("cantEntradasDisponibles", 100);
             cantEntradasDisponibles = 100;
         }
@@ -117,7 +117,7 @@ public class ServicioVentaDeEntradas implements IServicioVentaDeEntradas {
             cantEntradasDisponibles = (Integer)servletContext.getAttribute("cantEntradasDisponibles");
 
         Long idCobro;
-        if((Long)servletContext.getAttribute("idCobro") == null) {
+        if (servletContext.getAttribute("idCobro") == null) {
             servletContext.setAttribute("idCobro", new Long(0));
             idCobro = new Long(0);
         }

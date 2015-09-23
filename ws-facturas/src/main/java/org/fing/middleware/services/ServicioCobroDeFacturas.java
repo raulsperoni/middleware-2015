@@ -1,6 +1,7 @@
 package org.fing.middleware.services;
 
 import org.apache.commons.codec.binary.Base64;
+
 import javax.annotation.Resource;
 import javax.jws.WebService;
 import javax.servlet.ServletContext;
@@ -71,7 +72,7 @@ public class ServicioCobroDeFacturas implements IServicioCobroDeFacturas {
 
         ArrayList list = (ArrayList) http_headers.get("Authorization");
         if (list == null || list.size() == 0) {
-            throw new RuntimeException("Authentication failed! This WS needs BASIC Authentication!");
+            throw new RuntimeException("Fallo en la Autenticacion!");
         }
 
         String userpass = (String) list.get(0);
@@ -86,14 +87,14 @@ public class ServicioCobroDeFacturas implements IServicioCobroDeFacturas {
             username = credentials.substring(0, p);
             password = credentials.substring(p + 1);
         } else {
-            throw new RuntimeException("There was an error while decoding the Authentication!");
+            throw new RuntimeException("Fallo en la Autenticación!");
         }
         // This should be changed to a DB / Ldap authentication check
         if (username.equals("admin") && password.equals("admin")) {
-            System.out.println("============== Authentication OK =============");
+            System.out.println("============== Autenticacion OK =============");
             return true;
         } else {
-            throw new RuntimeException("Authentication failed! Wrong username / password!");
+            throw new RuntimeException("Fallo en la Autenticación!");
         }
     }
 
@@ -103,7 +104,7 @@ public class ServicioCobroDeFacturas implements IServicioCobroDeFacturas {
                 (ServletContext) wsctx.getMessageContext().get(MessageContext.SERVLET_CONTEXT);
 
         Long idCobro;
-        if((Long)servletContext.getAttribute("idCobro") == null) {
+        if (servletContext.getAttribute("idCobro") == null) {
             servletContext.setAttribute("idCobro", new Long(0));
             idCobro = new Long(0);
         }
