@@ -330,9 +330,9 @@ public class InvocarWs {
         }
 
         assertEquals(confirmacionTransaccion.getConfirmacion().get(0).getResultado(), "OK");
-        assertEquals(confirmacionTransaccion.getConfirmacion().get(0).getResultado(), "Error");
-        assertEquals(confirmacionTransaccion.getConfirmacion().get(1).getResultado(), "OK");
+        assertEquals(confirmacionTransaccion.getConfirmacion().get(1).getResultado(), "Error");
         assertEquals(confirmacionTransaccion.getConfirmacion().get(2).getResultado(), "OK");
+        assertEquals(confirmacionTransaccion.getConfirmacion().get(3).getResultado(), "OK");
     }
 
 }
