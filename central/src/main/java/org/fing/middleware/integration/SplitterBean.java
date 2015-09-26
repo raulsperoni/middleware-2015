@@ -16,18 +16,34 @@ import java.util.List;
 
 public class SplitterBean {
 
-    public List<Message<PagoInfo>> extraerPagos(Message<TransaccionPago> transaccionPago) {
+    public List<Message<PagoInfo>> extraerPagos(Message<TransaccionPago> transaccionPago) throws IllegalArgumentException {
 
         List<Message<PagoInfo>> mensajes = new ArrayList<Message<PagoInfo>>();
 
+        //saco el payload
+        TransaccionPago tp = transaccionPago.getPayload();
+
+        //datos comunes
+        Date date;
+        try {
+            date = tp.getFechaCobro() != null ? tp.getFechaCobro().toGregorianCalendar().getTime() : null;
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e);
+        }
+        if (date == null) {
+            throw new IllegalArgumentException("Fecha Incorrecta");
+        }
+
+        String formaDePago = tp.getFormaPago();
+        if (formaDePago == null || (!formaDePago.equals("Efectivo") && !formaDePago.equals("Cheque") && !formaDePago.equals("Debito"))) {
+            throw new IllegalArgumentException("Forma Pago incorrecta");
+        }
+
         //Para cada pago
-        for(Pago p : transaccionPago.getPayload().getPagos()) {
-            //saco el payload
-            TransaccionPago tp = transaccionPago.getPayload();
+        for (Pago p : tp.getPagos()) {
+
             //creo el pagoinfo con todos los datos del cliente
-            Date date = tp.getFechaCobro() != null ? tp.getFechaCobro().toGregorianCalendar().getTime() : null;
-            if (date == null) System.out.println("OJO NO LLEGO LA FECHA!");
-            PagoInfo pi = new PagoInfo(p, date, tp.getFormaPago(), tp.getIdentificadorCliente(), tp.getNumeroSucursal());
+            PagoInfo pi = new PagoInfo(p, date, formaDePago, tp.getIdentificadorCliente(), tp.getNumeroSucursal());
             //creo el mje
             Message<PagoInfo> mensaje = MessageBuilder.withPayload(pi)
                     .copyHeaders(transaccionPago.getHeaders())
