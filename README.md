@@ -1,3 +1,21 @@
+# Instrucciones Ejecucion
+
+###Para generar los war de cada módulo ejecutar el comando: 
+mvn clean package
+
+###Se debe iniciar ActiveMQ mediante el comando: 
+./activemq start
+
+###Deploy
+Luego hacer el deploy de los war en Tomcat.
+
+###Para verificar el correcto funcionamiento del flujo se pueden ejecutar los tests
+mvn test
+
+
+
+
+
 # middl2015
 Repo tareas Middleware
 
