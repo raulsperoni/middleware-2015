@@ -48,7 +48,7 @@ public class ServicioVentaDeEntradas implements IServicioVentaDeEntradas {
             ArrayList<String> codigos = new ArrayList<String>();
             long idCobro = venderEntradas(cantEntradas, codigos);
 
-            result = new WSResult(true, "Pago procesado correctamente", idCobro, codigos); // TODO Ver como hacer para obtener el id de cobro
+            result = new WSResult(true, "Pago procesado correctamente", idCobro, codigos);
         }
         catch (Exception ex){
             result = new WSResult(false, ex.getMessage(), 0, new ArrayList<String>());
