@@ -39,6 +39,8 @@ public class SplitterBean {
             throw new IllegalArgumentException("Forma Pago incorrecta");
         }
 
+        if (tp.getPagos().size() == 0) throw new IllegalArgumentException("Sin pagos");
+
         //Para cada pago
         for (Pago p : tp.getPagos()) {
 

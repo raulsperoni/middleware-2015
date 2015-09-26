@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by raul on 15/09/15.
  */
-public class InvocarWs {
+public class InvocarWsTest {
 
     @Test
     public void pagoFacturas_Invalida() throws DatatypeConfigurationException {
@@ -38,7 +38,7 @@ public class InvocarWs {
             System.out.println("CONFIRMACION PAGO: " + confirmacionPago.getResultado());
         }
 
-        assertEquals(confirmacionTransaccion.getConfirmacion().get(0).getResultado(), "Error");
+        assertEquals("Error", confirmacionTransaccion.getConfirmacion().get(0).getResultado());
     }
 
     @Test
@@ -64,7 +64,7 @@ public class InvocarWs {
             System.out.println("CONFIRMACION PAGO: " + confirmacionPago.getResultado());
         }
 
-        assertEquals(confirmacionTransaccion.getConfirmacion().get(0).getResultado(), "OK");
+        assertEquals("OK", confirmacionTransaccion.getConfirmacion().get(0).getResultado());
     }
 
     @Test
@@ -90,7 +90,7 @@ public class InvocarWs {
             System.out.println("CONFIRMACION PAGO: " + confirmacionPago.getResultado());
         }
 
-        assertEquals(confirmacionTransaccion.getConfirmacion().get(0).getResultado(), "Error");
+        assertEquals("Error", confirmacionTransaccion.getConfirmacion().get(0).getResultado());
     }
 
     @Test
@@ -116,7 +116,7 @@ public class InvocarWs {
             System.out.println("CONFIRMACION PAGO: " + confirmacionPago.getResultado());
         }
 
-        assertEquals(confirmacionTransaccion.getConfirmacion().get(0).getResultado(), "OK");
+        assertEquals("OK", confirmacionTransaccion.getConfirmacion().get(0).getResultado());
     }
 
     @Test
@@ -143,7 +143,7 @@ public class InvocarWs {
             System.out.println("CONFIRMACION PAGO: " + confirmacionPago.getResultado());
         }
 
-        assertEquals(confirmacionTransaccion.getConfirmacion().get(0).getResultado(), "Error");
+        assertEquals("Error", confirmacionTransaccion.getConfirmacion().get(0).getResultado());
     }
 
     @Test
@@ -170,7 +170,7 @@ public class InvocarWs {
             System.out.println("CONFIRMACION PAGO: " + confirmacionPago.getResultado());
         }
 
-        assertEquals(confirmacionTransaccion.getConfirmacion().get(0).getResultado(), "OK");
+        assertEquals("OK", confirmacionTransaccion.getConfirmacion().get(0).getResultado());
     }
 
     @Test
@@ -197,7 +197,7 @@ public class InvocarWs {
             System.out.println("CONFIRMACION PAGO: " + confirmacionPago.getResultado());
         }
 
-        assertEquals(confirmacionTransaccion.getConfirmacion().get(0).getResultado(), "OK");
+        assertEquals("OK", confirmacionTransaccion.getConfirmacion().get(0).getResultado());
     }
 
     @Test
@@ -224,7 +224,7 @@ public class InvocarWs {
             System.out.println("CONFIRMACION PAGO: " + confirmacionPago.getResultado());
         }
 
-        assertEquals(confirmacionTransaccion.getConfirmacion().get(0).getResultado(), "Error");
+        assertEquals("Error", confirmacionTransaccion.getConfirmacion().get(0).getResultado());
     }
 
     @Test
@@ -251,7 +251,7 @@ public class InvocarWs {
             System.out.println("CONFIRMACION PAGO: " + confirmacionPago.getResultado());
         }
 
-        assertEquals(confirmacionTransaccion.getConfirmacion().get(0).getResultado(), "OK");
+        assertEquals("OK", confirmacionTransaccion.getConfirmacion().get(0).getResultado());
     }
 
     @Test
@@ -277,7 +277,7 @@ public class InvocarWs {
             System.out.println("CONFIRMACION PAGO: " + confirmacionPago.getResultado());
         }
 
-        assertEquals(confirmacionTransaccion.getConfirmacion().get(0).getResultado(), "OK");
+        assertEquals("OK", confirmacionTransaccion.getConfirmacion().get(0).getResultado());
     }
 
     @Test
@@ -330,10 +330,10 @@ public class InvocarWs {
             System.out.println("CONFIRMACION PAGO: " + confirmacionPago.getResultado());
         }
 
-        assertEquals(confirmacionTransaccion.getConfirmacion().get(0).getResultado(), "OK");
-        assertEquals(confirmacionTransaccion.getConfirmacion().get(1).getResultado(), "Error");
-        assertEquals(confirmacionTransaccion.getConfirmacion().get(2).getResultado(), "OK");
-        assertEquals(confirmacionTransaccion.getConfirmacion().get(3).getResultado(), "OK");
+        assertEquals("OK", confirmacionTransaccion.getConfirmacion().get(0).getResultado());
+        assertEquals("Error", confirmacionTransaccion.getConfirmacion().get(1).getResultado());
+        assertEquals("OK", confirmacionTransaccion.getConfirmacion().get(2).getResultado());
+        assertEquals("OK", confirmacionTransaccion.getConfirmacion().get(3).getResultado());
     }
 
     @Test(expected = ServerSOAPFaultException.class)
@@ -381,6 +381,27 @@ public class InvocarWs {
         p.setNombreGestion("Entradas");
         p.getDatoAdicional().add("5"); // Cantidad de entradas
         transaccionPago.getPagos().add(p);
+
+
+        ConfirmacionTransaccion confirmacionTransaccion = servicioRecepcionPagosService.getServicioRecepcionPagosPort().recepcionPagos(transaccionPago);
+        for (ConfirmacionPago confirmacionPago : confirmacionTransaccion.getConfirmacion()) {
+            System.out.println("CONFIRMACION PAGO: " + confirmacionPago.getResultado());
+        }
+
+    }
+
+    @Test(expected = ServerSOAPFaultException.class)
+    public void Borde_sin_pagos() throws DatatypeConfigurationException {
+        ServicioRecepcionPagosService servicioRecepcionPagosService = new ServicioRecepcionPagosService();
+        TransaccionPago transaccionPago = new TransaccionPago();
+        DatatypeFactory datatypeFactory = DatatypeFactory.newInstance();
+        GregorianCalendar gc = new GregorianCalendar();
+        gc.setTimeInMillis(new Date().getTime());
+        XMLGregorianCalendar xmlGregorianCalendar = datatypeFactory.newXMLGregorianCalendar(gc);
+        transaccionPago.setFechaCobro(xmlGregorianCalendar);
+        transaccionPago.setFormaPago("Efectivo");
+        transaccionPago.setIdentificadorCliente(3);
+        transaccionPago.setNumeroSucursal(234);
 
 
         ConfirmacionTransaccion confirmacionTransaccion = servicioRecepcionPagosService.getServicioRecepcionPagosPort().recepcionPagos(transaccionPago);
