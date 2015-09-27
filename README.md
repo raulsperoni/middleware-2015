@@ -1,7 +1,8 @@
 # Instrucciones Ejecucion
 
 ###Para generar los war de cada módulo ejecutar el comando: 
-mvn clean package
+mvn clean package -Dmaven.test.skip=true
+
 
 ###Se debe iniciar ActiveMQ mediante el comando: 
 ./activemq start
