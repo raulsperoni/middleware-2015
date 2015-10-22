@@ -32,7 +32,7 @@ public class ProcesarStockBean {
         idReserva++;
         reservas.put(idReserva, reserva);
 
-        logger.info("metodo: anularReserva");
+        logger.info("metodo: procesarReserva");
         for(Producto p : reserva.getProductos()) {
             logger.info("Identificador de producto: " + p.getIdProducto());
             logger.info("Cantidad.................: " + p.getCantidad());
