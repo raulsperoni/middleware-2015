@@ -8,6 +8,7 @@ import uy.mgcoders.dto.Resultado;
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 
 /**
  * Created by pablo on 10/21/15.
@@ -17,14 +18,17 @@ public class ProcesarPagosBean {
 
     private long idConfirmacionPago;
     private static final Logger logger = LoggerFactory.getLogger(ProcesarPagosBean.class);
+    private HashMap<Long, Pago> pagos;
 
     @PostConstruct
     public void init() {
         idConfirmacionPago = 0;
+        pagos = new HashMap<>();
         logger.info("Se inicializa idConfirmacionPago: " + idConfirmacionPago);
     }
 
     public Resultado procesarPago(Pago pago) {
+
         logger.info("metodo: procesarPago");
         logger.info("Identificador de compra..: " + pago.getIdCompra());
         logger.info("Numero tarjeta de credito: " + pago.getNumeroTarjeta());
@@ -32,12 +36,24 @@ public class ProcesarPagosBean {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         logger.info("Fecha y hora.............: " + sdf.format(pago.getFecha().getTime()) );
 
-        idConfirmacionPago++;
+        Resultado resultado = new Resultado();
+        // Si ya hay un pago para la orden se retorna error. {"idConfirmacionPago":-1}
+        if(pagos.containsKey(pago.getIdCompra())) {
+            resultado.setIdConfirmacionPago(-1);
 
-        logger.info("Confirmacion de pago.....: " + idConfirmacionPago);
+            logger.info("Confirmacion de pago.....: ERROR");
+        }
+        else { // En caso de exito se retorna la identificacion del pago.
+            idConfirmacionPago++;
+            pagos.put(pago.getIdCompra(), pago);
+            resultado.setIdConfirmacionPago(idConfirmacionPago);
+
+            logger.info("Confirmacion de pago.....: " + idConfirmacionPago);
+        }
+
         logger.info("#######");
 
-        return new Resultado(idConfirmacionPago);
+        return resultado;
     }
 
 }
