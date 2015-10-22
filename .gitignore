@@ -25,3 +25,8 @@ central/src/main/java/build.xml
 central/activemq-data
 
 ftp-server/ftp-server.iml
+
+pagos-ya/target
+pagos-ya/pagos-ya.iml
+stock-local/target
+stock-local/stock-local.iml
