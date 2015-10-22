@@ -11,16 +11,16 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "Resultado")
 public class Resultado {
 
-    private long idCompra;
+    private String idCompra;
     private String codigo;
     private String descripcion;
 
-    public long getIdCompra() {
+    public String getIdCompra() {
         return idCompra;
     }
 
     @XmlElement(required = true)
-    public void setIdCompra(long idCompra) {
+    public void setIdCompra(String idCompra) {
         this.idCompra = idCompra;
     }
 
