@@ -26,24 +26,46 @@ public class ProcesarStockBean {
     public void init() {
         idReserva = 0;
         reservas = new HashMap<>();
+        logger.info("Se inicializa idReserva: " + idReserva);
     }
 
     public Resultado procesarReserva(Reserva reserva) {
-        idReserva++;
-        reservas.put(idReserva, reserva);
-
         logger.info("metodo: procesarReserva");
+
+        long max = 0;
+        boolean errorNegativo = false;
         for(Producto p : reserva.getProductos()) {
             logger.info("Identificador de producto: " + p.getIdProducto());
             logger.info("Cantidad.................: " + p.getCantidad());
+
+            max = (p.getCantidad() > max) ? p.getCantidad() : max;
+            if(p.getIdProducto() < 0) {
+                errorNegativo = true;
+            }
         }
-        logger.info("idReserva....................:" + idReserva);
-        logger.info("#######");
+
+        /**
+         * Si alguno de los productos tiene cantidad mayor a 100 o alguno de los id es menor a cero
+         * retorna error en el stock.
+         * */
 
         Resultado resultado = new Resultado();
-        resultado.setCodigo("OK");
-        resultado.setDescripcion("descr");
-        resultado.setIdReserva(idReserva);
+        if(max > 100 || errorNegativo) {
+            resultado.setCodigo("Error");
+            resultado.setDescripcion(errorNegativo ? "Producto con id negativo" : "Producto con cantidad mayor a 100");
+
+            logger.info("idReserva....................: ERROR");
+        }
+        else {
+            idReserva++;
+            reservas.put(idReserva, reserva);
+            resultado.setCodigo("OK");
+            resultado.setDescripcion("Productos reservados correctamente");
+            resultado.setIdReserva(idReserva);
+
+            logger.info("idReserva....................:" + idReserva);
+        }
+        logger.info("#######");
 
         return resultado;
     }
