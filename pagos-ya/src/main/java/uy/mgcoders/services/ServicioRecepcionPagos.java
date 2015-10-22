@@ -3,6 +3,7 @@ package uy.mgcoders.services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uy.mgcoders.dto.Pago;
+import uy.mgcoders.dto.Resultado;
 import uy.mgcoders.ejb.ProcesarPagosBean;
 
 import javax.ejb.EJB;
@@ -37,9 +38,10 @@ public class ServicioRecepcionPagos {
     @POST
     @Path("/recepcion")
     @Consumes("application/json")
+    @Produces("application/json")
     public Response recibirPago(Pago pago) {
-        long result = procesarPagosBean.procesarPago(pago);
-        return Response.ok(result, MediaType.APPLICATION_JSON).build();
+        Resultado resultado = procesarPagosBean.procesarPago(pago);
+        return Response.ok(resultado, MediaType.APPLICATION_JSON).build();
     }
 
 }

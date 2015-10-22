@@ -3,6 +3,7 @@ package uy.mgcoders.ejb;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uy.mgcoders.dto.Pago;
+import uy.mgcoders.dto.Resultado;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
@@ -23,7 +24,7 @@ public class ProcesarPagosBean {
         logger.info("Se inicializa idConfirmacionPago: " + idConfirmacionPago);
     }
 
-    public long procesarPago(Pago pago) {
+    public Resultado procesarPago(Pago pago) {
         logger.info("metodo: procesarPago");
         logger.info("Identificador de compra..: " + pago.getIdCompra());
         logger.info("Numero tarjeta de credito: " + pago.getNumeroTarjeta());
@@ -36,7 +37,7 @@ public class ProcesarPagosBean {
         logger.info("Confirmacion de pago.....: " + idConfirmacionPago);
         logger.info("#######");
 
-        return idConfirmacionPago;
+        return new Resultado(idConfirmacionPago);
     }
 
 }
