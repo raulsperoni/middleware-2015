@@ -13,6 +13,8 @@
 
         <module>pagos-ya</module>
         <module>stock-local</module>
+        <module>callback</module>
+        <module>composicion</module>
 
     </modules>
 

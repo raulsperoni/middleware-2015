@@ -18,7 +18,7 @@ public class ProcesarPagosBean {
     private static final Logger logger = LoggerFactory.getLogger(ProcesarPagosBean.class);
 
     @PostConstruct
-    protected void init() {
+    public void init() {
         idConfirmacionPago = 0;
         logger.info("Se inicializa idConfirmacionPago: " + idConfirmacionPago);
     }

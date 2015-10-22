@@ -6,16 +6,12 @@ import javax.xml.bind.annotation.XmlType;
 /**
  * Created by pablo on 10/21/15.
  */
-@XmlType(propOrder = {"codigo","descripcion","idReserva"})
+@XmlType(propOrder = {"codigo","descripcion"})
 @XmlRootElement
-public class Resultado {
+public class ResultadoAnulacion {
 
     private String codigo;
     private String descripcion;
-    private long idReserva;
-
-    public Resultado() {
-    }
 
     public String getCodigo() {
         return codigo;
@@ -31,13 +27,5 @@ public class Resultado {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
-    }
-
-    public long getIdReserva() {
-        return idReserva;
-    }
-
-    public void setIdReserva(long idReserva) {
-        this.idReserva = idReserva;
     }
 }

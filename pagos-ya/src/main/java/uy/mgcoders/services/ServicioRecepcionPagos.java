@@ -17,12 +17,12 @@ import javax.ws.rs.core.Response;
  */
 @Path("pagos")
 @Stateless
-public class RecepcionPagos {
+public class ServicioRecepcionPagos {
 
     @EJB
     ProcesarPagosBean procesarPagosBean;
 
-    private static final Logger logger = LoggerFactory.getLogger(RecepcionPagos.class);
+    private static final Logger logger = LoggerFactory.getLogger(ServicioRecepcionPagos.class);
 
     @GET
     @Path("/ping/{query}")
