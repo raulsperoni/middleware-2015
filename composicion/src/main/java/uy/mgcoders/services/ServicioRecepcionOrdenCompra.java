@@ -31,6 +31,18 @@ public class ServicioRecepcionOrdenCompra {
     @WebMethod
     public void ingresarOrden(@WebParam(name = "ordencompra") OrdenCompra ordenCompra) {
         logger.info("metodo: ingresarOrden");
+        logger.info("idOrden...................: " + ordenCompra.getIdOrden());
+        logger.info("nroTerfeta................: " + ordenCompra.getNumeroTarjeta());
+        logger.info("Productos................: ");
+        for(int i = 0; i < ordenCompra.getProductos().size(); i++) {
+            logger.info("     idProducto................: " + ordenCompra.getProductos().get(i).getIdProducto());
+            logger.info("     cantidad..................: " + ordenCompra.getProductos().get(i).getCantidad());
+            logger.info("     precioUnitario............: " + ordenCompra.getProductos().get(i).getPrecioUnitario());
+            logger.info(" ");
+        }
 
+        // TODO: No habria que retornar un bool que indique si la confirmacion de la orden?
+
+        logger.info("#######");
     }
 }
