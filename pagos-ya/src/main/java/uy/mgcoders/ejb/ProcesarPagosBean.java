@@ -39,14 +39,20 @@ public class ProcesarPagosBean {
         Resultado resultado = new Resultado();
         // Si ya hay un pago para la orden se retorna error. {"idConfirmacionPago":-1}
         if(pagos.containsKey(pago.getIdCompra())) {
+
             resultado.setIdConfirmacionPago(-1);
+            resultado.setStatus(false);
+            resultado.setMensaje("Ya existe un pago con el identificador de compra " + pago.getIdCompra());
 
             logger.info("Confirmacion de pago.....: ERROR");
         }
         else { // En caso de exito se retorna la identificacion del pago.
             idConfirmacionPago++;
             pagos.put(pago.getIdCompra(), pago);
+
             resultado.setIdConfirmacionPago(idConfirmacionPago);
+            resultado.setStatus(true);
+            resultado.setMensaje("");
 
             logger.info("Confirmacion de pago.....: " + idConfirmacionPago);
         }
@@ -55,5 +61,4 @@ public class ProcesarPagosBean {
 
         return resultado;
     }
-
 }
