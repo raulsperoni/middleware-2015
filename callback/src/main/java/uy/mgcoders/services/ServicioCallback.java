@@ -15,7 +15,7 @@ import javax.jws.soap.SOAPBinding;
  */
 @Stateless
 @WebService
-@SOAPBinding(style = SOAPBinding.Style.RPC)
+@SOAPBinding(style = SOAPBinding.Style.DOCUMENT)
 public class ServicioCallback {
 
     private static final Logger logger = LoggerFactory.getLogger(ServicioCallback.class);
