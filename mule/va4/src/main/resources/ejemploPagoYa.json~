@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://localhost:8080/pagos-ya/api/pagos/recepcion",
+  "type": "object",
+  "properties": {
+    "idCompra": {
+      "id": "http://localhost:8080/pagos-ya/api/pagos/recepcion/idCompra",
+      "type": "string"
+    },
+    "numeroTarjeta": {
+      "id": "http://localhost:8080/pagos-ya/api/pagos/recepcion/numeroTarjeta",
+      "type": "string"
+    },
+    "monto": {
+      "id": "http://localhost:8080/pagos-ya/api/pagos/recepcion/monto",
+      "type": "string"
+    },
+    "fecha": {
+      "id": "http://localhost:8080/pagos-ya/api/pagos/recepcion/fecha",
+      "type": "string"
+    }
+  },
+  "required": [
+    "idCompra",
+    "numeroTarjeta",
+    "monto",
+    "fecha"
+  ]
+}

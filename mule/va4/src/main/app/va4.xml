@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml"
+	xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking"
+	xmlns:ws="http://www.mulesoft.org/schema/mule/ws" xmlns:cxf="http://www.mulesoft.org/schema/mule/cxf"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ws http://www.mulesoft.org/schema/mule/ws/current/mule-ws.xsd
+http://www.mulesoft.org/schema/mule/cxf http://www.mulesoft.org/schema/mule/cxf/current/mule-cxf.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
+http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/current/mule-xml.xsd
+http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd">
+
+
+	<http:listener-config name="HTTP_Listener_Configuration"
+		host="localhost" port="8181" doc:name="HTTP Listener Configuration" />
+	<ws:consumer-config name="Web_Service_Consumer"
+		wsdlLocation="http://localhost:8080/stock-local/ServicioRecepcionStock?wsdl"
+		service="ServicioRecepcionStockService" port="ServicioRecepcionStockPort"
+		serviceAddress="http://localhost:8080/stock-local/ServicioRecepcionStock"
+		doc:name="Web Service Consumer" />
+    <http:request-config name="HTTP_Request_Configuration" host="localhost" port="8080" basePath="pagos-ya" doc:name="HTTP Request Configuration"/>
+
+
+	<flow name="Stock">
+		<!-- Expongo donde quiero, pasamanos -->
+		<http:listener config-ref="HTTP_Listener_Configuration"
+			path="/my/service" doc:name="HTTP" />
+		<!-- El proxy muestra un wsdl local, pero pasa las llamadas al ws posta -->
+		<cxf:proxy-service doc:name="CXF"
+			namespace="http://services.mgcoders.uy/" payload="body" wsdlLocation="localWsdl.wsdl"
+			service="ServicioRecepcionStockService" />
+		<logger level="INFO" doc:name="Logger" />
+		<ws:consumer config-ref="Web_Service_Consumer" operation="reservarProducto"
+			doc:name="Web Service Consumer" />
+		<!-- Se consume el ws posta -->
+	</flow>
+
+	<flow name="SoapToRest">
+		<!-- Expongo donde quiero, pasamanos -->
+		<http:listener config-ref="HTTP_Listener_Configuration"
+			path="/my/pagosya" doc:name="HTTP" />
+        <cxf:proxy-service namespace="http://services.mgcoders.uy/" service="ServicioRecepcionPagoService" payload="body" wsdlLocation="pagosyaWsdl.wsdl" doc:name="CXF"/>
+        <logger message="#[xpath://recepcionPago]" level="INFO" doc:name="Logger"/>
+        <json:xml-to-json-transformer metadata:id="b811f1e9-5936-4a8a-8e91-f48068e76a69" doc:name="XML to JSON"/>
+        <logger message="#[payload]" level="INFO" doc:name="Logger"/>
+		<!-- El proxy muestra un wsdl local, pero pasa las llamadas al ws posta -->
+        <http:request config-ref="HTTP_Request_Configuration" path="/api/pagos/recepcion" method="POST" metadata:id="1674712f-a228-4ddd-af17-bfa6f9c2d9a8" doc:name="HTTP"/>
+	</flow>
+
+
+
+</mule>

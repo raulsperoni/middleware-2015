@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://services.mgcoders.uy/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="ServicioRecepcionStockService" targetNamespace="http://services.mgcoders.uy/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://services.mgcoders.uy/" targetNamespace="http://services.mgcoders.uy/" version="1.0">
+
+  <xs:element name="Reserva" type="tns:reserva"/>
+
+  <xs:element name="resultado" type="tns:resultado"/>
+
+  <xs:element name="resultadoAnulacion" type="tns:resultadoAnulacion"/>
+
+  <xs:complexType name="resultadoAnulacion">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codigo" type="xs:string"/>
+      <xs:element minOccurs="0" name="descripcion" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="reserva">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="producto" type="tns:producto"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="producto">
+    <xs:sequence>
+      <xs:element name="idProducto" type="xs:long"/>
+      <xs:element name="cantidad" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="resultado">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codigo" type="xs:string"/>
+      <xs:element minOccurs="0" name="descripcion" type="xs:string"/>
+      <xs:element name="idReserva" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="anularReserva">
+    <wsdl:part name="idReserva" type="xsd:long">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="reservarProducto">
+    <wsdl:part name="productos" type="tns:reserva">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="reservarProductoResponse">
+    <wsdl:part name="return" type="tns:resultado">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="anularReservaResponse">
+    <wsdl:part name="return" type="tns:resultadoAnulacion">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ServicioRecepcionStock">
+    <wsdl:operation name="anularReserva">
+      <wsdl:input message="tns:anularReserva" name="anularReserva">
+    </wsdl:input>
+      <wsdl:output message="tns:anularReservaResponse" name="anularReservaResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="reservarProducto">
+      <wsdl:input message="tns:reservarProducto" name="reservarProducto">
+    </wsdl:input>
+      <wsdl:output message="tns:reservarProductoResponse" name="reservarProductoResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ServicioRecepcionStockServiceSoapBinding" type="tns:ServicioRecepcionStock">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="anularReserva">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="anularReserva">
+        <soap:body namespace="http://services.mgcoders.uy/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="anularReservaResponse">
+        <soap:body namespace="http://services.mgcoders.uy/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="reservarProducto">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="reservarProducto">
+        <soap:body namespace="http://services.mgcoders.uy/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="reservarProductoResponse">
+        <soap:body namespace="http://services.mgcoders.uy/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ServicioRecepcionStockService">
+    <wsdl:port binding="tns:ServicioRecepcionStockServiceSoapBinding" name="ServicioRecepcionStockPort">
+      <soap:address location="http://localhost:8080/stock-local/ServicioRecepcionStock"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

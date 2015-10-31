@@ -1,0 +1,11 @@
+{
+    "inputMessageMetadata": {},
+    "outputMessageMetadata": {
+        "messagePayload": {
+            "connectorName": "#_custom_mule_metadata_type_#",
+            "typeId": "pagosyain"
+        }
+    },
+    "id": "b811f1e9-5936-4a8a-8e91-f48068e76a69",
+    "version": "5.2.0.0"
+}

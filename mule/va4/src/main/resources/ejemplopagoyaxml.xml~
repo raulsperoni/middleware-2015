@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ser:recepcionPago xmlns:ser="http://services.mgcoders.uy/">
+         <idCompra>2</idCompra>
+         <numeroTarjeta>2</numeroTarjeta>
+         <monto>2</monto>
+         <fecha>2</fecha>
+      </ser:recepcionPago>>
