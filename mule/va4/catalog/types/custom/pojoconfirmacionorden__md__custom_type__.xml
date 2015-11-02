@@ -1,0 +1,27 @@
+<custom__type__definition>
+  <version>5.2.0.0</version>
+  <typeName class="org.mule.common.metadata.DefaultMetaDataKey">
+    <id>pojoconfirmacionorden</id>
+    <displayName>pojoconfirmacionorden</displayName>
+    <category>DEFAULT</category>
+    <metaDataKeyPropertiesManager>
+      <properties>
+        <org.mule.common.metadata.key.property.dsql.DsqlFromMetaDataKeyProperty/>
+      </properties>
+    </metaDataKeyPropertiesManager>
+  </typeName>
+  <metadataModel class="org.mule.common.metadata.DefaultPojoMetaDataModel">
+    <implementationClass>va4.ConfirmacionOrden</implementationClass>
+    <dataType>POJO</dataType>
+    <metaDataModelPropertiesManager>
+      <properties/>
+    </metaDataModelPropertiesManager>
+    <fields/>
+    <clazzName>va4.ConfirmacionOrden</clazzName>
+    <isInterface>false</isInterface>
+    <name>ConfirmacionOrden</name>
+    <parentNames>
+      <string>java.lang.Object</string>
+    </parentNames>
+  </metadataModel>
+</custom__type__definition>

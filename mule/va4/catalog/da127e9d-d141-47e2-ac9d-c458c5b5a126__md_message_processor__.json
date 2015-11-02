@@ -1,0 +1,11 @@
+{
+    "inputMessageMetadata": {},
+    "outputMessageMetadata": {
+        "messagePayload": {
+            "connectorName": "#_custom_mule_metadata_type_#",
+            "typeId": "pojoconfirmacionorden"
+        }
+    },
+    "id": "da127e9d-d141-47e2-ac9d-c458c5b5a126",
+    "version": "5.2.0.0"
+}

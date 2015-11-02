@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><Graph __version="3.5.0" author="raul" created="Mon Nov 02 11:00:53 UYT 2015" description="XML To CSV" guiVersion="3.4.4.P" id="1446475674893" licenseCode="Unlicensed" licenseType="Unknown" modified="Mon Nov 02 11:00:53 UYT 2015" modifiedBy="raul" name="XML_To_CSV" preview-file="${Project_Home}/src/main/resources/ejemploepuertoxml.xml" revision="1.0" showComponentDetails="false">
+<Global>
+<Metadata __filteredMetadata="false" __index="0" __referenceCounter="1" __schemaType="{http://services.mgcoders.uy/}colocarOrdenType" __sourcePath="{http://services.mgcoders.uy/=ns0}/ns0:colocarOrden" _dataStructure="OBJECT" _id="__id" _type="Input" id="3131a7a8-a1d1-4f6a-a365-d1374a458426">
+<Record fieldDelimiter="," name="colocarOrden" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="0" __schemaType="{http://services.mgcoders.uy/}colocarOrdenType" __sourcePath="{http://services.mgcoders.uy/=ns0}/ns0:colocarOrden/identificadorCompra" containerType="SINGLE" label="identificadorCompra" name="identificadorCompra" type="integer"/>
+<Field __index="1" __schemaType="{http://services.mgcoders.uy/}colocarOrdenType" __sourcePath="{http://services.mgcoders.uy/=ns0}/ns0:colocarOrden/identificadorProducto" containerType="SINGLE" label="identificadorProducto" name="identificadorProducto" type="integer"/>
+<Field __index="2" __schemaType="{http://services.mgcoders.uy/}colocarOrdenType" __sourcePath="{http://services.mgcoders.uy/=ns0}/ns0:colocarOrden/cantidad" containerType="SINGLE" label="cantidad" name="cantidad" type="integer"/>
+</Record>
+</Metadata>
+<Metadata __referenceCounter="1" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _type="Output" id="16264467-aa92-40c2-9d06-0d13cde71e83">
+<Record fieldDelimiter="," name="colocarOrden" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field containerType="SINGLE" label="identificadorCompra" name="identificadorCompra" size="10" type="integer"/>
+<Field containerType="SINGLE" label="identificadorProducto" name="identificadorProducto" size="10" type="integer"/>
+<Field containerType="SINGLE" eofAsDelimiter="true" label="cantidad" name="cantidad" size="10" type="integer"/>
+<Field __artificialType="_id" name="__id" type="long"/>
+</Record>
+</Metadata>
+<Dictionary>
+<Entry id="DictionaryEntry0" input="true" name="inputPayload" output="false" type="object"/>
+<Entry id="DictionaryEntry1" input="false" name="outputPayload" output="true" type="object"/>
+</Dictionary>
+</Global>
+<Phase number="0">
+<Node charset="UTF-8" enabled="enabled" excludeFields="__id" fileURL="dict:outputPayload" guiName="CSV WRITER" guiX="900" guiY="20" id="DATA_WRITER0" quotedStrings="true" type="DATA_WRITER">
+<attr name="_data_format"><![CDATA[CSV]]></attr>
+</Node>
+<Node enabled="enabled" guiName="Foreach 'ns0:colocarOrden' -&gt; 'colocarOrden'" guiX="460" guiY="20" id="FOREACH_NS0_COLOCAR_ORDEN_COLOCAR_ORDEN" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
+<attr name="melScript"><![CDATA[//MEL
+//START -> DO NOT REMOVE
+output.__id = str2long(input.__id);
+//END -> DO NOT REMOVE
+output.identificadorCompra = input.identificadorCompra;
+output.identificadorProducto = input.identificadorProducto;
+output.cantidad = input.cantidad;
+]]></attr>
+</Node>
+<Node charset="UTF-8" enabled="enabled" fileURL="dict:inputPayload" guiName="XML READER" guiX="20" guiY="20" id="XML_READER0" type="XML_READER">
+<attr name="xmlSchemaURL"><![CDATA[./src/test/resources/identificadorProducto.xsd,/home/raul/AnypointStudio/workspace/va4/src/test/resources/colocarOrden.xsd]]></attr>
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Context namespacePaths="ns0=&quot;http://services.mgcoders.uy/&quot;" outPort="0" sequenceField="__id" xpath="/ns0:colocarOrden">
+  <Mapping cloverField="identificadorCompra" trim="true" xpath="identificadorCompra"/>
+  <Mapping cloverField="identificadorProducto" trim="true" xpath="identificadorProducto"/>
+  <Mapping cloverField="cantidad" trim="true" xpath="cantidad"/>
+</Context>
+]]></attr>
+<attr name="_data_format"><![CDATA[XML]]></attr>
+<attr name="__rootGlobalElementName"><![CDATA[{http://services.mgcoders.uy/}colocarOrden]]></attr>
+</Node>
+<Edge debugMode="true" fromNode="FOREACH_NS0_COLOCAR_ORDEN_COLOCAR_ORDEN:0" guiBendpoints="" id="Edge1" inPort="Port 0 (in)" metadata="16264467-aa92-40c2-9d06-0d13cde71e83" outPort="Port 0 (out)" toNode="DATA_WRITER0:0"/>
+<Edge debugMode="true" fromNode="XML_READER0:0" guiBendpoints="" id="Edge0" inPort="Port 0 (in)" metadata="3131a7a8-a1d1-4f6a-a365-d1374a458426" outPort="Port 0 (out)" toNode="FOREACH_NS0_COLOCAR_ORDEN_COLOCAR_ORDEN:0"/>
+</Phase>
+</Graph>

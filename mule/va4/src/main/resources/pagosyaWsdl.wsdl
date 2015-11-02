@@ -1,51 +1,64 @@
-<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://services.mgcoders.uy/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="ServicioRecepcionStockService" targetNamespace="http://services.mgcoders.uy/">
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://services.mgcoders.uy/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="ServicioPagoYaService" targetNamespace="http://services.mgcoders.uy/">
   <wsdl:types>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://services.mgcoders.uy/" targetNamespace="http://services.mgcoders.uy/" version="1.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://services.mgcoders.uy/" elementFormDefault="unqualified" targetNamespace="http://services.mgcoders.uy/" version="1.0">
+
+  
+  <xs:element name="recepcionPago" type="tns:recepcionPago"/>
+
+  <xs:element name="recepcionPagoResponse" type="tns:recepcionPagoResponse"/>
 
  
 
+  <xs:complexType name="recepcionPago">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:int"/>
+      <xs:element name="arg1" type="xs:int"/>
+      <xs:element name="arg2" type="xs:int"/>
+      <xs:element minOccurs="0" name="arg3" type="xs:dateTime"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="recepcionPagoResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
 </xs:schema>
-  </wsdl:types>
-  <wsdl:message name="recepcionPago">
-    <wsdl:part name="idCompra" type="xsd:string">
-    </wsdl:part>
-    <wsdl:part name="numeroTarjeta" type="xsd:string">
-    </wsdl:part>
-    <wsdl:part name="monto" type="xsd:string">
-    </wsdl:part>
-    <wsdl:part name="fecha" type="xsd:string">
-    </wsdl:part>
-   </wsdl:message>
+    </wsdl:types>
   <wsdl:message name="recepcionPagoResponse">
-    <wsdl:part name="return" type="xsd:string">
+    <wsdl:part element="tns:recepcionPagoResponse" name="parameters">
     </wsdl:part>
   </wsdl:message>
-  
-  <wsdl:portType name="ServicioRecepcionPago">
+  <wsdl:message name="recepcionPago">
+    <wsdl:part element="tns:recepcionPago" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ServicioPagoYa">
+   
     <wsdl:operation name="recepcionPago">
       <wsdl:input message="tns:recepcionPago" name="recepcionPago">
     </wsdl:input>
       <wsdl:output message="tns:recepcionPagoResponse" name="recepcionPagoResponse">
     </wsdl:output>
     </wsdl:operation>
-   
   </wsdl:portType>
-  <wsdl:binding name="ServicioRecepcionPagoServiceSoapBinding" type="tns:ServicioRecepcionPago">
-    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+  <wsdl:binding name="ServicioPagoYaServiceSoapBinding" type="tns:ServicioPagoYa">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    
     <wsdl:operation name="recepcionPago">
-      <soap:operation soapAction="" style="rpc"/>
+      <soap:operation soapAction="" style="document"/>
       <wsdl:input name="recepcionPago">
-        <soap:body namespace="http://services.mgcoders.uy/" use="literal"/>
+        <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="recepcionPagoResponse">
-        <soap:body namespace="http://services.mgcoders.uy/" use="literal"/>
+        <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
-   
   </wsdl:binding>
-  <wsdl:service name="ServicioRecepcionPagoService">
-    <wsdl:port binding="tns:ServicioRecepcionPagoServiceSoapBinding" name="ServicioRecepcionStockPort">
-      <soap:address location="http://localhost:8181/pagosya/ServicioRecepcionPagoService"/>
+  <wsdl:service name="ServicioPagoYaService">
+    <wsdl:port binding="tns:ServicioPagoYaServiceSoapBinding" name="ServicioPagoYaPort">
+      <soap:address location="http://localhost:8080/callback/ServicioPagoYa"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

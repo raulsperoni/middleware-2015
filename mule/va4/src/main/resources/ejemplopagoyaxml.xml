@@ -1,11 +1,8 @@
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://services.mgcoders.uy/">
-   <soapenv:Header/>
-   <soapenv:Body>
-      <ser:recepcionPago>
+<?xml version='1.0' encoding='UTF-8'?>
+      <recepcionPago>
          <idCompra>2</idCompra>
          <numeroTarjeta>2</numeroTarjeta>
          <monto>2</monto>
          <fecha>2</fecha>
-      </ser:recepcionPago>
-   </soapenv:Body>
-</soapenv:Envelope>
+      </recepcionPago>
+

@@ -1,55 +1,17 @@
 <metadata__cache__entry>
   <version>5.2.0.0</version>
-  <connectorName>Web_Service_Consumer</connectorName>
+  <connectorName>CSV_To_Pojo</connectorName>
   <metadataIo class="tree-map">
     <entry>
-      <string>reservarProducto</string>
+      <string>http://www.mulesoft.org/schema/mule/ee/data-mapper/transform</string>
       <map>
         <entry>
           <string>__default__</string>
           <org.mule.tooling.metadata.cache.DefaultMetadataCacheEntry>
-            <input class="org.mule.common.metadata.DefaultMetaData">
-              <payload class="org.mule.tooling.metadata.api.TypeRefMetaDataModel">
-                <connectorName>Web_Service_Consumer</connectorName>
-                <typeId>productos</typeId>
-              </payload>
-              <properties>
-                <entry>
-                  <org.mule.common.metadata.MetaDataPropertyScope>OUTBOUND</org.mule.common.metadata.MetaDataPropertyScope>
-                  <org.mule.common.metadata.MetaDataProperties>
-                    <fields/>
-                  </org.mule.common.metadata.MetaDataProperties>
-                </entry>
-                <entry>
-                  <org.mule.common.metadata.MetaDataPropertyScope>INBOUND</org.mule.common.metadata.MetaDataPropertyScope>
-                  <org.mule.common.metadata.MetaDataProperties>
-                    <fields/>
-                  </org.mule.common.metadata.MetaDataProperties>
-                </entry>
-                <entry>
-                  <org.mule.common.metadata.MetaDataPropertyScope>RECORD</org.mule.common.metadata.MetaDataPropertyScope>
-                  <org.mule.common.metadata.MetaDataProperties>
-                    <fields/>
-                  </org.mule.common.metadata.MetaDataProperties>
-                </entry>
-                <entry>
-                  <org.mule.common.metadata.MetaDataPropertyScope>SESSION</org.mule.common.metadata.MetaDataPropertyScope>
-                  <org.mule.common.metadata.MetaDataProperties>
-                    <fields/>
-                  </org.mule.common.metadata.MetaDataProperties>
-                </entry>
-                <entry>
-                  <org.mule.common.metadata.MetaDataPropertyScope>FLOW</org.mule.common.metadata.MetaDataPropertyScope>
-                  <org.mule.common.metadata.MetaDataProperties>
-                    <fields/>
-                  </org.mule.common.metadata.MetaDataProperties>
-                </entry>
-              </properties>
-            </input>
             <output class="org.mule.common.metadata.DefaultMetaData">
               <payload class="org.mule.tooling.metadata.api.TypeRefMetaDataModel">
-                <connectorName>Web_Service_Consumer</connectorName>
-                <typeId>return</typeId>
+                <connectorName>CSV_To_Pojo</connectorName>
+                <typeId>va4.ConfirmacionOrden</typeId>
               </payload>
               <properties>
                 <entry>

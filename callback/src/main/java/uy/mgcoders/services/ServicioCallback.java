@@ -9,6 +9,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
+import java.util.Date;
 
 /**
  * Created by pablo on 10/22/15.
@@ -27,4 +28,10 @@ public class ServicioCallback {
         logger.info("Identificador de orden: " + resultado.getIdCompra());
         logger.info("#######");
     }
+
+    @WebMethod
+    public String recepcionPago(int idCompra, int numeroTarjeta, int monto, Date fecha){
+        return "ok";
+    }
+
 }
