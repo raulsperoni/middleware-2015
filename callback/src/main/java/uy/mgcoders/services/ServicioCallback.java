@@ -16,7 +16,7 @@ import java.util.Date;
  */
 @Stateless
 @WebService
-@SOAPBinding(style = SOAPBinding.Style.DOCUMENT)
+@SOAPBinding(style = SOAPBinding.Style.RPC)
 public class ServicioCallback {
 
     private static final Logger logger = LoggerFactory.getLogger(ServicioCallback.class);
@@ -27,11 +27,6 @@ public class ServicioCallback {
         logger.info("Codigo................: " + resultado.getCodigo());
         logger.info("Identificador de orden: " + resultado.getIdCompra());
         logger.info("#######");
-    }
-
-    @WebMethod
-    public String recepcionPago(int idCompra, int numeroTarjeta, int monto, Date fecha){
-        return "ok";
     }
 
 }

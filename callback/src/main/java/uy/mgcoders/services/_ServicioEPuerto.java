@@ -15,14 +15,14 @@ import javax.jws.soap.SOAPBinding;
 @Stateless
 @WebService
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT)
-public class ServicioEPuerto {
+public class _ServicioEPuerto {
 
-    private static final Logger logger = LoggerFactory.getLogger(ServicioEPuerto.class);
+    private static final Logger logger = LoggerFactory.getLogger(_ServicioEPuerto.class);
 
     @WebMethod
-    public ConfirmacionOrden colocarOrden(@WebParam(name = "identificadorCompra") String identificadorCompra,@WebParam(name = "identificadorProducto")  long identificadorProducto,@WebParam(name = "cantidad")  int cantidad) {
+    public _ConfirmacionOrden colocarOrden(@WebParam(name = "identificadorCompra") String identificadorCompra,@WebParam(name = "identificadorProducto")  long identificadorProducto,@WebParam(name = "cantidad")  int cantidad) {
         logger.info("#######");
-        return new ConfirmacionOrden();
+        return new _ConfirmacionOrden();
     }
 
     @WebMethod

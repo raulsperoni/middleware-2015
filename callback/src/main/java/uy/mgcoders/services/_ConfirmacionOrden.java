@@ -3,7 +3,7 @@ package uy.mgcoders.services;
 /**
  * Created by raul on 02/11/15.
  */
-public class ConfirmacionOrden {
+public class _ConfirmacionOrden {
 
     public String identificadorCompra;
     public String identificadorReserva;

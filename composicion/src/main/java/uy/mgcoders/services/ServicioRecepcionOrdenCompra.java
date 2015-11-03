@@ -35,7 +35,7 @@ import javax.xml.ws.soap.Addressing;
 @Stateless
 @WebService
 @Addressing(enabled = true, required = true)
-@HandlerChain(file = "soaphandler.xml")
+//@HandlerChain(file = "soaphandler.xml")
 @org.apache.cxf.interceptor.OutInterceptors(interceptors = {"uy.mgcoders.handler.MyInterceptor"})
 public class ServicioRecepcionOrdenCompra {
 
