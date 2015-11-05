@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml"
-	xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking"
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:json="http://www.mulesoft.org/schema/mule/json"
+	xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper"
+	xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata"
+	xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking"
 	xmlns:ws="http://www.mulesoft.org/schema/mule/ws" xmlns:cxf="http://www.mulesoft.org/schema/mule/cxf"
 	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
@@ -17,13 +20,13 @@ http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schem
 http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
 http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
 
-<mulexml:namespace-manager>
-    <mulexml:namespace prefix="ser"
-                       uri="http://services.mgcoders.uy/"/>
-    <mulexml:namespace prefix="soapenv"
-                       uri="http://schemas.xmlsoap.org/soap/envelope/"/>                   
-                       
-    </mulexml:namespace-manager>
+	<mulexml:namespace-manager>
+		<mulexml:namespace prefix="ser"
+			uri="http://services.mgcoders.uy/" />
+		<mulexml:namespace prefix="soapenv"
+			uri="http://schemas.xmlsoap.org/soap/envelope/" />
+
+	</mulexml:namespace-manager>
 
 
 	<http:listener-config name="HTTP_Listener_Configuration"
@@ -33,60 +36,143 @@ http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/fil
 		service="ServicioRecepcionStockService" port="ServicioRecepcionStockPort"
 		serviceAddress="http://localhost:8080/stock-local/ServicioRecepcionStock"
 		doc:name="Web Service Consumer" />
-    <http:request-config name="HTTP_Request_Configuration" host="localhost" port="8080" basePath="pagos-ya" doc:name="HTTP Request Configuration"/>
-    <data-mapper:config name="XML_To_CSV" transformationGraphPath="xml_to_csv.grf" doc:name="XML_To_CSV"/>
-    <data-mapper:config name="CSV_To_Pojo" transformationGraphPath="csv_to_pojo.grf" doc:name="CSV_To_Pojo"/>
+	<http:request-config name="HTTP_Request_Configuration"
+		host="localhost" port="8080" basePath="pagos-ya" doc:name="HTTP Request Configuration" />
+	<data-mapper:config name="XML_To_CSV"
+		transformationGraphPath="xml_to_csv.grf" doc:name="XML_To_CSV" />
+	<data-mapper:config name="CSV_To_Pojo"
+		transformationGraphPath="csv_to_pojo.grf" doc:name="CSV_To_Pojo" />
+	<data-mapper:config name="CSV_To_Pojo_1"
+		transformationGraphPath="csv_to_pojo_1.grf" doc:name="CSV_To_Pojo_1" />
+	<data-mapper:config name="Pojo_To_CSV"
+		transformationGraphPath="pojo_to_csv.grf" doc:name="Pojo_To_CSV" />
+	<data-mapper:config name="CSV_To_Pojo_1CSV_To_Pojo_2"
+		transformationGraphPath="csv_to_pojo_2.grf" doc:name="CSV_To_Pojo_1CSV_To_Pojo_2" />
+	<data-mapper:config name="CSV_To_Pojo_1CSV_To_Pojo_2CSV_To_Pojo_3"
+		transformationGraphPath="csv_to_pojo_3.grf" doc:name="CSV_To_Pojo_1CSV_To_Pojo_2CSV_To_Pojo_3" />
+	<data-mapper:config name="JSON_TO_XML"
+		transformationGraphPath="json_to_xml.grf" doc:name="JSON_TO_XML" />
+	<file:connector name="File" autoDelete="true" streaming="false"
+		validateConnections="true" doc:name="File" />
 
 
-	<flow name="Stock">
-		<!-- Expongo donde quiero, pasamanos -->
+	<flow name="StockLocal">
 		<http:listener config-ref="HTTP_Listener_Configuration"
-			path="/my/service" doc:name="HTTP" />
-		<!-- El proxy muestra un wsdl local, pero pasa las llamadas al ws posta -->
+			path="/esb/stock" doc:name="HTTP" 
+			doc:description="Escucho en localhost:8181/esb/stocklocal"/>
 		<cxf:proxy-service doc:name="CXF"
 			namespace="http://services.mgcoders.uy/" payload="body" wsdlLocation="localWsdl.wsdl"
-			service="ServicioRecepcionStockService" />
+			service="ServicioRecepcionStockService"
+			doc:description="Proveo contrato soap"/>
 		<logger level="INFO" doc:name="Logger" />
 		<ws:consumer config-ref="Web_Service_Consumer" operation="reservarProducto"
-			doc:name="Web Service Consumer" />
-		<!-- Se consume el ws posta -->
+			doc:name="Web Service Consumer" 
+			doc:description="Reenvio llamadas a soap provisto por sistema de Stock Local"/>
 	</flow>
 
-	<flow name="SoapToRest">
-		<!-- Expongo donde quiero, pasamanos -->
+	<flow name="PagosYa">
 		<http:listener config-ref="HTTP_Listener_Configuration"
-			path="/my/pagosya" doc:name="HTTP" />
-        <cxf:proxy-service namespace="http://services.mgcoders.uy/" service="ServicioPagoYaService" payload="body" wsdlLocation="pagosyaWsdl.wsdl" doc:name="CXF"/>
-        <mulexml:dom-to-xml-transformer doc:name="DOM to XML"/>
-        <mulexml:xml-to-object-transformer metadata:id="da127e9d-d141-47e2-ac9d-c458c5b5a126" doc:name="XML to Object"/>
-        <logger  level="INFO" doc:name="Logger"/>
-        <json:object-to-json-transformer metadata:id="59477b6f-cfc9-423c-b46d-5a079d8989d4" doc:name="Object to JSON"/>
-        <logger message="#[payload]" level="INFO" doc:name="Logger"/>
-		<!-- El proxy muestra un wsdl local, pero pasa las llamadas al ws posta -->
-        <http:request config-ref="HTTP_Request_Configuration" path="/api/pagos/recepcion" method="POST" metadata:id="1674712f-a228-4ddd-af17-bfa6f9c2d9a8" doc:name="HTTP"/>
+			path="/esb/pagosya" doc:name="HTTP" 
+			doc:description="Escucho en localhost:8181/esb/pagosya"/>
+		<cxf:proxy-service namespace="http://services.mgcoders.uy/"
+			service="ServicioRecepcionPagosService" payload="body"
+			wsdlLocation="ServicioRecepcionPagos.wsdl" doc:name="CXF" 
+			doc:description="Proveo contrato soap"/>
+		<json:xml-to-json-transformer
+			metadata:id="b811f1e9-5936-4a8a-8e91-f48068e76a69" doc:name="XML to JSON" 
+			doc:description="Convierto de Xml a Json"/>
+		<set-payload value="#[json:ser:recepcionPago]" doc:name="Set Payload" 
+			doc:description="Bajo un nivel en los elementos json"/>
+		<set-payload
+			value="{&quot;idCompra&quot;:&quot;#[json:idCompra]&quot;,&quot;numeroTarjeta&quot;:&quot;#[json:numeroTarjeta]&quot;,&quot;monto&quot;:&quot;#[json:monto]&quot;,&quot;fecha&quot;:&quot;#[json:fecha]&quot;}"
+			metadata:id="47fd0e15-c005-4db0-90b5-44d7885135d6" doc:name="Set Payload"
+			mimeType="application/json" 
+			doc:description="Hago el mapeo necesario"/>
+		<http:request config-ref="HTTP_Request_Configuration"
+			path="/api/pagos/recepcion" method="POST"
+			metadata:id="1674712f-a228-4ddd-af17-bfa6f9c2d9a8" doc:name="HTTP"
+			doc:description="Invoco servicio Rest">
+			<http:success-status-code-validator
+				values="0..599" />
+		</http:request>
+		<response>
+			<data-mapper:transform config-ref="JSON_TO_XML"
+				doc:name="Json To XML" 
+				doc:description="Convierto respuesta de Json a Xml"/>
+		</response>
 	</flow>
-	
-	<flow name="SoapToFTP">
-		<!-- Expongo donde quiero, pasamanos -->
+
+
+	<flow name="EPuerto">
 		<http:listener config-ref="HTTP_Listener_Configuration"
-			path="/my/epuerto" doc:name="HTTP" />
-        <cxf:proxy-service namespace="http://services.mgcoders.uy/" service="ServicioEPuertoService" payload="body" wsdlLocation="epuertoWsdl.wsdl" doc:name="CXF"/>
-        <mulexml:dom-to-xml-transformer doc:name="DOM to XML"/>
-        <set-variable variableName="Filename" value="&quot;#[xpath('//ser:colocarOrden/identificadorCompra').text]&quot;" doc:name="Variable Filename"/>
-        <logger message="#[payload]" level="INFO" doc:name="Logger"/>
-        <data-mapper:transform config-ref="XML_To_CSV" doc:name="XML To CSV"/>
+			path="/esb/epuerto" doc:name="HTTP"
+			doc:description="Escucho en localhost:8181/esb/epuerto"/>
+		<cxf:proxy-service namespace="http://services.mgcoders.uy/"
+			service="ServicioEPuertoService" payload="body" wsdlLocation="epuertoWsdl.wsdl"
+			doc:name="CXF"
+			doc:description="Proveo contrato soap"/>
+		<mulexml:dom-to-xml-transformer
+			doc:name="DOM to XML" 
+			doc:description="Paso a Xml String"/>
+		<choice doc:name="Choice">
+			<when expression="#[xpath('fn:count(//ser:colocarOrden)') != 0]">
+				<flow-ref name="EpuertoColocarOrden" doc:name="EpuertoColocarOrden"
+					doc:description="Redirijo a Colocar Orden"/>
+			</when>
+			<when expression="#[xpath('fn:count(//ser:anularOrden)') != 0]"> 
+				<flow-ref name="EPuertoAnularOrden" doc:name="EpuertoAnularOrden"
+					doc:description="Redirijo a Anular Orden"/>
+			</when> 
+			<otherwise>
+                <set-payload value="ERROR" doc:name="ERROR"/>
+			</otherwise>
+		</choice>
         <response>
-            <file:outbound-endpoint path="target/confirmacion" responseTimeout="10000" doc:name="File"/>
+            <mulexml:object-to-xml-transformer metadata:id="77e432e9-a4db-47f3-9251-1fa83cf83478" doc:name="Object to XML"
+            	doc:description="Transformo Respuesta a Xml"/>
         </response>
-        <logger message="#[payload]" level="INFO" doc:name="Logger"/>
-        <file:outbound-endpoint path="target/recepcion" outputPattern="#[flowVars.Filename]" responseTimeout="10000" metadata:id="80b3e6a2-dbb2-47dc-82da-862f0b4330ae" doc:name="File"/>
-		<!-- El proxy muestra un wsdl local, pero pasa las llamadas al ws posta -->
 	</flow>
-    <flow name="ePuerto">
-        <file:inbound-endpoint path="target/recepcion" responseTimeout="10000" doc:name="File"/>
-        <file:outbound-endpoint path="target/confirmacion" responseTimeout="10000" doc:name="File"/>
-    </flow>
 
 
+	<sub-flow name="EpuertoColocarOrden" 
+		doc:description="Se procesa Colocar Orden de Epuerto">
+		<set-variable variableName="identificadorCompra"
+			value="#[xpath3('//ser:colocarOrden/identificadorCompra')]" doc:name="idCompra"
+			doc:description="Guardo el identificador de compra" />
+		<data-mapper:transform config-ref="XML_To_CSV"
+			doc:name="XML To CSV" 
+			doc:description="Paso de XML a CSV"/>
+		<file:outbound-endpoint path="target/recepcion"
+			outputPattern="#[flowVars.identificadorCompra].csv" responseTimeout="10000"
+			doc:name="Recepcion" 
+			doc:description="Guardo en carpeta Recepcion"/>
+		<data-mapper:transform config-ref="CSV_To_Pojo_1"
+			doc:name="CSV To Pojo" 
+			doc:description="Paso a Objeto Java"/>
+		<component doc:name="Java" class="va4.EpuertoConfirmacion" 
+			doc:description="Bean que procesa la solicitud"/>
+        <set-variable variableName="identificadorReserva" value="#[payload.identificadorReserva]" 
+        	doc:name="idReserva"
+        	doc:description="Guardo el identificador de la Reserva"/>
+		<data-mapper:transform config-ref="Pojo_To_CSV"
+			doc:name="Pojo To CSV" 
+			doc:description="Convierto confirmacion de reserva en CSV"/>
+		<file:outbound-endpoint responseTimeout="10000"
+			doc:name="Confirmacion" connector-ref="File" path="target/confirmacion"
+			outputPattern="#[flowVars.identificadorReserva].csv" 
+			doc:description="Guardo en carpeta Confirmacion"/>
+		<data-mapper:transform config-ref="CSV_To_Pojo_1CSV_To_Pojo_2CSV_To_Pojo_3"
+			doc:name="CSV To Pojo"
+			doc:description="Paso a Objeto nuevamente para la respuesta" />
+	</sub-flow>
+	
+    <sub-flow name="EPuertoAnularOrden" 
+    	doc:description="Se procesa Anular Orden de Epuerto">
+        <set-variable variableName="identificadorReservaAnular" value="#[xpath3('//ser:anularOrden/identificadorReserva')]" doc:name="idReserva" 
+        doc:description="Guardo identificador Reserva"/>
+        <file:outbound-endpoint path="target/anulacion" connector-ref="File" responseTimeout="10000" doc:name="Anulacion" outputPattern="#[flowVars.identificadorReservaAnular].csv" 
+        doc:description="Guardo el Archivo en carpeta Anulacion"/>
+        <set-payload value="OK" doc:name="OK"/>
+    </sub-flow>
 
 </mule>

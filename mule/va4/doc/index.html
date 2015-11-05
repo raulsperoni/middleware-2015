@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>va4 · Anypoint Studio Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="assets/bootstrap.css" rel="stylesheet">
+    <link href="assets/bootstrap-responsive.css" rel="stylesheet">
+    <link href="assets/docs.css" rel="stylesheet">
+    <link href="assets/prettify.css" rel="stylesheet">
+    <link href="assets/scroller.css" rel="stylesheet">
+
+    <script src="assets/track.js" data-site-id="4f0dc9fef5a1f55508000013" id="gauges-tracker" async="" type="text/javascript"></script><script src="assets/ga.js" async="" type="text/javascript"></script><script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-146052-10']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  </head>
+
+  <body data-twttr-rendered="true" data-spy="scroll" data-target=".bs-docs-sidebar"><iframe style="display: none;" id="rufous-sandbox" name="uid13460061790411"></iframe>
+
+    <!-- Navbar
+    ================================================== -->
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand pull-left" href="#">va4</a>
+          <p class="navbar-text pull-right">
+              <a href="http://www.mulesoft.com" class="navbar-link">
+                <img src="./assets/images/mulesoft-logo-final.png" alt="MuleSoft" id="mulesoftlogo">
+              </a>
+          </p>
+          <div class="scroller scroller-left"><img src="./assets/icons/glyphicons_chevron-left.png" alt="scrollLeft"></div>
+          <div class="scroller scroller-right"><img src="./assets/icons/glyphicons_chevron-right.png" alt="scrollRight"></div>
+          <div class="wrapper">
+            <ul class="nav nav-tabs list" id="myTab">
+                                                                    <li class="active"><a href="./index.html">va4</a></li>
+                                                              </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+  <header class="jumbotron subhead" id="overview">
+    <div class="container">
+      <h1>va4</h1>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- Docs nav
+    ================================================== -->
+    <div class="row">
+      <div class="span3 bs-docs-sidebar">
+        <ul class="nav nav-list bs-docs-sidenav affix">
+          <li class="nav-header">Flows</li>
+                      <li data-toggle="collapse" data-target="#_StockLocalNav"><a href="#_StockLocal"><i class="icon-chevron-right"></i> StockLocal</a>
+            </li>
+            <div id="_StockLocalNav" class="accordion-body collapse" style="height: 0px;">
+              <div class="accordion-inner">
+                <ul>
+                                                            <li><a href="#_StockLocalHTTP">HTTP</a></li>
+                                                                                <li><a href="#_StockLocalCXF">CXF</a></li>
+                                                                                                                      <li><a href="#_StockLocalWeb_Service_Consumer">Web Service Consumer</a></li>
+                                                      </ul>
+              </div>
+            </div>
+                      <li data-toggle="collapse" data-target="#_PagosYaNav"><a href="#_PagosYa"><i class="icon-chevron-right"></i> PagosYa</a>
+            </li>
+            <div id="_PagosYaNav" class="accordion-body collapse" style="height: 0px;">
+              <div class="accordion-inner">
+                <ul>
+                                                            <li><a href="#_PagosYaHTTP">HTTP</a></li>
+                                                                                <li><a href="#_PagosYaCXF">CXF</a></li>
+                                                                                <li><a href="#_PagosYaXML_to_JSON">XML to JSON</a></li>
+                                                                                <li><a href="#_PagosYaSet_Payload">Set Payload</a></li>
+                                                                                <li><a href="#_PagosYaSet_Payload">Set Payload</a></li>
+                                                                                <li><a href="#_PagosYaHTTP">HTTP</a></li>
+                                                                                                                      <li><a href="#_PagosYa_ResponseJson_To_XML">Json To XML</a></li>
+                                                      </ul>
+              </div>
+            </div>
+                      <li data-toggle="collapse" data-target="#_EPuertoNav"><a href="#_EPuerto"><i class="icon-chevron-right"></i> EPuerto</a>
+            </li>
+            <div id="_EPuertoNav" class="accordion-body collapse" style="height: 0px;">
+              <div class="accordion-inner">
+                <ul>
+                                                            <li><a href="#_EPuertoHTTP">HTTP</a></li>
+                                                                                <li><a href="#_EPuertoCXF">CXF</a></li>
+                                                                                <li><a href="#_EPuertoDOM_to_XML">DOM to XML</a></li>
+                                                                                                                      <li><a href="#_EPuerto_ChoiceEpuertoColocarOrden">EpuertoColocarOrden</a></li>
+                                                                                <li><a href="#_EPuerto_ChoiceEpuertoAnularOrden">EpuertoAnularOrden</a></li>
+                                                                                                                                                            <li><a href="#_EPuerto_ResponseObject_to_XML">Object to XML</a></li>
+                                                      </ul>
+              </div>
+            </div>
+                      <li data-toggle="collapse" data-target="#_EpuertoColocarOrdenNav"><a href="#_EpuertoColocarOrden"><i class="icon-chevron-right"></i> EpuertoColocarOrden</a>
+            </li>
+            <div id="_EpuertoColocarOrdenNav" class="accordion-body collapse" style="height: 0px;">
+              <div class="accordion-inner">
+                <ul>
+                                                            <li><a href="#_EpuertoColocarOrdenidCompra">idCompra</a></li>
+                                                                                <li><a href="#_EpuertoColocarOrdenXML_To_CSV">XML To CSV</a></li>
+                                                                                <li><a href="#_EpuertoColocarOrdenRecepcion">Recepcion</a></li>
+                                                                                <li><a href="#_EpuertoColocarOrdenCSV_To_Pojo">CSV To Pojo</a></li>
+                                                                                <li><a href="#_EpuertoColocarOrdenJava">Java</a></li>
+                                                                                <li><a href="#_EpuertoColocarOrdenidReserva">idReserva</a></li>
+                                                                                <li><a href="#_EpuertoColocarOrdenPojo_To_CSV">Pojo To CSV</a></li>
+                                                                                <li><a href="#_EpuertoColocarOrdenConfirmacion">Confirmacion</a></li>
+                                                                                <li><a href="#_EpuertoColocarOrdenCSV_To_Pojo">CSV To Pojo</a></li>
+                                                      </ul>
+              </div>
+            </div>
+                      <li data-toggle="collapse" data-target="#_EPuertoAnularOrdenNav"><a href="#_EPuertoAnularOrden"><i class="icon-chevron-right"></i> EPuertoAnularOrden</a>
+            </li>
+            <div id="_EPuertoAnularOrdenNav" class="accordion-body collapse" style="height: 0px;">
+              <div class="accordion-inner">
+                <ul>
+                                                            <li><a href="#_EPuertoAnularOrdenidReserva">idReserva</a></li>
+                                                                                <li><a href="#_EPuertoAnularOrdenAnulacion">Anulacion</a></li>
+                                                                                            </ul>
+              </div>
+            </div>
+                  </ul>
+      </div>
+      <div class="span9">
+
+        <!-- Elements and their descriptions
+        ================================================== -->
+        <div style="max-height: 640px;width:100%;overflow:auto;">
+                      <img src="img/va4.png" usemap="#mFlowMap" alt="Mule Configuration Image">
+            <map name="mFlowMap">
+                                                            <area shape="rect" coords="13,33,65,163" href="#_StockLocalHTTP">
+                                                                <area shape="rect" coords="93,33,145,163" href="#_StockLocalCXF">
+                                                                                              <area shape="rect" coords="267,32,371,102" href="#_StockLocalWeb_Service_Consumer">
+                                                                                          <area shape="rect" coords="13,234,65,372" href="#_PagosYaHTTP">
+                                                                <area shape="rect" coords="93,234,145,372" href="#_PagosYaCXF">
+                                                                <area shape="rect" coords="180,234,257,287" href="#_PagosYaXML_to_JSON">
+                                                                <area shape="rect" coords="292,234,359,287" href="#_PagosYaSet_Payload">
+                                                                <area shape="rect" coords="394,234,461,287" href="#_PagosYaSet_Payload">
+                                                                <area shape="rect" coords="496,234,548,287" href="#_PagosYaHTTP">
+                                                                                              <area shape="rect" coords="589,337,662,390" href="#_PagosYa_ResponseJson_To_XML">
+                                                                                          <area shape="rect" coords="13,571,65,797" href="#_EPuertoHTTP">
+                                                                <area shape="rect" coords="93,571,145,797" href="#_EPuertoCXF">
+                                                                <area shape="rect" coords="180,571,256,624" href="#_EPuertoDOM_to_XML">
+                                                                                              <area shape="rect" coords="392,475,496,543" href="#_EPuerto_ChoiceEpuertoColocarOrden">
+                                                                <area shape="rect" coords="392,548,496,616" href="#_EPuerto_ChoiceEpuertoAnularOrden">
+                                                                                                                            <area shape="rect" coords="545,762,629,815" href="#_EPuerto_ResponseObject_to_XML">
+                                                                                          <area shape="rect" coords="13,892,71,945" href="#_EpuertoColocarOrdenidCompra">
+                                                                <area shape="rect" coords="106,892,176,945" href="#_EpuertoColocarOrdenXML_To_CSV">
+                                                                <area shape="rect" coords="211,892,273,945" href="#_EpuertoColocarOrdenRecepcion">
+                                                                <area shape="rect" coords="308,892,377,945" href="#_EpuertoColocarOrdenCSV_To_Pojo">
+                                                                <area shape="rect" coords="412,892,464,945" href="#_EpuertoColocarOrdenJava">
+                                                                <area shape="rect" coords="499,892,557,945" href="#_EpuertoColocarOrdenidReserva">
+                                                                <area shape="rect" coords="592,892,661,945" href="#_EpuertoColocarOrdenPojo_To_CSV">
+                                                                <area shape="rect" coords="696,892,775,945" href="#_EpuertoColocarOrdenConfirmacion">
+                                                                <area shape="rect" coords="810,892,879,945" href="#_EpuertoColocarOrdenCSV_To_Pojo">
+                                                                                          <area shape="rect" coords="13,991,71,1044" href="#_EPuertoAnularOrdenidReserva">
+                                                                <area shape="rect" coords="106,991,164,1044" href="#_EPuertoAnularOrdenAnulacion">
+                                                                                  </map>
+                  </div>
+        <!--Mule configuration xml code-->
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" href="#collapseMuleConfiguration">
+            Show Mule Configuration XML code...
+          </a>
+        </div>
+        <div id="collapseMuleConfiguration" class="accordion-body collapse" style="height: 0px;">
+          <div class="accordion-inner">
+              
+
+          </div>
+        </div>
+
+                  <section id="_StockLocal">
+            <div class="page-header">
+                <h1>StockLocal <img src="./assets/icons/flow.png"></h1>
+            </div>
+            <div class="documentation-indented" style="height:100%;width:100%;overflow:auto;">
+                              <img src="img/StockLocal.png" usemap="#flowMapStockLocal" alt="StockLocal image">
+                <map name="flowMapStockLocal">
+                                                            <area shape="rect" coords="6,26,58,156" href="#_StockLocalHTTP">  
+                                                                                <area shape="rect" coords="86,26,138,156" href="#_StockLocalCXF">  
+                                                                                                                      <area shape="rect" coords="260,25,364,95" href="#_StockLocalWeb_Service_Consumer">  
+                                                      </map>
+                          </div>
+            <div class="documentation-indented">
+              <div class="accordion-heading">
+                                <a class="accordion-toggle" data-toggle="collapse" href="#_StockLocalxml_code">
+                  Show configuration XML code of the flow StockLocal...
+                </a>
+              </div>
+              <div id="_StockLocalxml_code" class="accordion-body collapse" style="height: 0px;">
+                <div class="accordion-inner">
+                    <pre class="prettyprint"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;flow name="StockLocal"&gt;
+    &lt;http:listener config-ref="HTTP_Listener_Configuration" path="/esb/stock" doc:name="HTTP" doc:description="Escucho en localhost:8181/esb/stocklocal"&gt;   &lt;/http:listener&gt;
+    &lt;cxf:proxy-service namespace="http://services.mgcoders.uy/" service="ServicioRecepcionStockService" payload="body" wsdlLocation="localWsdl.wsdl" doc:name="CXF" doc:description="Proveo contrato soap"&gt; &lt;/cxf:proxy-service&gt;
+    &lt;logger level="INFO" doc:name="Logger"&gt; &lt;/logger&gt;
+    &lt;ws:consumer config-ref="Web_Service_Consumer" operation="reservarProducto" doc:name="Web Service Consumer" doc:description="Reenvio llamadas a soap provisto por sistema de Stock Local"&gt;  &lt;/ws:consumer&gt;
+&lt;/flow&gt;
+</code></pre>
+
+                </div>
+              </div>
+              <p>
+</p>
+            </div>
+                                          <ul id="_StockLocalHTTP" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_StockLocal">StockLocal</a> </span> <span class="divider">/</span></li>
+                                <li class="active">HTTP</li>
+                <img src="./assets/icons/http-request.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_StockLocalHTTPxml_code">
+                      Show configuration XML code of the element HTTP...
+                    </a>
+                  </div>
+                  <div id="_StockLocalHTTPxml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        <pre class="prettyprint"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;http:listener config-ref="HTTP_Listener_Configuration" path="/esb/stock" doc:name="HTTP" doc:description="Escucho en localhost:8181/esb/stocklocal"&gt;   &lt;/http:listener&gt;
+</code></pre>
+
+                    </div>
+                  </div>
+                  <p><p>Escucho en localhost:8181/esb/stocklocal</p>
+</p>
+                </div>
+                                                        <ul id="_StockLocalCXF" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_StockLocal">StockLocal</a> </span> <span class="divider">/</span></li>
+                                <li class="active">CXF</li>
+                <img src="./assets/icons/transformer.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_StockLocalCXFxml_code">
+                      Show configuration XML code of the element CXF...
+                    </a>
+                  </div>
+                  <div id="_StockLocalCXFxml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        <pre class="prettyprint"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;cxf:proxy-service namespace="http://services.mgcoders.uy/" service="ServicioRecepcionStockService" payload="body" wsdlLocation="localWsdl.wsdl" doc:name="CXF" doc:description="Proveo contrato soap"&gt; &lt;/cxf:proxy-service&gt;
+</code></pre>
+
+                    </div>
+                  </div>
+                  <p><p>Proveo contrato soap</p>
+</p>
+                </div>
+                                                                                  <ul id="_StockLocalWeb_Service_Consumer" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_StockLocal">StockLocal</a> </span> <span class="divider">/</span></li>
+                                <li class="active">Web Service Consumer</li>
+                <img src="./assets/icons/transformer.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_StockLocalWeb_Service_Consumerxml_code">
+                      Show configuration XML code of the element Web Service Consumer...
+                    </a>
+                  </div>
+                  <div id="_StockLocalWeb_Service_Consumerxml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        <pre class="prettyprint"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;ws:consumer config-ref="Web_Service_Consumer" operation="reservarProducto" doc:name="Web Service Consumer" doc:description="Reenvio llamadas a soap provisto por sistema de Stock Local"&gt;  &lt;/ws:consumer&gt;
+</code></pre>
+
+                    </div>
+                  </div>
+                  <p><p>Reenvio llamadas a soap provisto por sistema de Stock Local</p>
+</p>
+                </div>
+                                    </section>
+                  <section id="_PagosYa">
+            <div class="page-header">
+                <h1>PagosYa <img src="./assets/icons/flow.png"></h1>
+            </div>
+            <div class="documentation-indented" style="height:100%;width:100%;overflow:auto;">
+                              <img src="img/PagosYa.png" usemap="#flowMapPagosYa" alt="PagosYa image">
+                <map name="flowMapPagosYa">
+                                                            <area shape="rect" coords="6,25,58,163" href="#_PagosYaHTTP">  
+                                                                                <area shape="rect" coords="86,25,138,163" href="#_PagosYaCXF">  
+                                                                                <area shape="rect" coords="173,25,250,78" href="#_PagosYaXML_to_JSON">  
+                                                                                <area shape="rect" coords="285,25,352,78" href="#_PagosYaSet_Payload">  
+                                                                                <area shape="rect" coords="387,25,454,78" href="#_PagosYaSet_Payload">  
+                                                                                <area shape="rect" coords="489,25,541,78" href="#_PagosYaHTTP">  
+                                                                                                                      <area shape="rect" coords="582,128,655,181" href="#_PagosYa_ResponseJson_To_XML">  
+                                                      </map>
+                          </div>
+            <div class="documentation-indented">
+              <div class="accordion-heading">
+                                <a class="accordion-toggle" data-toggle="collapse" href="#_PagosYaxml_code">
+                  Show configuration XML code of the flow PagosYa...
+                </a>
+              </div>
+              <div id="_PagosYaxml_code" class="accordion-body collapse" style="height: 0px;">
+                <div class="accordion-inner">
+                    
+
+                </div>
+              </div>
+              <p>
+</p>
+            </div>
+                                          <ul id="_PagosYaHTTP" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_PagosYa">PagosYa</a> </span> <span class="divider">/</span></li>
+                                <li class="active">HTTP</li>
+                <img src="./assets/icons/http-request.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_PagosYaHTTPxml_code">
+                      Show configuration XML code of the element HTTP...
+                    </a>
+                  </div>
+                  <div id="_PagosYaHTTPxml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        <pre class="prettyprint"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;http:listener config-ref="HTTP_Listener_Configuration" path="/esb/pagosya" doc:name="HTTP" doc:description="Escucho en localhost:8181/esb/pagosya"&gt;    &lt;/http:listener&gt;
+</code></pre>
+
+                    </div>
+                  </div>
+                  <p><p>Escucho en localhost:8181/esb/pagosya</p>
+</p>
+                </div>
+                                                        <ul id="_PagosYaCXF" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_PagosYa">PagosYa</a> </span> <span class="divider">/</span></li>
+                                <li class="active">CXF</li>
+                <img src="./assets/icons/transformer.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_PagosYaCXFxml_code">
+                      Show configuration XML code of the element CXF...
+                    </a>
+                  </div>
+                  <div id="_PagosYaCXFxml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        <pre class="prettyprint"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;cxf:proxy-service namespace="http://services.mgcoders.uy/" service="ServicioRecepcionPagosService" payload="body" wsdlLocation="ServicioRecepcionPagos.wsdl" doc:name="CXF" doc:description="Proveo contrato soap"&gt;    &lt;/cxf:proxy-service&gt;
+</code></pre>
+
+                    </div>
+                  </div>
+                  <p><p>Proveo contrato soap</p>
+</p>
+                </div>
+                                                        <ul id="_PagosYaXML_to_JSON" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_PagosYa">PagosYa</a> </span> <span class="divider">/</span></li>
+                                <li class="active">XML to JSON</li>
+                <img src="./assets/icons/transformer.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_PagosYaXML_to_JSONxml_code">
+                      Show configuration XML code of the element XML to JSON...
+                    </a>
+                  </div>
+                  <div id="_PagosYaXML_to_JSONxml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        
+
+                    </div>
+                  </div>
+                  <p><p>Convierto de Xml a Json</p>
+</p>
+                </div>
+                                                        <ul id="_PagosYaSet_Payload" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_PagosYa">PagosYa</a> </span> <span class="divider">/</span></li>
+                                <li class="active">Set Payload</li>
+                <img src="./assets/icons/transformer.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_PagosYaSet_Payloadxml_code">
+                      Show configuration XML code of the element Set Payload...
+                    </a>
+                  </div>
+                  <div id="_PagosYaSet_Payloadxml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        <pre class="prettyprint"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;set-payload value="#[json:ser:recepcionPago]" doc:name="Set Payload" doc:description="Bajo un nivel en los elementos json"&gt;    &lt;/set-payload&gt;
+</code></pre>
+
+                    </div>
+                  </div>
+                  <p><p>Bajo un nivel en los elementos json</p>
+</p>
+                </div>
+                                                        <ul id="_PagosYaSet_Payload" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_PagosYa">PagosYa</a> </span> <span class="divider">/</span></li>
+                                <li class="active">Set Payload</li>
+                <img src="./assets/icons/transformer.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_PagosYaSet_Payloadxml_code">
+                      Show configuration XML code of the element Set Payload...
+                    </a>
+                  </div>
+                  <div id="_PagosYaSet_Payloadxml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        
+
+                    </div>
+                  </div>
+                  <p><p>Hago el mapeo necesario</p>
+</p>
+                </div>
+                                                        <ul id="_PagosYaHTTP" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_PagosYa">PagosYa</a> </span> <span class="divider">/</span></li>
+                                <li class="active">HTTP</li>
+                <img src="./assets/icons/http-request.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_PagosYaHTTPxml_code">
+                      Show configuration XML code of the element HTTP...
+                    </a>
+                  </div>
+                  <div id="_PagosYaHTTPxml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        
+
+                    </div>
+                  </div>
+                  <p><p>Invoco servicio Rest</p>
+</p>
+                </div>
+                                                                                  <ul id="_PagosYa_ResponseJson_To_XML" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_PagosYa">PagosYa</a> </span> <span class="divider">/</span></li>
+                                  <li><span class="gray-link"><a href="#_PagosYaResponse">Response</a> </span> <span class="divider">/</span></li>
+                                <li class="active">Json To XML</li>
+                <img src="./assets/icons/datamapper.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_PagosYa_ResponseJson_To_XMLxml_code">
+                      Show configuration XML code of the element Json To XML...
+                    </a>
+                  </div>
+                  <div id="_PagosYa_ResponseJson_To_XMLxml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        <pre class="prettyprint"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;data-mapper:transform config-ref="JSON_TO_XML" doc:name="Json To XML" doc:description="Convierto respuesta de Json a Xml"&gt; &lt;/data-mapper:transform&gt;
+</code></pre>
+
+                    </div>
+                  </div>
+                  <p><p>Convierto respuesta de Json a Xml</p>
+</p>
+                </div>
+                                    </section>
+                  <section id="_EPuerto">
+            <div class="page-header">
+                <h1>EPuerto <img src="./assets/icons/flow.png"></h1>
+            </div>
+            <div class="documentation-indented" style="height:100%;width:100%;overflow:auto;">
+                              <img src="img/EPuerto.png" usemap="#flowMapEPuerto" alt="EPuerto image">
+                <map name="flowMapEPuerto">
+                                                            <area shape="rect" coords="6,129,58,355" href="#_EPuertoHTTP">  
+                                                                                <area shape="rect" coords="86,129,138,355" href="#_EPuertoCXF">  
+                                                                                <area shape="rect" coords="173,129,249,182" href="#_EPuertoDOM_to_XML">  
+                                                                                                                      <area shape="rect" coords="385,33,489,101" href="#_EPuerto_ChoiceEpuertoColocarOrden">  
+                                                                                <area shape="rect" coords="385,106,489,174" href="#_EPuerto_ChoiceEpuertoAnularOrden">  
+                                                                                                                                                            <area shape="rect" coords="538,320,622,373" href="#_EPuerto_ResponseObject_to_XML">  
+                                                      </map>
+                          </div>
+            <div class="documentation-indented">
+              <div class="accordion-heading">
+                                <a class="accordion-toggle" data-toggle="collapse" href="#_EPuertoxml_code">
+                  Show configuration XML code of the flow EPuerto...
+                </a>
+              </div>
+              <div id="_EPuertoxml_code" class="accordion-body collapse" style="height: 0px;">
+                <div class="accordion-inner">
+                    
+
+                </div>
+              </div>
+              <p>
+</p>
+            </div>
+                                          <ul id="_EPuertoHTTP" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_EPuerto">EPuerto</a> </span> <span class="divider">/</span></li>
+                                <li class="active">HTTP</li>
+                <img src="./assets/icons/http-request.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_EPuertoHTTPxml_code">
+                      Show configuration XML code of the element HTTP...
+                    </a>
+                  </div>
+                  <div id="_EPuertoHTTPxml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        <pre class="prettyprint"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;http:listener config-ref="HTTP_Listener_Configuration" path="/esb/epuerto" doc:name="HTTP" doc:description="Escucho en localhost:8181/esb/epuerto"&gt;    &lt;/http:listener&gt;
+</code></pre>
+
+                    </div>
+                  </div>
+                  <p><p>Escucho en localhost:8181/esb/epuerto</p>
+</p>
+                </div>
+                                                        <ul id="_EPuertoCXF" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_EPuerto">EPuerto</a> </span> <span class="divider">/</span></li>
+                                <li class="active">CXF</li>
+                <img src="./assets/icons/transformer.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_EPuertoCXFxml_code">
+                      Show configuration XML code of the element CXF...
+                    </a>
+                  </div>
+                  <div id="_EPuertoCXFxml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        <pre class="prettyprint"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;cxf:proxy-service namespace="http://services.mgcoders.uy/" service="ServicioEPuertoService" payload="body" wsdlLocation="epuertoWsdl.wsdl" doc:name="CXF" doc:description="Proveo contrato soap"&gt;  &lt;/cxf:proxy-service&gt;
+</code></pre>
+
+                    </div>
+                  </div>
+                  <p><p>Proveo contrato soap</p>
+</p>
+                </div>
+                                                        <ul id="_EPuertoDOM_to_XML" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_EPuerto">EPuerto</a> </span> <span class="divider">/</span></li>
+                                <li class="active">DOM to XML</li>
+                <img src="./assets/icons/transformer.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_EPuertoDOM_to_XMLxml_code">
+                      Show configuration XML code of the element DOM to XML...
+                    </a>
+                  </div>
+                  <div id="_EPuertoDOM_to_XMLxml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        <pre class="prettyprint"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;mulexml:dom-to-xml-transformer doc:name="DOM to XML" doc:description="Paso a Xml String"&gt;  &lt;/mulexml:dom-to-xml-transformer&gt;
+</code></pre>
+
+                    </div>
+                  </div>
+                  <p><p>Paso a Xml String</p>
+</p>
+                </div>
+                                                                                  <ul id="_EPuerto_ChoiceEpuertoColocarOrden" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_EPuerto">EPuerto</a> </span> <span class="divider">/</span></li>
+                                  <li><span class="gray-link"><a href="#_EPuertoChoice">Choice</a> </span> <span class="divider">/</span></li>
+                                <li class="active">EpuertoColocarOrden</li>
+                <img src="./assets/icons/transformer.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_EPuerto_ChoiceEpuertoColocarOrdenxml_code">
+                      Show configuration XML code of the element EpuertoColocarOrden...
+                    </a>
+                  </div>
+                  <div id="_EPuerto_ChoiceEpuertoColocarOrdenxml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        <pre class="prettyprint"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;flow-ref name="EpuertoColocarOrden" doc:name="EpuertoColocarOrden" doc:description="Redirijo a Colocar Orden"&gt; &lt;/flow-ref&gt;
+</code></pre>
+
+                    </div>
+                  </div>
+                  <p><p>Redirijo a Colocar Orden</p>
+</p>
+                </div>
+                                                        <ul id="_EPuerto_ChoiceEpuertoAnularOrden" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_EPuerto">EPuerto</a> </span> <span class="divider">/</span></li>
+                                  <li><span class="gray-link"><a href="#_EPuertoChoice">Choice</a> </span> <span class="divider">/</span></li>
+                                <li class="active">EpuertoAnularOrden</li>
+                <img src="./assets/icons/transformer.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_EPuerto_ChoiceEpuertoAnularOrdenxml_code">
+                      Show configuration XML code of the element EpuertoAnularOrden...
+                    </a>
+                  </div>
+                  <div id="_EPuerto_ChoiceEpuertoAnularOrdenxml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        <pre class="prettyprint"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;flow-ref name="EPuertoAnularOrden" doc:name="EpuertoAnularOrden" doc:description="Redirijo a Anular Orden"&gt;    &lt;/flow-ref&gt;
+</code></pre>
+
+                    </div>
+                  </div>
+                  <p><p>Redirijo a Anular Orden</p>
+</p>
+                </div>
+                                                                                                            <ul id="_EPuerto_ResponseObject_to_XML" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_EPuerto">EPuerto</a> </span> <span class="divider">/</span></li>
+                                  <li><span class="gray-link"><a href="#_EPuertoResponse">Response</a> </span> <span class="divider">/</span></li>
+                                <li class="active">Object to XML</li>
+                <img src="./assets/icons/transformer.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_EPuerto_ResponseObject_to_XMLxml_code">
+                      Show configuration XML code of the element Object to XML...
+                    </a>
+                  </div>
+                  <div id="_EPuerto_ResponseObject_to_XMLxml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        
+
+                    </div>
+                  </div>
+                  <p><p>Transformo Respuesta a Xml</p>
+</p>
+                </div>
+                                    </section>
+                  <section id="_EpuertoColocarOrden">
+            <div class="page-header">
+                <h1>EpuertoColocarOrden <img src="./assets/icons/flow.png"></h1>
+            </div>
+            <div class="documentation-indented" style="height:100%;width:100%;overflow:auto;">
+                              <img src="img/EpuertoColocarOrden.png" usemap="#flowMapEpuertoColocarOrden" alt="EpuertoColocarOrden image">
+                <map name="flowMapEpuertoColocarOrden">
+                                                            <area shape="rect" coords="6,25,64,78" href="#_EpuertoColocarOrdenidCompra">  
+                                                                                <area shape="rect" coords="99,25,169,78" href="#_EpuertoColocarOrdenXML_To_CSV">  
+                                                                                <area shape="rect" coords="204,25,266,78" href="#_EpuertoColocarOrdenRecepcion">  
+                                                                                <area shape="rect" coords="301,25,370,78" href="#_EpuertoColocarOrdenCSV_To_Pojo">  
+                                                                                <area shape="rect" coords="405,25,457,78" href="#_EpuertoColocarOrdenJava">  
+                                                                                <area shape="rect" coords="492,25,550,78" href="#_EpuertoColocarOrdenidReserva">  
+                                                                                <area shape="rect" coords="585,25,654,78" href="#_EpuertoColocarOrdenPojo_To_CSV">  
+                                                                                <area shape="rect" coords="689,25,768,78" href="#_EpuertoColocarOrdenConfirmacion">  
+                                                                                <area shape="rect" coords="803,25,872,78" href="#_EpuertoColocarOrdenCSV_To_Pojo">  
+                                                      </map>
+                          </div>
+            <div class="documentation-indented">
+              <div class="accordion-heading">
+                                <a class="accordion-toggle" data-toggle="collapse" href="#_EpuertoColocarOrdenxml_code">
+                  Show configuration XML code of the flow EpuertoColocarOrden...
+                </a>
+              </div>
+              <div id="_EpuertoColocarOrdenxml_code" class="accordion-body collapse" style="height: 0px;">
+                <div class="accordion-inner">
+                    <pre class="prettyprint"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;sub-flow name="EpuertoColocarOrden" doc:description="Se procesa Colocar Orden de Epuerto"&gt;
+    &lt;set-variable variableName="identificadorCompra" value="#[xpath3('//ser:colocarOrden/identificadorCompra')]" doc:name="idCompra" doc:description="Guardo el identificador de compra"/&gt;
+    &lt;data-mapper:transform config-ref="XML_To_CSV" doc:name="XML To CSV" doc:description="Paso de XML a CSV"&gt;   &lt;/data-mapper:transform&gt;
+    &lt;file:outbound-endpoint path="target/recepcion" outputPattern="#[flowVars.identificadorCompra].csv" responseTimeout="10000" doc:name="Recepcion" doc:description="Guardo en carpeta Recepcion"&gt; &lt;/file:outbound-endpoint&gt;
+    &lt;data-mapper:transform config-ref="CSV_To_Pojo_1" doc:name="CSV To Pojo" doc:description="Paso a Objeto Java"&gt;  &lt;/data-mapper:transform&gt;
+    &lt;component class="va4.EpuertoConfirmacion" doc:name="Java" doc:description="Bean que procesa la solicitud"/&gt;
+    &lt;set-variable variableName="identificadorReserva" value="#[payload.identificadorReserva]" doc:name="idReserva" doc:description="Guardo el identificador de la Reserva"/&gt;
+    &lt;data-mapper:transform config-ref="Pojo_To_CSV" doc:name="Pojo To CSV" doc:description="Convierto confirmacion de reserva en CSV"&gt;  &lt;/data-mapper:transform&gt;
+    &lt;file:outbound-endpoint path="target/confirmacion" outputPattern="#[flowVars.identificadorReserva].csv" connector-ref="File" responseTimeout="10000" doc:name="Confirmacion" doc:description="Guardo en carpeta Confirmacion"&gt;  &lt;/file:outbound-endpoint&gt;
+    &lt;data-mapper:transform config-ref="CSV_To_Pojo_1CSV_To_Pojo_2CSV_To_Pojo_3" doc:name="CSV To Pojo" doc:description="Paso a Objeto nuevamente para la respuesta"&gt;    &lt;/data-mapper:transform&gt;
+&lt;/sub-flow&gt;
+</code></pre>
+
+                </div>
+              </div>
+              <p><p>Se procesa Colocar Orden de Epuerto</p>
+</p>
+            </div>
+                                          <ul id="_EpuertoColocarOrdenidCompra" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_EpuertoColocarOrden">EpuertoColocarOrden</a> </span> <span class="divider">/</span></li>
+                                <li class="active">idCompra</li>
+                <img src="./assets/icons/transformer.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_EpuertoColocarOrdenidCompraxml_code">
+                      Show configuration XML code of the element idCompra...
+                    </a>
+                  </div>
+                  <div id="_EpuertoColocarOrdenidCompraxml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        <pre class="prettyprint"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;set-variable variableName="identificadorCompra" value="#[xpath3('//ser:colocarOrden/identificadorCompra')]" doc:name="idCompra" doc:description="Guardo el identificador de compra"&gt;   &lt;/set-variable&gt;
+</code></pre>
+
+                    </div>
+                  </div>
+                  <p><p>Guardo el identificador de compra</p>
+</p>
+                </div>
+                                                        <ul id="_EpuertoColocarOrdenXML_To_CSV" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_EpuertoColocarOrden">EpuertoColocarOrden</a> </span> <span class="divider">/</span></li>
+                                <li class="active">XML To CSV</li>
+                <img src="./assets/icons/datamapper.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_EpuertoColocarOrdenXML_To_CSVxml_code">
+                      Show configuration XML code of the element XML To CSV...
+                    </a>
+                  </div>
+                  <div id="_EpuertoColocarOrdenXML_To_CSVxml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        <pre class="prettyprint"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;data-mapper:transform config-ref="XML_To_CSV" doc:name="XML To CSV" doc:description="Paso de XML a CSV"&gt;   &lt;/data-mapper:transform&gt;
+</code></pre>
+
+                    </div>
+                  </div>
+                  <p><p>Paso de XML a CSV</p>
+</p>
+                </div>
+                                                        <ul id="_EpuertoColocarOrdenRecepcion" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_EpuertoColocarOrden">EpuertoColocarOrden</a> </span> <span class="divider">/</span></li>
+                                <li class="active">Recepcion</li>
+                <img src="./assets/icons/file.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_EpuertoColocarOrdenRecepcionxml_code">
+                      Show configuration XML code of the element Recepcion...
+                    </a>
+                  </div>
+                  <div id="_EpuertoColocarOrdenRecepcionxml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        <pre class="prettyprint"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;file:outbound-endpoint path="target/recepcion" outputPattern="#[flowVars.identificadorCompra].csv" responseTimeout="10000" doc:name="Recepcion" doc:description="Guardo en carpeta Recepcion"&gt; &lt;/file:outbound-endpoint&gt;
+</code></pre>
+
+                    </div>
+                  </div>
+                  <p><p>Guardo en carpeta Recepcion</p>
+</p>
+                </div>
+                                                        <ul id="_EpuertoColocarOrdenCSV_To_Pojo" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_EpuertoColocarOrden">EpuertoColocarOrden</a> </span> <span class="divider">/</span></li>
+                                <li class="active">CSV To Pojo</li>
+                <img src="./assets/icons/datamapper.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_EpuertoColocarOrdenCSV_To_Pojoxml_code">
+                      Show configuration XML code of the element CSV To Pojo...
+                    </a>
+                  </div>
+                  <div id="_EpuertoColocarOrdenCSV_To_Pojoxml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        <pre class="prettyprint"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;data-mapper:transform config-ref="CSV_To_Pojo_1" doc:name="CSV To Pojo" doc:description="Paso a Objeto Java"&gt;  &lt;/data-mapper:transform&gt;
+</code></pre>
+
+                    </div>
+                  </div>
+                  <p><p>Paso a Objeto Java</p>
+</p>
+                </div>
+                                                        <ul id="_EpuertoColocarOrdenJava" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_EpuertoColocarOrden">EpuertoColocarOrden</a> </span> <span class="divider">/</span></li>
+                                <li class="active">Java</li>
+                <img src="./assets/icons/transformer.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_EpuertoColocarOrdenJavaxml_code">
+                      Show configuration XML code of the element Java...
+                    </a>
+                  </div>
+                  <div id="_EpuertoColocarOrdenJavaxml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        <pre class="prettyprint"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;component class="va4.EpuertoConfirmacion" doc:name="Java" doc:description="Bean que procesa la solicitud"&gt; &lt;/component&gt;
+</code></pre>
+
+                    </div>
+                  </div>
+                  <p><p>Bean que procesa la solicitud</p>
+</p>
+                </div>
+                                                        <ul id="_EpuertoColocarOrdenidReserva" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_EpuertoColocarOrden">EpuertoColocarOrden</a> </span> <span class="divider">/</span></li>
+                                <li class="active">idReserva</li>
+                <img src="./assets/icons/transformer.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_EpuertoColocarOrdenidReservaxml_code">
+                      Show configuration XML code of the element idReserva...
+                    </a>
+                  </div>
+                  <div id="_EpuertoColocarOrdenidReservaxml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        <pre class="prettyprint"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;set-variable variableName="identificadorReserva" value="#[payload.identificadorReserva]" doc:name="idReserva" doc:description="Guardo el identificador de la Reserva"&gt; &lt;/set-variable&gt;
+</code></pre>
+
+                    </div>
+                  </div>
+                  <p><p>Guardo el identificador de la Reserva</p>
+</p>
+                </div>
+                                                        <ul id="_EpuertoColocarOrdenPojo_To_CSV" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_EpuertoColocarOrden">EpuertoColocarOrden</a> </span> <span class="divider">/</span></li>
+                                <li class="active">Pojo To CSV</li>
+                <img src="./assets/icons/datamapper.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_EpuertoColocarOrdenPojo_To_CSVxml_code">
+                      Show configuration XML code of the element Pojo To CSV...
+                    </a>
+                  </div>
+                  <div id="_EpuertoColocarOrdenPojo_To_CSVxml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        <pre class="prettyprint"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;data-mapper:transform config-ref="Pojo_To_CSV" doc:name="Pojo To CSV" doc:description="Convierto confirmacion de reserva en CSV"&gt;  &lt;/data-mapper:transform&gt;
+</code></pre>
+
+                    </div>
+                  </div>
+                  <p><p>Convierto confirmacion de reserva en CSV</p>
+</p>
+                </div>
+                                                        <ul id="_EpuertoColocarOrdenConfirmacion" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_EpuertoColocarOrden">EpuertoColocarOrden</a> </span> <span class="divider">/</span></li>
+                                <li class="active">Confirmacion</li>
+                <img src="./assets/icons/file.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_EpuertoColocarOrdenConfirmacionxml_code">
+                      Show configuration XML code of the element Confirmacion...
+                    </a>
+                  </div>
+                  <div id="_EpuertoColocarOrdenConfirmacionxml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        <pre class="prettyprint"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;file:outbound-endpoint path="target/confirmacion" outputPattern="#[flowVars.identificadorReserva].csv" connector-ref="File" responseTimeout="10000" doc:name="Confirmacion" doc:description="Guardo en carpeta Confirmacion"&gt;  &lt;/file:outbound-endpoint&gt;
+</code></pre>
+
+                    </div>
+                  </div>
+                  <p><p>Guardo en carpeta Confirmacion</p>
+</p>
+                </div>
+                                                        <ul id="_EpuertoColocarOrdenCSV_To_Pojo" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_EpuertoColocarOrden">EpuertoColocarOrden</a> </span> <span class="divider">/</span></li>
+                                <li class="active">CSV To Pojo</li>
+                <img src="./assets/icons/datamapper.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_EpuertoColocarOrdenCSV_To_Pojoxml_code">
+                      Show configuration XML code of the element CSV To Pojo...
+                    </a>
+                  </div>
+                  <div id="_EpuertoColocarOrdenCSV_To_Pojoxml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        <pre class="prettyprint"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;data-mapper:transform config-ref="CSV_To_Pojo_1CSV_To_Pojo_2CSV_To_Pojo_3" doc:name="CSV To Pojo" doc:description="Paso a Objeto nuevamente para la respuesta"&gt;    &lt;/data-mapper:transform&gt;
+</code></pre>
+
+                    </div>
+                  </div>
+                  <p><p>Paso a Objeto nuevamente para la respuesta</p>
+</p>
+                </div>
+                                    </section>
+                  <section id="_EPuertoAnularOrden">
+            <div class="page-header">
+                <h1>EPuertoAnularOrden <img src="./assets/icons/flow.png"></h1>
+            </div>
+            <div class="documentation-indented" style="height:100%;width:100%;overflow:auto;">
+                              <img src="img/EPuertoAnularOrden.png" usemap="#flowMapEPuertoAnularOrden" alt="EPuertoAnularOrden image">
+                <map name="flowMapEPuertoAnularOrden">
+                                                            <area shape="rect" coords="6,25,64,78" href="#_EPuertoAnularOrdenidReserva">  
+                                                                                <area shape="rect" coords="99,25,157,78" href="#_EPuertoAnularOrdenAnulacion">  
+                                                                                            </map>
+                          </div>
+            <div class="documentation-indented">
+              <div class="accordion-heading">
+                                <a class="accordion-toggle" data-toggle="collapse" href="#_EPuertoAnularOrdenxml_code">
+                  Show configuration XML code of the flow EPuertoAnularOrden...
+                </a>
+              </div>
+              <div id="_EPuertoAnularOrdenxml_code" class="accordion-body collapse" style="height: 0px;">
+                <div class="accordion-inner">
+                    <pre class="prettyprint"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;sub-flow name="EPuertoAnularOrden" doc:description="Se procesa Anular Orden de Epuerto"&gt;
+    &lt;set-variable variableName="identificadorReservaAnular" value="#[xpath3('//ser:anularOrden/identificadorReserva')]" doc:name="idReserva" doc:description="Guardo identificador Reserva"/&gt;
+    &lt;file:outbound-endpoint path="target/anulacion" outputPattern="#[flowVars.identificadorReservaAnular].csv" connector-ref="File" responseTimeout="10000" doc:name="Anulacion" doc:description="Guardo el Archivo en carpeta Anulacion"&gt;  &lt;/file:outbound-endpoint&gt;
+    &lt;set-payload value="OK" doc:name="OK"/&gt;
+&lt;/sub-flow&gt;
+</code></pre>
+
+                </div>
+              </div>
+              <p><p>Se procesa Anular Orden de Epuerto</p>
+</p>
+            </div>
+                                          <ul id="_EPuertoAnularOrdenidReserva" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_EPuertoAnularOrden">EPuertoAnularOrden</a> </span> <span class="divider">/</span></li>
+                                <li class="active">idReserva</li>
+                <img src="./assets/icons/transformer.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_EPuertoAnularOrdenidReservaxml_code">
+                      Show configuration XML code of the element idReserva...
+                    </a>
+                  </div>
+                  <div id="_EPuertoAnularOrdenidReservaxml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        <pre class="prettyprint"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;set-variable variableName="identificadorReservaAnular" value="#[xpath3('//ser:anularOrden/identificadorReserva')]" doc:name="idReserva" doc:description="Guardo identificador Reserva"&gt;    &lt;/set-variable&gt;
+</code></pre>
+
+                    </div>
+                  </div>
+                  <p><p>Guardo identificador Reserva</p>
+</p>
+                </div>
+                                                        <ul id="_EPuertoAnularOrdenAnulacion" class="breadcrumb">
+                                  <li><span class="gray-link"><a href="#_EPuertoAnularOrden">EPuertoAnularOrden</a> </span> <span class="divider">/</span></li>
+                                <li class="active">Anulacion</li>
+                <img src="./assets/icons/file.png" alt="">
+                </ul>
+                <div class="documentation-indented">
+                  <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" href="#_EPuertoAnularOrdenAnulacionxml_code">
+                      Show configuration XML code of the element Anulacion...
+                    </a>
+                  </div>
+                  <div id="_EPuertoAnularOrdenAnulacionxml_code" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+                        <pre class="prettyprint"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;file:outbound-endpoint path="target/anulacion" outputPattern="#[flowVars.identificadorReservaAnular].csv" connector-ref="File" responseTimeout="10000" doc:name="Anulacion" doc:description="Guardo el Archivo en carpeta Anulacion"&gt;  &lt;/file:outbound-endpoint&gt;
+</code></pre>
+
+                    </div>
+                  </div>
+                  <p><p>Guardo el Archivo en carpeta Anulacion</p>
+</p>
+                </div>
+                                                              </section>
+              </div>
+    </div>
+  </div>
+
+<!-- Footer
+    ================================================== -->
+    <footer class="footer">
+      <div class="container">
+        <p class="pull-right"><a href="#">Back to top</a></p>
+        <p>Designed and built with <a href="http://www.mulesoft.com/mule-studio/" target="_blank">Anypoint Studio</a>.</p>
+        <p>Code licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache License v2.0</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
+        <p>Icons from <a href="http://glyphicons.com/">Glyphicons Free</a>, licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
+        <ul class="footer-links">
+          <li><a href="http://blogs.mulesoft.org/">Read the blog</a></li>
+          <li><a href="http://www.mulesoft.org/jira/browse/">Submit issues</a></li>
+        </ul>
+      </div>
+    </footer>
+
+
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript" src="assets/widgets.js"></script>
+    <script src="assets/jquery.js"></script>
+    <script src="assets/prettify.js"></script>
+    <script src="assets/bootstrap-transition.js"></script>
+    <script src="assets/bootstrap-alert.js"></script>
+    <script src="assets/bootstrap-modal.js"></script>
+    <script src="assets/bootstrap-dropdown.js"></script>
+    <script src="assets/bootstrap-scrollspy.js"></script>
+    <script src="assets/bootstrap-tab.js"></script>
+    <script src="assets/bootstrap-tooltip.js"></script>
+    <script src="assets/bootstrap-popover.js"></script>
+    <script src="assets/bootstrap-button.js"></script>
+    <script src="assets/bootstrap-collapse.js"></script>
+    <script src="assets/bootstrap-carousel.js"></script>
+    <script src="assets/bootstrap-typeahead.js"></script>
+    <script src="assets/bootstrap-affix.js"></script>
+    <script src="assets/scroller.js"></script>
+    <script src="assets/application.js"></script>
+
+</body>
+</html>

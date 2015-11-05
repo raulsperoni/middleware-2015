@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><Graph __version="3.5.0" author="raul" created="Wed Nov 04 21:05:11 UYT 2015" description="CSV To Pojo" guiVersion="3.4.4.P" id="1446682351472" licenseCode="Unlicensed" licenseType="Unknown" modified="Wed Nov 04 21:05:11 UYT 2015" modifiedBy="raul" name="CSV_To_Pojo_1" preview-file="${Project_Home}/target/recepcion/&quot;100&quot;.csv" revision="1.0" showComponentDetails="false">
+<Global>
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/object" _dataStructure="OBJECT" _id="__id" _type="Output" id="b7d484b9-0c7e-47eb-bfcf-46af35a74d57">
+<Record fieldDelimiter="," name="ColocarOrden" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="0" __sourcePath="{}/object/cantidad" containerType="SINGLE" label="cantidad" name="cantidad" type="integer"/>
+<Field __index="1" __sourcePath="{}/object/identificadorCompra" containerType="SINGLE" label="identificadorCompra" name="identificadorCompra" type="string"/>
+<Field __index="2" __sourcePath="{}/object/identificadorProducto" containerType="SINGLE" label="identificadorProducto" name="identificadorProducto" type="long"/>
+</Record>
+</Metadata>
+<Metadata __referenceCounter="1" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _type="Input" id="a7ce2922-e2e8-4b16-af4f-0d16ab898b28">
+<Record fieldDelimiter="," name="object" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field containerType="SINGLE" label="identificadorCompra" name="identificadorCompra" size="10" type="string"/>
+<Field containerType="SINGLE" eofAsDelimiter="true" label="identificadorProducto" name="identificadorProducto" size="10" type="long"/>
+<Field containerType="SINGLE" label="cantidad" name="cantidad" size="10" type="integer"/>
+<Field __artificialType="_id" auto_filling="global_row_count" name="__id" type="long"/>
+</Record>
+</Metadata>
+<Dictionary>
+<Entry id="DictionaryEntry0" input="true" name="inputPayload" output="false" type="object"/>
+<Entry id="DictionaryEntry1" input="false" name="outputPayload" output="true" type="object"/>
+</Dictionary>
+</Global>
+<Phase number="0">
+<Node cacheInMemory="true" enabled="enabled" fileURL="dict:outputPayload" guiName="Pojo WRITER" guiX="900" guiY="20" id="BEAN_WRITER0" type="BEAN_WRITER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<object xmlns:clover="http://www.cloveretl.com/ns/xmlmapping" clover:inPort="0">
+  <cantidad>$0.cantidad</cantidad>
+  <identificadorCompra>$0.identificadorCompra</identificadorCompra>
+  <identificadorProducto>$0.identificadorProducto</identificadorProducto>
+</object>]]></attr>
+<attr name="_data_format"><![CDATA[JAVA]]></attr>
+<attr name="schema"><![CDATA[<?xml version="1.0" encoding="UTF-8"?><schema-object>
+  <typed-object-ref type-ref="va4.ColocarOrden"/>
+  <typed-object type="va4.ColocarOrden">
+    <typed-object-ref name="cantidad" type-ref="int"/>
+    <typed-object-ref name="identificadorCompra" type-ref="java.lang.String"/>
+    <typed-object-ref name="identificadorProducto" type-ref="long"/>
+  </typed-object>
+  <typed-object type="java.lang.String"/>
+  <typed-object type="int"/>
+  <typed-object type="long"/>
+</schema-object>
+]]></attr>
+</Node>
+<Node charset="UTF-8" enabled="enabled" fileURL="dict:inputPayload" guiName="CSV READER" guiX="20" guiY="20" id="DATA_READER0" quoteCharacter="both" quotedStrings="true" skipRows="1" trim="true" type="DATA_READER">
+<attr name="_data_format"><![CDATA[CSV]]></attr>
+<attr name="__dataSourceDefinition"><![CDATA[${Project_Home}/target/recepcion/"100".csv]]></attr>
+</Node>
+<Node enabled="enabled" guiName="mapeo" guiX="460" guiY="20" id="FOREACH__100_OBJECT" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
+<attr name="melScript"><![CDATA[//MEL
+//START -> DO NOT REMOVE
+output.__id = num2str(input.__id);
+//END -> DO NOT REMOVE
+output.cantidad = input.cantidad;
+output.identificadorProducto = input.identificadorProducto;
+output.identificadorCompra = input.identificadorCompra;]]></attr>
+</Node>
+<Edge debugMode="true" fromNode="DATA_READER0:0" guiBendpoints="" id="Edge0" inPort="Port 0 (in)" metadata="a7ce2922-e2e8-4b16-af4f-0d16ab898b28" outPort="Port 0 (output)" toNode="FOREACH__100_OBJECT:0"/>
+<Edge debugMode="true" fromNode="FOREACH__100_OBJECT:0" guiBendpoints="" id="Edge1" inPort="Port 0 (in)" metadata="b7d484b9-0c7e-47eb-bfcf-46af35a74d57" outPort="Port 0 (out)" toNode="BEAN_WRITER0:0"/>
+</Phase>
+</Graph>

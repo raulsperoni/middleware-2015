@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><Graph __version="3.5.0" author="popper" created="Tue Nov 03 17:10:18 UYT 2015" description="Json To XML" guiVersion="3.4.4.P" id="1446592585225" licenseCode="Unlicensed" licenseType="Unknown" modified="Tue Nov 03 17:10:18 UYT 2015" modifiedBy="popper" name="Json_To_XML" revision="1.0" showComponentDetails="false">
+<Global>
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/object" _dataStructure="OBJECT" _id="__id" _type="Input" id="14ca3c19-bb49-4ddd-98c4-4067c87648bf">
+<Record fieldDelimiter="," name="object" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __implementationClass="java.lang.Boolean" __index="0" __sourcePath="{}/object/status" containerType="SINGLE" label="status" name="status" type="boolean"/>
+<Field __implementationClass="java.lang.String" __index="1" __sourcePath="{}/object/mensaje" containerType="SINGLE" label="mensaje" name="mensaje" type="string"/>
+<Field __implementationClass="java.lang.Integer" __index="2" __sourcePath="{}/object/idConfirmacionPago" containerType="SINGLE" label="idConfirmacionPago" name="idConfirmacionPago" type="integer"/>
+</Record>
+</Metadata>
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/object" _dataStructure="OBJECT" _id="__id" _type="Output" id="3ca8ddf9-45d5-4b7a-855b-980776a7582c">
+<Record fieldDelimiter="," name="object" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="0" __sourcePath="{}/object/status" containerType="SINGLE" label="status" name="status" type="boolean"/>
+<Field __index="1" __sourcePath="{}/object/mensaje" containerType="SINGLE" label="mensaje" name="mensaje" type="string"/>
+<Field __index="2" __sourcePath="{}/object/idConfirmacionPago" containerType="SINGLE" label="idConfirmacionPago" name="idConfirmacionPago" type="integer"/>
+</Record>
+</Metadata>
+<Dictionary>
+<Entry id="DictionaryEntry0" input="true" name="inputPayload" output="false" type="object"/>
+<Entry id="DictionaryEntry1" input="false" name="outputPayload" output="true" type="object"/>
+</Dictionary>
+</Global>
+<Phase number="0">
+<Node cacheInMemory="true" charset="UTF-8" enabled="enabled" fileURL="dict:outputPayload" guiName="XML WRITER" guiX="900" guiY="20" id="EXT_XML_WRITER0" type="EXT_XML_WRITER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<object xmlns:clover="http://www.cloveretl.com/ns/xmlmapping" clover:inPort="0">
+  <status>$0.status</status>
+  <mensaje>$0.mensaje</mensaje>
+  <idConfirmacionPago>$0.idConfirmacionPago</idConfirmacionPago>
+</object>]]></attr>
+<attr name="_data_format"><![CDATA[XML]]></attr>
+</Node>
+<Node enabled="enabled" guiName="Foreach 'object' -&gt; 'object'" guiX="460" guiY="20" id="FOREACH_OBJECT_OBJECT" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
+<attr name="melScript"><![CDATA[//MEL
+//START -> DO NOT REMOVE
+output.__id = input.__id;
+//END -> DO NOT REMOVE
+output.status = input.status;
+output.mensaje = input.mensaje;
+output.idConfirmacionPago = input.idConfirmacionPago;
+]]></attr>
+</Node>
+<Node charset="UTF-8" enabled="enabled" fileURL="dict:inputPayload" guiName="JSON READER" guiX="20" guiY="20" id="JSON_READER0" type="JSON_READER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Context xpath="/root">
+  <Context outPort="0" sequenceField="__id" xpath="object">
+    <Mapping cloverField="status" trim="true" xpath="status"/>
+    <Mapping cloverField="mensaje" trim="true" xpath="mensaje"/>
+    <Mapping cloverField="idConfirmacionPago" trim="true" xpath="idConfirmacionPago"/>
+  </Context>
+</Context>
+]]></attr>
+<attr name="_data_format"><![CDATA[JSON]]></attr>
+<attr name="__metadata"><![CDATA[true]]></attr>
+</Node>
+<Edge debugMode="true" fromNode="FOREACH_OBJECT_OBJECT:0" guiBendpoints="" id="Edge1" inPort="Port 0 (in)" metadata="3ca8ddf9-45d5-4b7a-855b-980776a7582c" outPort="Port 0 (out)" toNode="EXT_XML_WRITER0:0"/>
+<Edge debugMode="true" fromNode="JSON_READER0:0" guiBendpoints="" id="Edge0" inPort="Port 0 (in)" metadata="14ca3c19-bb49-4ddd-98c4-4067c87648bf" outPort="Port 0 (out)" toNode="FOREACH_OBJECT_OBJECT:0"/>
+</Phase>
+</Graph>

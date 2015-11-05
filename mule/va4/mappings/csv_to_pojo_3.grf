@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><Graph __version="3.5.0" author="raul" created="Wed Nov 04 21:05:11 UYT 2015" description="CSV To Pojo" guiVersion="3.4.4.P" id="1446686302587" licenseCode="Unlicensed" licenseType="Unknown" modified="Wed Nov 04 21:05:11 UYT 2015" modifiedBy="raul" name="CSV_To_Pojo_1CSV_To_Pojo_2CSV_To_Pojo_3" preview-file="${Project_Home}/target/confirmacion/&quot;100&quot;.csv" revision="1.0" showComponentDetails="false">
+<Global>
+<Metadata __referenceCounter="1" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _type="Input" id="8bd7c06d-19ce-46d5-9bac-5477120eb4f2">
+<Record fieldDelimiter="," name="_100" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field containerType="SINGLE" label="identificadorCompra" name="identificadorCompra" size="10" type="string"/>
+<Field containerType="SINGLE" label="identificadorReserva" name="identificadorReserva" size="10" type="string"/>
+<Field containerType="SINGLE" label="codigoResultado" name="codigoResultado" size="10" type="string"/>
+<Field containerType="SINGLE" eofAsDelimiter="true" label="descripcionResultado" name="descripcionResultado" size="10" type="string"/>
+<Field __artificialType="_id" auto_filling="global_row_count" name="__id" type="long"/>
+</Record>
+</Metadata>
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/object" _dataStructure="OBJECT" _id="__id" _type="Output" id="de1f306c-b280-4c6d-8e60-968f8d5dabb9">
+<Record fieldDelimiter="," name="ConfirmacionOrden" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="0" __sourcePath="{}/object/codigoResultado" containerType="SINGLE" label="codigoResultado" name="codigoResultado" type="integer"/>
+<Field __index="1" __sourcePath="{}/object/descripcionResultado" containerType="SINGLE" label="descripcionResultado" name="descripcionResultado" type="string"/>
+<Field __index="2" __sourcePath="{}/object/identificadorCompra" containerType="SINGLE" label="identificadorCompra" name="identificadorCompra" type="string"/>
+<Field __index="3" __sourcePath="{}/object/identificadorReserva" containerType="SINGLE" label="identificadorReserva" name="identificadorReserva" type="string"/>
+</Record>
+</Metadata>
+<Dictionary>
+<Entry id="DictionaryEntry0" input="true" name="inputPayload" output="false" type="object"/>
+<Entry id="DictionaryEntry1" input="false" name="outputPayload" output="true" type="object"/>
+</Dictionary>
+</Global>
+<Phase number="0">
+<Node cacheInMemory="true" enabled="enabled" fileURL="dict:outputPayload" guiName="Pojo WRITER" guiX="900" guiY="20" id="BEAN_WRITER0" type="BEAN_WRITER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<object xmlns:clover="http://www.cloveretl.com/ns/xmlmapping" clover:inPort="0">
+  <codigoResultado>$0.codigoResultado</codigoResultado>
+  <descripcionResultado>$0.descripcionResultado</descripcionResultado>
+  <identificadorCompra>$0.identificadorCompra</identificadorCompra>
+  <identificadorReserva>$0.identificadorReserva</identificadorReserva>
+</object>]]></attr>
+<attr name="_data_format"><![CDATA[JAVA]]></attr>
+<attr name="schema"><![CDATA[<?xml version="1.0" encoding="UTF-8"?><schema-object>
+  <typed-object-ref type-ref="va4.ConfirmacionOrden"/>
+  <typed-object type="va4.ConfirmacionOrden">
+    <typed-object-ref name="codigoResultado" type-ref="int"/>
+    <typed-object-ref name="descripcionResultado" type-ref="java.lang.String"/>
+    <typed-object-ref name="identificadorCompra" type-ref="java.lang.String"/>
+    <typed-object-ref name="identificadorReserva" type-ref="java.lang.String"/>
+  </typed-object>
+  <typed-object type="java.lang.String"/>
+  <typed-object type="int"/>
+</schema-object>
+]]></attr>
+</Node>
+<Node charset="UTF-8" enabled="enabled" fileURL="dict:inputPayload" guiName="CSV READER" guiX="20" guiY="20" id="DATA_READER0" quoteCharacter="both" quotedStrings="true" skipRows="1" trim="true" type="DATA_READER">
+<attr name="_data_format"><![CDATA[CSV]]></attr>
+<attr name="__dataSourceDefinition"><![CDATA[${Project_Home}/target/confirmacion/"100".csv]]></attr>
+</Node>
+<Node enabled="enabled" guiName="otra" guiX="460" guiY="20" id="FOREACH__100_OBJECT" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
+<attr name="melScript"><![CDATA[//MEL
+//START -> DO NOT REMOVE
+output.__id = num2str(input.__id);
+//END -> DO NOT REMOVE
+output.identificadorCompra = input.identificadorCompra;
+output.identificadorReserva = input.identificadorReserva;
+output.codigoResultado = str2integer(input.codigoResultado);
+output.descripcionResultado = input.descripcionResultado;
+]]></attr>
+</Node>
+<Edge debugMode="true" fromNode="DATA_READER0:0" guiBendpoints="" id="Edge0" inPort="Port 0 (in)" metadata="8bd7c06d-19ce-46d5-9bac-5477120eb4f2" outPort="Port 0 (output)" toNode="FOREACH__100_OBJECT:0"/>
+<Edge debugMode="true" fromNode="FOREACH__100_OBJECT:0" guiBendpoints="" id="Edge1" inPort="Port 0 (in)" metadata="de1f306c-b280-4c6d-8e60-968f8d5dabb9" outPort="Port 0 (out)" toNode="BEAN_WRITER0:0"/>
+</Phase>
+</Graph>

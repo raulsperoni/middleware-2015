@@ -1,0 +1,11 @@
+{
+    "inputMessageMetadata": {
+        "messagePayload": {
+            "connectorName": "#_custom_mule_metadata_type_#",
+            "typeId": "csvepuerto"
+        }
+    },
+    "outputMessageMetadata": {},
+    "id": "814fe8bc-236b-4aca-a97a-24a168931e86",
+    "version": "5.2.0.0"
+}
