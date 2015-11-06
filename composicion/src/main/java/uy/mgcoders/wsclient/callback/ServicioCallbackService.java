@@ -1,5 +1,5 @@
 
-package uy.mgcoders.callback;
+package uy.mgcoders.wsclient.callback;
 
 import java.net.MalformedURLException;
 import java.net.URL;

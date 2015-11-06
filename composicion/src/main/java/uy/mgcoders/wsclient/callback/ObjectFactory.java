@@ -1,5 +1,5 @@
 
-package uy.mgcoders.callback;
+package uy.mgcoders.wsclient.callback;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlElementDecl;

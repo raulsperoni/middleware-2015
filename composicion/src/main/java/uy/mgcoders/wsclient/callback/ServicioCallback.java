@@ -1,5 +1,5 @@
 
-package uy.mgcoders.callback;
+package uy.mgcoders.wsclient.callback;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
