@@ -11,6 +11,7 @@ import org.apache.cxf.io.CachedOutputStream;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
+import org.slf4j.LoggerFactory;
 //import org.apache.log4j.Logger;
 
 /**
@@ -20,16 +21,12 @@ import org.apache.cxf.phase.Phase;
  */
 public class MessageChangeInterceptor extends AbstractPhaseInterceptor<Message> {
 
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(MessageChangeInterceptor.class);
+
     public MessageChangeInterceptor() {
         super(Phase.PRE_STREAM);
         addBefore(SoapPreProtocolOutInterceptor.class.getName());
     }
-
-//    protected Logger getLogger();
-
- //   protected abstract String changeOutboundMessage(String currentEnvelope);
-
-   // protected abstract String changeInboundMessage(String currentEnvelope);
 
     public void handleMessage(Message message) {
         boolean isOutbound = false;
@@ -52,11 +49,9 @@ public class MessageChangeInterceptor extends AbstractPhaseInterceptor<Message> 
                 String currentEnvelopeMessage = IOUtils.toString(csnew.getInputStream(), "UTF-8");
                 csnew.flush();
                 IOUtils.closeQuietly(csnew);
-/*
-                if (getLogger().isDebugEnabled()) {
-                    getLogger().debug("Outbound message: " + currentEnvelopeMessage);
-                }
-*/
+
+                logger.info(" *********** pasa por interceptor modifica el soap **************");
+
                 System.out.println(currentEnvelopeMessage);
                 String res = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ser=\"http://services.mgcoders.uy/\">\n" +
                         "   <soapenv:Header/>\n" +
@@ -71,11 +66,7 @@ public class MessageChangeInterceptor extends AbstractPhaseInterceptor<Message> 
                         "      </ser:confirmarOrden>\n" +
                         "   </soapenv:Body>\n" +
                         "</soapenv:Envelope>"; //changeOutboundMessage(currentEnvelopeMessage);
-                if (res != null) {
-                    //if (getLogger().isDebugEnabled()) {
-                      //  getLogger().debug("Outbound message has been changed: " + res);
-                   // }
-                }
+
                 res = res != null ? res : currentEnvelopeMessage;
 
 

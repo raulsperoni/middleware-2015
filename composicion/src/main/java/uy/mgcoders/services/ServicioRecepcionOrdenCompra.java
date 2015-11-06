@@ -72,7 +72,7 @@ public class ServicioRecepcionOrdenCompra {
 
         logger.info("ResultadoStock  " + resultadoStock.getCodigo());
 
-
+/*
         MessageContext messageContext = context.getMessageContext();
         AddressingProperties addressProp = (AddressingProperties) messageContext.get(JAXWSAConstants.ADDRESSING_PROPERTIES_INBOUND);
         EndpointReferenceType eprType = addressProp.getReplyTo();
@@ -85,7 +85,7 @@ public class ServicioRecepcionOrdenCompra {
         resultado.setCodigo("OK");
         resultado.setIdCompra(ordenCompra.getIdOrden());
         resultado.setDescripcion("descr...");
-        servicioCallback.confirmarOrden(resultado);
+        servicioCallback.confirmarOrden(resultado);*/
 
         logger.info("#######");
     }
