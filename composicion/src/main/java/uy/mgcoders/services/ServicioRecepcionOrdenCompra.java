@@ -36,7 +36,7 @@ import java.util.List;
 @WebService
 @Addressing(enabled = true, required = true)
 //@HandlerChain(file = "soaphandler.xml")
-@org.apache.cxf.interceptor.OutInterceptors(interceptors = {"uy.mgcoders.handler.MyInterceptor"})
+@org.apache.cxf.interceptor.OutInterceptors(interceptors = {"uy.mgcoders.handler.MessageChangeInterceptor"})
 public class ServicioRecepcionOrdenCompra {
 
     @Resource
