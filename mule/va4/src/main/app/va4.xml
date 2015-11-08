@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:file="http://www.mulesoft.org/schema/mule/file"
+<mule xmlns:jms="http://www.mulesoft.org/schema/mule/jms" xmlns:file="http://www.mulesoft.org/schema/mule/file"
 	xmlns:json="http://www.mulesoft.org/schema/mule/json"
 	xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper"
 	xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata"
@@ -18,7 +18,8 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/current/mule-xml.xsd
 http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd
 http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
-http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd">
 
 	<mulexml:namespace-manager>
 		<mulexml:namespace prefix="ser"
@@ -54,6 +55,8 @@ http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/fil
 		transformationGraphPath="json_to_xml.grf" doc:name="JSON_TO_XML" />
 	<file:connector name="File" autoDelete="true" streaming="false"
 		validateConnections="true" doc:name="File" />
+    <jms:activemq-connector name="Active_MQ" brokerURL="tcp://localhost:61616" validateConnections="true" doc:name="Active MQ"/>
+    <cxf:configuration name="CXF_Configuration" enableMuleSoapHeaders="true" initializeStaticBusInstance="true" doc:name="CXF Configuration"/>
 
 
 	<flow name="StockLocal">
@@ -95,11 +98,9 @@ http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/fil
 			<http:success-status-code-validator
 				values="0..599" />
 		</http:request>
-		<response>
-			<data-mapper:transform config-ref="JSON_TO_XML"
-				doc:name="Json To XML" 
-				doc:description="Convierto respuesta de Json a Xml"/>
-		</response>
+        <response>
+            <data-mapper:transform config-ref="JSON_TO_XML" doc:name="Json To XML" doc:description="Convierto respuesta de Json a Xml"/>
+        </response>
 	</flow>
 
 
@@ -128,8 +129,7 @@ http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/fil
 			</otherwise>
 		</choice>
         <response>
-            <mulexml:object-to-xml-transformer metadata:id="77e432e9-a4db-47f3-9251-1fa83cf83478" doc:name="Object to XML"
-            	doc:description="Transformo Respuesta a Xml"/>
+            <mulexml:object-to-xml-transformer metadata:id="77e432e9-a4db-47f3-9251-1fa83cf83478" doc:name="Object to XML" doc:description="Transformo Respuesta a Xml"/>
         </response>
 	</flow>
 
@@ -174,5 +174,18 @@ http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/fil
         doc:description="Guardo el Archivo en carpeta Anulacion"/>
         <set-payload value="OK" doc:name="OK"/>
     </sub-flow>
+    <flow name="PublishSuscribe">
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/esb/pubsub" doc:name="HTTP"/>
+        <cxf:proxy-service configuration-ref="CXF_Configuration" payload="body" doc:name="CXF"/>
+        <jms:outbound-endpoint topic="publishAnulacion" connector-ref="Active_MQ" doc:name="JMS">
+            <jms:transaction action="NONE"/>
+        </jms:outbound-endpoint>
+    </flow>
+    <flow name="Suscriptor1">
+        <jms:inbound-endpoint  connector-ref="Active_MQ" doc:name="JMS" topic="publishAnulacion">
+            <jms:client-ack-transaction action="NONE"/>
+        </jms:inbound-endpoint>
+
+    </flow>
 
 </mule>
