@@ -25,6 +25,14 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.jboss.ws</groupId>
+            <artifactId>jbossws-api</artifactId>
+            <version>1.0.3.Final</version>
+            <scope>provided</scope>
+        </dependency>
+
+
         <!-- web services -->
         <dependency>
             <groupId>javax.xml.ws</groupId>
@@ -56,6 +64,13 @@
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-transports-http</artifactId>
+            <version>${cxf.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-ws-security</artifactId>
             <version>${cxf.version}</version>
             <scope>provided</scope>
         </dependency>
@@ -108,7 +123,7 @@
                     <archive>
                         <manifestEntries>
                             <!-- Modulos en Wildfly. Los mismos en el pom van con scope provided -->
-                            <Dependencies>org.jboss.ws.cxf.jbossws-cxf-client services, org.apache.cxf services, org.apache.cxf.impl services</Dependencies>
+                            <Dependencies>org.jboss.ws.cxf.jbossws-cxf-client services, org.apache.cxf services, org.apache.cxf.impl services, org.apache.ws.security</Dependencies>
                         </manifestEntries>
                     </archive>
                 </configuration>

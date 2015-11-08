@@ -1,27 +1,17 @@
 package uy.mgcoders.services;
 
-import org.apache.cxf.ws.addressing.AddressingProperties;
-import org.apache.cxf.ws.addressing.EndpointReferenceType;
-import org.apache.cxf.ws.addressing.JAXWSAConstants;
+import org.jboss.ws.api.annotation.EndpointConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uy.mgcoders.wsclient.callback.Resultado;
-import uy.mgcoders.wsclient.callback.ServicioCallback;
-import uy.mgcoders.wsclient.callback.ServicioCallbackService;
 import uy.mgcoders.dto.OrdenCompra;
 import uy.mgcoders.wsclient.stock.Producto;
-import uy.mgcoders.wsclient.stock.Reserva;
-import uy.mgcoders.wsclient.stock.ServicioRecepcionStock;
-import uy.mgcoders.wsclient.stock.ServicioRecepcionStockService;
 
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
-import javax.xml.ws.BindingProvider;
 import javax.xml.ws.WebServiceContext;
-import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.soap.Addressing;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +23,18 @@ import java.util.List;
 // TODO esto esta pendiente todo!
 
 @Stateless
-@WebService
+@WebService() // wsdlLocation = "ServicioRecepcionOrdenCompra.wsdl"
 @Addressing(enabled = true, required = true)
 //@HandlerChain(file = "soaphandler.xml")
+/*@EndpointProperties(value = {
+        @EndpointProperty(key = "ws-security.signature.properties", value = "serversecurity.properties"),
+        @EndpointProperty(key = "ws-security.encryption.properties", value = "serversecurity.properties"),
+        @EndpointProperty(key = "ws-security.signature.username", value = "server"),
+        @EndpointProperty(key = "ws-security.encryption.username", value = "client"),
+        @EndpointProperty(key = "ws-security.callback-handler", value = "uy.mgcoders.security.KeystorePasswordCallback")
+    }
+)*/
+//@EndpointConfig(configFile = "WEB-INF/jaxws-endpoint-config.xml", configName = "Custom WS-Security Endpoint")
 @org.apache.cxf.interceptor.OutInterceptors(interceptors = {"uy.mgcoders.handler.MessageChangeInterceptor"})
 public class ServicioRecepcionOrdenCompra {
 
@@ -49,7 +48,7 @@ public class ServicioRecepcionOrdenCompra {
 
         logger.info("metodo: ingresarOrden");
         logger.info("idOrden...................: " + ordenCompra.getIdOrden());
-        logger.info("nroTerfeta................: " + ordenCompra.getNumeroTarjeta());
+        logger.info("nroTargeta................: " + ordenCompra.getNumeroTarjeta());
         logger.info("Productos................: ");
 
         List<Producto> productoList = new ArrayList<>();
@@ -64,7 +63,7 @@ public class ServicioRecepcionOrdenCompra {
             logger.info("     precioUnitario............: " + ordenCompra.getProductos().get(i).getPrecioUnitario());
             logger.info(" ");
         }
-
+/*
         ServicioRecepcionStock servicioRecepcionStock = new ServicioRecepcionStockService().getServicioRecepcionStockPort();
         Reserva reserva = new Reserva();
         reserva.getProducto().addAll(productoList);
@@ -72,20 +71,27 @@ public class ServicioRecepcionOrdenCompra {
 
         logger.info("ResultadoStock  " + resultadoStock.getCodigo());
 
-/*
+
+
         MessageContext messageContext = context.getMessageContext();
         AddressingProperties addressProp = (AddressingProperties) messageContext.get(JAXWSAConstants.ADDRESSING_PROPERTIES_INBOUND);
         EndpointReferenceType eprType = addressProp.getReplyTo();
         logger.info("444444444444 " + eprType.getAddress().getValue());
         ServicioCallback servicioCallback = new ServicioCallbackService().getServicioCallbackPort();
         ((BindingProvider)servicioCallback).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, eprType.getAddress().getValue());
-
+      servicioCallback.confirmarOrden(resultado);
 
         Resultado resultado = new Resultado();
         resultado.setCodigo("OK");
         resultado.setIdCompra(ordenCompra.getIdOrden());
         resultado.setDescripcion("descr...");
-        servicioCallback.confirmarOrden(resultado);*/
+
+
+        Message message = PhaseInterceptorChain.getCurrentMessage();
+        message.clear();
+        message.setContent(Resultado.class, resultado);
+*/
+
 
         logger.info("#######");
     }
