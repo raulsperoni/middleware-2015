@@ -9,19 +9,20 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
+import javax.xml.ws.RequestWrapper;
 import java.util.Date;
 
 /**
  * Created by pablo on 10/22/15.
  */
 @Stateless
-@WebService
-@SOAPBinding(style = SOAPBinding.Style.RPC)
+@WebService(targetNamespace = "http://callback.mgcoders.uy/")
 public class ServicioCallback {
 
     private static final Logger logger = LoggerFactory.getLogger(ServicioCallback.class);
 
     @WebMethod
+    @RequestWrapper(localName = "ingresarOrdenResponse", targetNamespace = "http://services.mgcoders.uy/")
     public void confirmarOrden(@WebParam(name = "resultado") Resultado resultado) {
         logger.info("metodo: confirmarOrden");
         logger.info("Codigo................: " + resultado.getCodigo());
