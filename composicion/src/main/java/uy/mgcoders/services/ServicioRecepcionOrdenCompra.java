@@ -46,10 +46,10 @@ public class ServicioRecepcionOrdenCompra {
     @WebResult(name = "resultado")
     public Resultado ingresarOrden(@WebParam(name = "ordencompra") OrdenCompra ordenCompra) {
 
-        logger.info("metodo: ingresarOrden");
+        logger.info("########## START --> Servicio Recepcion Orden de compra --> Ingresar Orden ##########");
         logger.info("idOrden...................: " + ordenCompra.getIdOrden());
-        logger.info("nroTargeta................: " + ordenCompra.getNumeroTarjeta());
-        logger.info("Productos................: ");
+        logger.info("nroTarjeta................: " + ordenCompra.getNumeroTarjeta());
+        logger.info("Productos.................: ");
 
         List<Producto> productoList = new ArrayList<>();
         for(int i = 0; i < ordenCompra.getProductos().size(); i++) {
@@ -73,13 +73,12 @@ public class ServicioRecepcionOrdenCompra {
 
 
 */
-        logger.info("#######");
-
         Resultado resultado = new Resultado();
         resultado.setCodigo("OK");
         resultado.setIdCompra(ordenCompra.getIdOrden());
         resultado.setDescripcion("descr...");
 
+        logger.info("########## END --> Servicio Recepcion Orden de compra --> Ingresar Orden ##########");
         return resultado;
     }
 

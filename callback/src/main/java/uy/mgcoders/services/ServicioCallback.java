@@ -24,10 +24,11 @@ public class ServicioCallback {
     @WebMethod
     @RequestWrapper(localName = "ingresarOrdenResponse", targetNamespace = "http://services.mgcoders.uy/")
     public void confirmarOrden(@WebParam(name = "resultado") Resultado resultado) {
-        logger.info("metodo: confirmarOrden");
-        logger.info("Codigo................: " + resultado.getCodigo());
-        logger.info("Identificador de orden: " + resultado.getIdCompra());
-        logger.info("#######");
-    }
+        logger.info("########## START --> Servicio Callback --> Confirmar Orden ##########");
 
+        logger.info("Codigo................: " + resultado.getCodigo());
+        logger.info("Identificador De Orden: " + resultado.getIdCompra());
+
+        logger.info("########## END --> Servicio Callback --> Confirmar Orden ##########");
+    }
 }
