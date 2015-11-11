@@ -6,13 +6,11 @@ import uy.mgcoders.dto.OrdenCompra;
 import uy.mgcoders.dto.Resultado;
 import uy.mgcoders.wsclient.stock.Producto;
 
-import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
-import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.soap.Addressing;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,24 +19,10 @@ import java.util.List;
  * Created by pablo on 10/22/15.
  */
 
-// TODO esto esta pendiente todo!
-
 @Stateless
 @WebService
 @Addressing(enabled = true, required = true)
-/*@EndpointProperties(value = {
-        @EndpointProperty(key = "ws-security.signature.properties", value = "serversecurity.properties"),
-        @EndpointProperty(key = "ws-security.encryption.properties", value = "serversecurity.properties"),
-        @EndpointProperty(key = "ws-security.signature.username", value = "server"),
-        @EndpointProperty(key = "ws-security.encryption.username", value = "client"),
-        @EndpointProperty(key = "ws-security.callback-handler", value = "uy.mgcoders.security.KeystorePasswordCallback")
-    }
-)*/
-//@EndpointConfig(configFile = "WEB-INF/jaxws-endpoint-config.xml", configName = "Custom WS-Security Endpoint")
 public class ServicioRecepcionOrdenCompra {
-
-    @Resource
-    WebServiceContext context;
 
     private static final Logger logger = LoggerFactory.getLogger(ServicioRecepcionOrdenCompra.class);
 
@@ -63,16 +47,8 @@ public class ServicioRecepcionOrdenCompra {
             logger.info("     precioUnitario............: " + ordenCompra.getProductos().get(i).getPrecioUnitario());
             logger.info(" ");
         }
-/*
-        ServicioRecepcionStock servicioRecepcionStock = new ServicioRecepcionStockService().getServicioRecepcionStockPort();
-        Reserva reserva = new Reserva();
-        reserva.getProducto().addAll(productoList);
-        uy.mgcoders.wsclient.stock.Resultado resultadoStock = servicioRecepcionStock.reservarProducto(reserva);
 
-        logger.info("ResultadoStock  " + resultadoStock.getCodigo());
-
-
-*/
+        // Resultado para responder a callback.
         Resultado resultado = new Resultado();
         resultado.setCodigo("OK");
         resultado.setIdCompra(ordenCompra.getIdOrden());

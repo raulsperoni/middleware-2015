@@ -25,10 +25,6 @@ public class KeystorePasswordCallback implements CallbackHandler {
         logger.debug("constructor - KeystorePasswordCallback");
     }
 
-    /**
-     * It attempts to get the password from the private
-     * alias/passwords map.
-     */
     public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException {
         for (int i = 0; i < callbacks.length; i++) {
             WSPasswordCallback pc = (WSPasswordCallback)callbacks[i];
@@ -41,9 +37,6 @@ public class KeystorePasswordCallback implements CallbackHandler {
         }
     }
 
-    /**
-     * Add an alias/password pair to the callback mechanism.
-     */
     public void setAliasPassword(String alias, String password) {
         passwords.put(alias, password);
     }

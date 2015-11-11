@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://services.mgcoders.uy/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="ServicioEPuertoService" targetNamespace="http://services.mgcoders.uy/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://services.mgcoders.uy/" elementFormDefault="unqualified" targetNamespace="http://services.mgcoders.uy/" version="1.0">
+
+  
+  <xs:element name="anularOrden" type="tns:anularOrden"/>
+
+  
+  <xs:element name="anularOrdenResponse" type="tns:anularOrdenResponse"/>
+
+  
+  <xs:element name="colocarOrden" type="tns:colocarOrden"/>
+
+  
+  <xs:element name="colocarOrdenResponse" type="tns:colocarOrdenResponse"/>
+
+  
+  <xs:complexType name="anularOrden">
+    
+    <xs:sequence>
+      
+      <xs:element minOccurs="0" name="identificadorReserva" type="xs:string"/>
+    
+    </xs:sequence>
+  
+  </xs:complexType>
+
+  
+  <xs:complexType name="anularOrdenResponse">
+    
+    <xs:sequence>
+      
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    
+    </xs:sequence>
+  
+  </xs:complexType>
+
+  
+  <xs:complexType name="colocarOrden">
+    
+    <xs:sequence>
+      
+      <xs:element minOccurs="0" name="identificadorCompra" type="xs:string"/>
+      
+      <xs:element name="identificadorProducto" type="xs:long"/>
+      
+      <xs:element name="cantidad" type="xs:int"/>
+    
+    </xs:sequence>
+  
+  </xs:complexType>
+
+  
+  <xs:complexType name="colocarOrdenResponse">
+    
+    <xs:sequence>
+      
+      <xs:element minOccurs="0" name="return" type="tns:confirmacionOrden"/>
+    
+    </xs:sequence>
+  
+  </xs:complexType>
+
+  
+  <xs:complexType name="confirmacionOrden">
+    
+    <xs:sequence>
+      
+      <xs:element minOccurs="0" name="identificadorCompra" type="xs:string"/>
+      
+      <xs:element minOccurs="0" name="identificadorReserva" type="xs:string"/>
+      
+      <xs:element name="codigoResultado" type="xs:int"/>
+      
+      <xs:element minOccurs="0" name="descripcionResultado" type="xs:string"/>
+    
+    </xs:sequence>
+  
+  </xs:complexType>
+
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="anularOrden">
+    <wsdl:part element="tns:anularOrden" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="colocarOrdenResponse">
+    <wsdl:part element="tns:colocarOrdenResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="colocarOrden">
+    <wsdl:part element="tns:colocarOrden" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="anularOrdenResponse">
+    <wsdl:part element="tns:anularOrdenResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ServicioEPuerto">
+    <wsdl:operation name="anularOrden">
+      <wsdl:input message="tns:anularOrden" name="anularOrden">
+    </wsdl:input>
+      <wsdl:output message="tns:anularOrdenResponse" name="anularOrdenResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="colocarOrden">
+      <wsdl:input message="tns:colocarOrden" name="colocarOrden">
+    </wsdl:input>
+      <wsdl:output message="tns:colocarOrdenResponse" name="colocarOrdenResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ServicioEPuertoServiceSoapBinding" type="tns:ServicioEPuerto">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="anularOrden">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="anularOrden">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="anularOrdenResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="colocarOrden">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="colocarOrden">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="colocarOrdenResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ServicioEPuertoService">
+    <wsdl:port binding="tns:ServicioEPuertoServiceSoapBinding" name="ServicioEPuertoPort">
+      <soap:address location="http://localhost:8181/esb/epuerto"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
