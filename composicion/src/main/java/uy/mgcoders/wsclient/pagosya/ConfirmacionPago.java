@@ -7,9 +7,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for confirmacionPago complex type.
+ * <p>Clase Java para confirmacionPago complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>
  * &lt;complexType name="confirmacionPago">
@@ -40,7 +40,7 @@ public class ConfirmacionPago {
     protected String status;
 
     /**
-     * Gets the value of the idConfirmacionPago property.
+     * Obtiene el valor de la propiedad idConfirmacionPago.
      * 
      * @return
      *     possible object is
@@ -52,7 +52,7 @@ public class ConfirmacionPago {
     }
 
     /**
-     * Sets the value of the idConfirmacionPago property.
+     * Define el valor de la propiedad idConfirmacionPago.
      * 
      * @param value
      *     allowed object is
@@ -64,7 +64,7 @@ public class ConfirmacionPago {
     }
 
     /**
-     * Gets the value of the message property.
+     * Obtiene el valor de la propiedad message.
      * 
      * @return
      *     possible object is
@@ -76,7 +76,7 @@ public class ConfirmacionPago {
     }
 
     /**
-     * Sets the value of the message property.
+     * Define el valor de la propiedad message.
      * 
      * @param value
      *     allowed object is
@@ -88,7 +88,7 @@ public class ConfirmacionPago {
     }
 
     /**
-     * Gets the value of the status property.
+     * Obtiene el valor de la propiedad status.
      * 
      * @return
      *     possible object is
@@ -100,7 +100,7 @@ public class ConfirmacionPago {
     }
 
     /**
-     * Sets the value of the status property.
+     * Define el valor de la propiedad status.
      * 
      * @param value
      *     allowed object is

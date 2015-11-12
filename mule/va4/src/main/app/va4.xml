@@ -81,16 +81,16 @@ http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/
 			service="ServicioRecepcionPagosService" payload="body"
 			wsdlLocation="ServicioRecepcionPagos.wsdl" doc:name="CXF" 
 			doc:description="Proveo contrato soap"/>
-		<json:xml-to-json-transformer
-			metadata:id="b811f1e9-5936-4a8a-8e91-f48068e76a69" doc:name="XML to JSON" 
-			doc:description="Convierto de Xml a Json"/>
+        <json:xml-to-json-transformer doc:name="XML to JSON" doc:description="Convierto de Xml a Json"/>
 		<set-payload value="#[json:ser:recepcionPago]" doc:name="Set Payload" 
 			doc:description="Bajo un nivel en los elementos json"/>
+        <set-payload value="#[json:recepcionPago]" doc:name="Set Payload"/>
 		<set-payload
 			value="{&quot;idCompra&quot;:&quot;#[json:idCompra]&quot;,&quot;numeroTarjeta&quot;:&quot;#[json:numeroTarjeta]&quot;,&quot;monto&quot;:&quot;#[json:monto]&quot;,&quot;fecha&quot;:&quot;#[json:fecha]&quot;}"
 			metadata:id="47fd0e15-c005-4db0-90b5-44d7885135d6" doc:name="Set Payload"
 			mimeType="application/json" 
 			doc:description="Hago el mapeo necesario"/>
+        <logger message="#[payload]" level="INFO" doc:name="Logger"/>
 		<http:request config-ref="HTTP_Request_Configuration"
 			path="/api/pagos/recepcion" method="POST"
 			metadata:id="1674712f-a228-4ddd-af17-bfa6f9c2d9a8" doc:name="HTTP"
@@ -180,12 +180,6 @@ http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/
         <jms:outbound-endpoint topic="publishAnulacion" connector-ref="Active_MQ" doc:name="JMS">
             <jms:transaction action="NONE"/>
         </jms:outbound-endpoint>
-    </flow>
-    <flow name="Suscriptor1">
-        <jms:inbound-endpoint  connector-ref="Active_MQ" doc:name="JMS" topic="publishAnulacion">
-            <jms:client-ack-transaction action="NONE"/>
-        </jms:inbound-endpoint>
-
     </flow>
 
 </mule>

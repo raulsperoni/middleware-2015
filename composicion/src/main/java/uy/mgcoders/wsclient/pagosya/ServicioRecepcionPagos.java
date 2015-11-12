@@ -5,9 +5,8 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
 import javax.xml.bind.annotation.XmlSeeAlso;
-import javax.xml.ws.RequestWrapper;
-import javax.xml.ws.ResponseWrapper;
 
 
 /**
@@ -17,6 +16,7 @@ import javax.xml.ws.ResponseWrapper;
  * 
  */
 @WebService(name = "ServicioRecepcionPagos", targetNamespace = "http://services.mgcoders.uy/")
+@SOAPBinding(style = SOAPBinding.Style.RPC)
 @XmlSeeAlso({
     ObjectFactory.class
 })
@@ -25,25 +25,14 @@ public interface ServicioRecepcionPagos {
 
     /**
      * 
-     * @param fecha
-     * @param monto
-     * @param idCompra
-     * @param numeroTarjeta
+     * @param recepcionPago
      * @return
      *     returns uy.mgcoders.wsclient.pagosya.ConfirmacionPago
      */
     @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "recepcionPago", targetNamespace = "http://services.mgcoders.uy/", className = "uy.mgcoders.wsclient.pagosya.RecepcionPago")
-    @ResponseWrapper(localName = "recepcionPagoResponse", targetNamespace = "http://services.mgcoders.uy/", className = "uy.mgcoders.wsclient.pagosya.RecepcionPagoResponse")
+    @WebResult(partName = "return")
     public ConfirmacionPago recepcionPago(
-        @WebParam(name = "idCompra", targetNamespace = "")
-        String idCompra,
-        @WebParam(name = "numeroTarjeta", targetNamespace = "")
-        String numeroTarjeta,
-        @WebParam(name = "monto", targetNamespace = "")
-        String monto,
-        @WebParam(name = "fecha", targetNamespace = "")
-        String fecha);
+        @WebParam(name = "recepcionPago", partName = "recepcionPago")
+        RecepcionPago recepcionPago);
 
 }

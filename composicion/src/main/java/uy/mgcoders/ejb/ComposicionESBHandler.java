@@ -6,6 +6,7 @@ import uy.mgcoders.dto.OrdenCompra;
 import uy.mgcoders.dto.Producto;
 import uy.mgcoders.dto.Resultado;
 import uy.mgcoders.wsclient.pagosya.ConfirmacionPago;
+import uy.mgcoders.wsclient.pagosya.RecepcionPago;
 import uy.mgcoders.wsclient.pagosya.ServicioRecepcionPagos;
 import uy.mgcoders.wsclient.pagosya.ServicioRecepcionPagosService;
 import uy.mgcoders.wsclient.stock.Reserva;
@@ -109,7 +110,12 @@ public class ComposicionESBHandler {
             ServicioRecepcionPagos servicioRecepcionPagos = new ServicioRecepcionPagosService().getServicioRecepcionPagosPort();
 
             // FIXME ver porque tira exception al invocar el ws :(
-            confirmacionPago = servicioRecepcionPagos.recepcionPago(ordenCompra.getIdOrden(), String.valueOf(ordenCompra.getNumeroTarjeta()), String.valueOf(montoTotal), sdf.format(calendar.getTime()));
+            RecepcionPago recepcionPago = new RecepcionPago();
+            recepcionPago.setFecha(sdf.format(calendar.getTime()));
+            recepcionPago.setIdCompra(ordenCompra.getIdOrden());
+            recepcionPago.setMonto(String.valueOf(montoTotal));
+            recepcionPago.setNumeroTarjeta(String.valueOf(ordenCompra.getNumeroTarjeta()));
+            confirmacionPago = servicioRecepcionPagos.recepcionPago(recepcionPago);
         } catch (Exception e) {
             logger.error("Error al invocar el servicio de pagos-ya");
             logger.error("Mensaje: " + e.getMessage());

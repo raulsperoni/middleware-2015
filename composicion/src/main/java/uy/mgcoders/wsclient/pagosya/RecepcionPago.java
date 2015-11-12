@@ -7,9 +7,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for recepcionPago complex type.
+ * <p>Clase Java para recepcionPago complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>
  * &lt;complexType name="recepcionPago">
@@ -43,7 +43,7 @@ public class RecepcionPago {
     protected String fecha;
 
     /**
-     * Gets the value of the idCompra property.
+     * Obtiene el valor de la propiedad idCompra.
      * 
      * @return
      *     possible object is
@@ -55,7 +55,7 @@ public class RecepcionPago {
     }
 
     /**
-     * Sets the value of the idCompra property.
+     * Define el valor de la propiedad idCompra.
      * 
      * @param value
      *     allowed object is
@@ -67,7 +67,7 @@ public class RecepcionPago {
     }
 
     /**
-     * Gets the value of the numeroTarjeta property.
+     * Obtiene el valor de la propiedad numeroTarjeta.
      * 
      * @return
      *     possible object is
@@ -79,7 +79,7 @@ public class RecepcionPago {
     }
 
     /**
-     * Sets the value of the numeroTarjeta property.
+     * Define el valor de la propiedad numeroTarjeta.
      * 
      * @param value
      *     allowed object is
@@ -91,7 +91,7 @@ public class RecepcionPago {
     }
 
     /**
-     * Gets the value of the monto property.
+     * Obtiene el valor de la propiedad monto.
      * 
      * @return
      *     possible object is
@@ -103,7 +103,7 @@ public class RecepcionPago {
     }
 
     /**
-     * Sets the value of the monto property.
+     * Define el valor de la propiedad monto.
      * 
      * @param value
      *     allowed object is
@@ -115,7 +115,7 @@ public class RecepcionPago {
     }
 
     /**
-     * Gets the value of the fecha property.
+     * Obtiene el valor de la propiedad fecha.
      * 
      * @return
      *     possible object is
@@ -127,7 +127,7 @@ public class RecepcionPago {
     }
 
     /**
-     * Sets the value of the fecha property.
+     * Define el valor de la propiedad fecha.
      * 
      * @param value
      *     allowed object is
