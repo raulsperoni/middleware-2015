@@ -41,7 +41,9 @@ public class ComposicionESBHandler {
             servicio = "stocklocal";
         }
         else {
-            idReserva = 2500; // TODO llamar a ePuerto - Ver esto esta medio turbio... en el esb.
+            idReserva = 2500;
+            // TODO llamar a ePuerto - Pasar idOrden + lista productos.
+            // TODO pasar idOrden para obtener id reserva
             servicio = "epuerto";
         }
 
@@ -53,6 +55,7 @@ public class ComposicionESBHandler {
         else {
             resultado.setCodigo("Error");
             resultado.setDescripcion(confirmacionPago.getMessage());
+            // TODO llamar al ws del P&S
             // Llamar al servicio publish suscribe para anular.
             // pasar: idReserva y servicio
         }
@@ -104,6 +107,8 @@ public class ComposicionESBHandler {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
             ServicioRecepcionPagos servicioRecepcionPagos = new ServicioRecepcionPagosService().getServicioRecepcionPagosPort();
+
+            // FIXME ver porque tira exception al invocar el ws :(
             confirmacionPago = servicioRecepcionPagos.recepcionPago(ordenCompra.getIdOrden(), String.valueOf(ordenCompra.getNumeroTarjeta()), String.valueOf(montoTotal), sdf.format(calendar.getTime()));
         } catch (Exception e) {
             logger.error("Error al invocar el servicio de pagos-ya");
