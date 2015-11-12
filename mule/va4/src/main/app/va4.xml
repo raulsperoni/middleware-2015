@@ -57,6 +57,9 @@ http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/
 		validateConnections="true" doc:name="File" />
     <jms:activemq-connector name="Active_MQ" brokerURL="tcp://localhost:61616" validateConnections="true" doc:name="Active MQ"/>
     <cxf:configuration name="CXF_Configuration" enableMuleSoapHeaders="true" initializeStaticBusInstance="true" doc:name="CXF Configuration"/>
+    <data-mapper:config name="JMS_XML_To_XML" transformationGraphPath="jms_xml_to_xml.grf" doc:name="JMS_XML_To_XML"/>
+    <data-mapper:config name="JMS_XML_To_XML_1" transformationGraphPath="jms_xml_to_xml_1.grf" doc:name="JMS_XML_To_XML_1"/>
+    <data-mapper:config name="PUB_SUB_XML_To_XML" transformationGraphPath="pub_sub_xml_to_xml.grf" doc:name="PUB_SUB_XML_To_XML"/>
 
 
 	<flow name="StockLocal">
@@ -174,12 +177,38 @@ http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/
         doc:description="Guardo el Archivo en carpeta Anulacion"/>
         <set-payload value="OK" doc:name="OK"/>
     </sub-flow>
+    
     <flow name="PublishSuscribe">
-        <http:listener config-ref="HTTP_Listener_Configuration" path="/esb/pubsub" doc:name="HTTP"/>
-        <cxf:proxy-service configuration-ref="CXF_Configuration" payload="body" doc:name="CXF"/>
-        <jms:outbound-endpoint topic="publishAnulacion" connector-ref="Active_MQ" doc:name="JMS">
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/esb/pubsub" doc:name="HTTP"
+        	doc:description="Escucho en localhost:8181/esb/pubsub"/>
+        <cxf:proxy-service configuration-ref="CXF_Configuration" payload="body" doc:name="CXF" 
+        	namespace="http://services.mgcoders.uy/" service="AnularViaPSService" wsdlLocation="AnularViaPS.wsdl"
+        	doc:description="Proveo contrato soap"/>
+        <response>
+            <set-payload value="OK" doc:name="Set Payload"
+            	doc:description="Contesto OK"/>
+            <mulexml:object-to-xml-transformer doc:name="Object to XML"
+            	doc:description="Transoformo a xml para response valida"/>
+        </response>
+        <mulexml:dom-to-xml-transformer doc:name="DOM to XML"
+        	doc:description="Paso de DOM a XML para ir a JMS"/>
+        <jms:outbound-endpoint topic="publishAnulacion" connector-ref="Active_MQ" doc:name="JMS"
+        	doc:description="Dejo el Mensaje en un Topic de ActiveMQ">
             <jms:transaction action="NONE"/>
         </jms:outbound-endpoint>
+    </flow>
+    <flow name="SubscriptorEpuerto">
+        <jms:inbound-endpoint topic="publishAnulacion" doc:name="JMS"
+        	doc:description="Recibo Mensaje del Topic">
+            <jms:client-ack-transaction action="NONE"/>
+        </jms:inbound-endpoint>
+        <expression-filter expression="#[xpath3('/ser:anularReservas/servicio/text()') == 'ePuerto']" 
+        	doc:name="Filtro Epuerto"
+        	doc:description="Filtro si no es para mi"/>
+        <data-mapper:transform config-ref="PUB_SUB_XML_To_XML" doc:name="PUB SUB XML To XML"
+        	doc:description="Tranformo para que quede adecuado para Epuerto"/>
+        <flow-ref name="EPuertoAnularOrden" doc:name="EPuertoAnularOrden"
+        	doc:description="Mando a Epuerto como si hubiera llegado por WebService"/>
     </flow>
 
 </mule>
