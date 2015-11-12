@@ -1,5 +1,7 @@
 package uy.mgcoders.services;
 
+import org.apache.cxf.annotations.Policy;
+import org.jboss.ws.api.annotation.EndpointConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uy.mgcoders.dto.OrdenCompra;
@@ -22,6 +24,8 @@ import java.util.List;
 @Stateless
 @WebService
 @Addressing(enabled = true, required = true)
+@Policy(placement = Policy.Placement.SERVICE, uri = "securitypolicy.xml")
+@EndpointConfig(configFile = "WEB-INF/jaxws-endpoint-config-ping.xml")
 public class ServicioRecepcionOrdenCompra {
 
     private static final Logger logger = LoggerFactory.getLogger(ServicioRecepcionOrdenCompra.class);
