@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?><ser:anularReservas xmlns:ser="http://services.mgcoders.uy/">
+         <idReserva>122334</idReserva>
+         <servicio>ePuerto</servicio>
+      </ser:anularReservas>

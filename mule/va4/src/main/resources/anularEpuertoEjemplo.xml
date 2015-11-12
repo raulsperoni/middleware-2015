@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+      <ser:anularOrden xmlns:ser="http://services.mgcoders.uy/">
+         <!--Optional:-->
+         <identificadorReserva>?</identificadorReserva>
+      </ser:anularOrden>
