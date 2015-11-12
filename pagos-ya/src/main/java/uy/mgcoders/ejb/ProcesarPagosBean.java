@@ -29,35 +29,40 @@ public class ProcesarPagosBean {
 
     public Resultado procesarPago(Pago pago) {
 
-        logger.info("metodo: procesarPago");
+        logger.info("########## START --> Servicio Procesar Pago --> Procesar pago ##########");
         logger.info("Identificador de compra..: " + pago.getIdCompra());
         logger.info("Numero tarjeta de credito: " + pago.getNumeroTarjeta());
         logger.info("Monto....................: " + pago.getMonto());
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        logger.info("Fecha y hora.............: " + sdf.format(pago.getFecha().getTime()) );
+        logger.info("Fecha y hora.............: " + sdf.format(pago.getFecha().getTime()));
 
         Resultado resultado = new Resultado();
-        // Si ya hay un pago para la orden se retorna error. {"idConfirmacionPago":-1}
-        if(pagos.containsKey(pago.getIdCompra())) {
 
-            resultado.setIdConfirmacionPago(-1);
-            resultado.setStatus(false);
-            resultado.setMensaje("Ya existe un pago con el identificador de compra " + pago.getIdCompra());
+        try {
+            // Si ya hay un pago para la orden se retorna error. {"idConfirmacionPago":-1}
+            if (pagos.containsKey(pago.getIdCompra()))
+                throw  new Exception("Ya existe un pago con el identificador de compra " + pago.getIdCompra());
 
-            logger.info("Confirmacion de pago.....: ERROR");
-        }
-        else { // En caso de exito se retorna la identificacion del pago.
+            // En caso de exito se retorna la identificacion del pago.
             idConfirmacionPago++;
             pagos.put(pago.getIdCompra(), pago);
-
             resultado.setIdConfirmacionPago(idConfirmacionPago);
             resultado.setStatus(true);
             resultado.setMensaje("");
 
+            logger.info("OK procesarPago");
             logger.info("Confirmacion de pago.....: " + idConfirmacionPago);
         }
+        catch (Exception ex)
+        {
+            logger.info("ERROR procesarPago");
+            logger.info("Mensaje....................:" + ex.getMessage());
+            resultado.setIdConfirmacionPago(-1);
+            resultado.setStatus(false);
+            resultado.setMensaje("ERROR: " + ex.getMessage());
+        }
 
-        logger.info("#######");
+        logger.info("########## START --> Servicio Procesar Pago --> Procesar pago ##########");
 
         return resultado;
     }
