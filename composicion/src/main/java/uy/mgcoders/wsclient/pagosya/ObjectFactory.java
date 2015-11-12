@@ -1,10 +1,7 @@
 
 package uy.mgcoders.wsclient.pagosya;
 
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.annotation.XmlElementDecl;
 import javax.xml.bind.annotation.XmlRegistry;
-import javax.xml.namespace.QName;
 
 
 /**
@@ -24,8 +21,6 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _RecepcionPagoResponse_QNAME = new QName("http://services.mgcoders.uy/", "recepcionPagoResponse");
-    private final static QName _RecepcionPago_QNAME = new QName("http://services.mgcoders.uy/", "recepcionPago");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: uy.mgcoders.wsclient.pagosya
@@ -43,37 +38,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RecepcionPagoResponse }
-     * 
-     */
-    public RecepcionPagoResponse createRecepcionPagoResponse() {
-        return new RecepcionPagoResponse();
-    }
-
-    /**
      * Create an instance of {@link ConfirmacionPago }
      * 
      */
     public ConfirmacionPago createConfirmacionPago() {
         return new ConfirmacionPago();
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link RecepcionPagoResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://services.mgcoders.uy/", name = "recepcionPagoResponse")
-    public JAXBElement<RecepcionPagoResponse> createRecepcionPagoResponse(RecepcionPagoResponse value) {
-        return new JAXBElement<RecepcionPagoResponse>(_RecepcionPagoResponse_QNAME, RecepcionPagoResponse.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link RecepcionPago }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://services.mgcoders.uy/", name = "recepcionPago")
-    public JAXBElement<RecepcionPago> createRecepcionPago(RecepcionPago value) {
-        return new JAXBElement<RecepcionPago>(_RecepcionPago_QNAME, RecepcionPago.class, null, value);
     }
 
 }
