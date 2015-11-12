@@ -9,7 +9,6 @@ import uy.mgcoders.wsclient.pagosya.ConfirmacionPago;
 import uy.mgcoders.wsclient.pagosya.ServicioRecepcionPagos;
 import uy.mgcoders.wsclient.pagosya.ServicioRecepcionPagosService;
 import uy.mgcoders.wsclient.stock.Reserva;
-import uy.mgcoders.wsclient.stock.ResultadoAnulacion;
 import uy.mgcoders.wsclient.stock.ServicioRecepcionStock;
 import uy.mgcoders.wsclient.stock.ServicioRecepcionStockService;
 
@@ -35,12 +34,15 @@ public class ComposicionESBHandler {
         uy.mgcoders.wsclient.stock.Resultado resultadoStockLocal = reservarProductosStockLocal(ordenCompra.getProductos());
 
         long idReserva;
+        String servicio;
 
         if(resultadoStockLocal.getCodigo().equalsIgnoreCase("OK")) {
             idReserva = resultadoStockLocal.getIdReserva();
+            servicio = "stocklocal";
         }
         else {
-            idReserva = 2500; // TODO llamar a ePuerto
+            idReserva = 2500; // TODO llamar a ePuerto - Ver esto esta medio turbio... en el esb.
+            servicio = "epuerto";
         }
 
         ConfirmacionPago confirmacionPago = pagarOrdenCompra(ordenCompra);
@@ -52,6 +54,7 @@ public class ComposicionESBHandler {
             resultado.setCodigo("Error");
             resultado.setDescripcion(confirmacionPago.getMessage());
             // Llamar al servicio publish suscribe para anular.
+            // pasar: idReserva y servicio
         }
 
         resultado.setIdCompra(ordenCompra.getIdOrden());
@@ -61,37 +64,56 @@ public class ComposicionESBHandler {
 
 
     private uy.mgcoders.wsclient.stock.Resultado reservarProductosStockLocal(List<Producto> productos) {
-        // Crear la lista de procutos para invocar a stock local.
-        List<uy.mgcoders.wsclient.stock.Producto> productoList = new ArrayList<>();
-        for(Producto p : productos) {
-            uy.mgcoders.wsclient.stock.Producto producto = new uy.mgcoders.wsclient.stock.Producto();
-            producto.setCantidad(p.getCantidad());
-            producto.setIdProducto(p.getIdProducto());
-            productoList.add(producto);
+        uy.mgcoders.wsclient.stock.Resultado resultadoStock;
+        try {
+            // Crear la lista de procutos para invocar a stock local.
+            List<uy.mgcoders.wsclient.stock.Producto> productoList = new ArrayList<>();
+            for(Producto p : productos) {
+                uy.mgcoders.wsclient.stock.Producto producto = new uy.mgcoders.wsclient.stock.Producto();
+                producto.setCantidad(p.getCantidad());
+                producto.setIdProducto(p.getIdProducto());
+                productoList.add(producto);
+            }
+
+            ServicioRecepcionStock servicioRecepcionStock = new ServicioRecepcionStockService().getServicioRecepcionStockPort();
+            Reserva reserva = new Reserva();
+            reserva.getProducto().addAll(productoList);
+            resultadoStock = servicioRecepcionStock.reservarProducto(reserva);
+        } catch (Exception e) {
+            logger.error("Error al invocar el servicio de stock-local");
+            logger.error("Mensaje: " + e.getMessage());
+
+            resultadoStock = new uy.mgcoders.wsclient.stock.Resultado();
+            resultadoStock.setCodigo("Error");
+            resultadoStock.setDescripcion("Error al invocar el servicio de stock-local");
         }
-
-        ServicioRecepcionStock servicioRecepcionStock = new ServicioRecepcionStockService().getServicioRecepcionStockPort();
-        Reserva reserva = new Reserva();
-        reserva.getProducto().addAll(productoList);
-        return servicioRecepcionStock.reservarProducto(reserva);
+        return resultadoStock;
     }
-
 
     private ConfirmacionPago pagarOrdenCompra(OrdenCompra ordenCompra) {
-        double montoTotal = 0;
-        for(Producto p : ordenCompra.getProductos()) {
-            montoTotal += p.getCantidad() * p.getPrecioUnitario();
+        ConfirmacionPago confirmacionPago;
+        try {
+            // Calcular el total de la compra.
+            double montoTotal = 0;
+            for(Producto p : ordenCompra.getProductos()) {
+                montoTotal += p.getCantidad() * p.getPrecioUnitario();
+            }
+
+            // Pasa la fecha al formato adecuado.
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
+            ServicioRecepcionPagos servicioRecepcionPagos = new ServicioRecepcionPagosService().getServicioRecepcionPagosPort();
+            confirmacionPago = servicioRecepcionPagos.recepcionPago(ordenCompra.getIdOrden(), String.valueOf(ordenCompra.getNumeroTarjeta()), String.valueOf(montoTotal), sdf.format(calendar.getTime()));
+        } catch (Exception e) {
+            logger.error("Error al invocar el servicio de pagos-ya");
+            logger.error("Mensaje: " + e.getMessage());
+
+            confirmacionPago = new ConfirmacionPago();
+            confirmacionPago.setStatus("false");
+            confirmacionPago.setMessage("Error al invocar el servicio de pagos-ya");
         }
-
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-
-        ServicioRecepcionPagos servicioRecepcionPagos = new ServicioRecepcionPagosService().getServicioRecepcionPagosPort();
-        return servicioRecepcionPagos.recepcionPago(ordenCompra.getIdOrden(), String.valueOf(ordenCompra.getNumeroTarjeta()), String.valueOf(montoTotal), sdf.format(calendar.getTime()));
+        return confirmacionPago;
     }
 
-    private ResultadoAnulacion anularReservaStockLocal(long idReserva) {
-        ServicioRecepcionStock servicioRecepcionStock = new ServicioRecepcionStockService().getServicioRecepcionStockPort();
-        return servicioRecepcionStock.anularReserva(idReserva);
-    }
 }
