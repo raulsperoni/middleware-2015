@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><Graph __version="3.5.0" author="raul" created="Thu Nov 12 14:39:05 UYT 2015" description="JMS XML To XML" guiVersion="3.4.4.P" id="1447362983518" licenseCode="Unlicensed" licenseType="Unknown" modified="Thu Nov 12 14:39:05 UYT 2015" modifiedBy="raul" name="JMS_XML_To_XML_1" preview-file="${Project_Home}/src/main/resources/ejemploAnularReservaSubPub.xml" revision="1.0" showComponentDetails="false">
+<Global>
+<Metadata __filteredMetadata="false" __index="0" __referenceCounter="1" __schemaType="{http://services.mgcoders.uy/}anularReservasType" __sourcePath="{http://services.mgcoders.uy/=ns0}/ns0:anularReservas" _dataStructure="OBJECT" _id="__id" _type="Input" id="ee0982d5-e2c1-4618-8a0b-5912008d4af9">
+<Record fieldDelimiter="," name="anularReservas" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="0" __schemaType="{http://services.mgcoders.uy/}anularReservasType" __sourcePath="{http://services.mgcoders.uy/=ns0}/ns0:anularReservas/idReserva" containerType="SINGLE" label="idReserva" name="idReserva" type="integer"/>
+<Field __index="1" __schemaType="{http://services.mgcoders.uy/}anularReservasType" __sourcePath="{http://services.mgcoders.uy/=ns0}/ns0:anularReservas/servicio" containerType="SINGLE" label="servicio" name="servicio" type="string"/>
+</Record>
+</Metadata>
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/anularReservas" _dataStructure="OBJECT" _id="__id" _type="Output" id="bb18570a-f91d-4a97-8af8-23dc2569162a">
+<Record fieldDelimiter="," name="anularReservas" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __sourcePath="{http://services.mgcoders.uy/=ser}/anularReservas/ser:anularOrden/@identificadorReserva" containerType="SINGLE" label="identificadorReserva" name="identificadorReserva" type="string"/>
+</Record>
+</Metadata>
+<Dictionary>
+<Entry id="DictionaryEntry0" input="true" name="inputPayload" output="false" type="object"/>
+<Entry id="DictionaryEntry1" input="false" name="outputPayload" output="true" type="object"/>
+</Dictionary>
+</Global>
+<Phase number="0">
+<Node cacheInMemory="true" charset="UTF-8" enabled="enabled" fileURL="dict:outputPayload" guiName="XML WRITER" guiX="900" guiY="20" id="EXT_XML_WRITER0" type="EXT_XML_WRITER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<anularReservas xmlns:clover="http://www.cloveretl.com/ns/xmlmapping" clover:inPort="0">
+  <clover:element clover:name="ser:anularOrden" xmlns:ser="http://services.mgcoders.uy/" identificadorReserva="$0.identificadorReserva"/>
+</anularReservas>]]></attr>
+<attr name="_data_format"><![CDATA[XML]]></attr>
+</Node>
+<Node enabled="enabled" guiName="Foreach 'ns0:anularReservas' -&gt; 'anularReservas'" guiX="460" guiY="20" id="FOREACH_NS0_ANULAR_RESERVAS_ANULAR_RESERVAS" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
+<attr name="melScript"><![CDATA[//MEL
+//START -> DO NOT REMOVE
+output.__id = input.__id;
+//END -> DO NOT REMOVE
+output.identificadorReserva = num2str(input.idReserva);]]></attr>
+</Node>
+<Node charset="UTF-8" enabled="enabled" fileURL="dict:inputPayload" guiName="XML READER" guiX="20" guiY="20" id="XML_READER0" type="XML_READER">
+<attr name="xmlSchemaURL"><![CDATA[./src/test/resources/servicio.xsd,/home/raul/proyectos/middl2015/mule/va4/src/test/resources/anularReservas.xsd]]></attr>
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Context namespacePaths="ns0=&quot;http://services.mgcoders.uy/&quot;" outPort="0" sequenceField="__id" xpath="/ns0:anularReservas">
+  <Mapping cloverField="idReserva" trim="true" xpath="idReserva"/>
+  <Mapping cloverField="servicio" trim="true" xpath="servicio"/>
+</Context>
+]]></attr>
+<attr name="_data_format"><![CDATA[XML]]></attr>
+<attr name="__rootGlobalElementName"><![CDATA[{http://services.mgcoders.uy/}anularReservas]]></attr>
+</Node>
+<Edge debugMode="true" fromNode="FOREACH_NS0_ANULAR_RESERVAS_ANULAR_RESERVAS:0" guiBendpoints="" id="Edge1" inPort="Port 0 (in)" metadata="bb18570a-f91d-4a97-8af8-23dc2569162a" outPort="Port 0 (out)" toNode="EXT_XML_WRITER0:0"/>
+<Edge debugMode="true" fromNode="XML_READER0:0" guiBendpoints="" id="Edge0" inPort="Port 0 (in)" metadata="ee0982d5-e2c1-4618-8a0b-5912008d4af9" outPort="Port 0 (out)" toNode="FOREACH_NS0_ANULAR_RESERVAS_ANULAR_RESERVAS:0"/>
+</Phase>
+</Graph>

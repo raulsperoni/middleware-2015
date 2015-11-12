@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><Graph __version="3.5.0" author="raul" created="Thu Nov 12 14:39:05 UYT 2015" description="JMS XML To XML" guiVersion="3.4.4.P" id="1447362029752" licenseCode="Unlicensed" licenseType="Unknown" modified="Thu Nov 12 14:39:05 UYT 2015" modifiedBy="raul" name="JMS_XML_To_XML" preview-file="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;ser:anularReservas xmlns:ser=&quot;http://services.mgcoders.uy/&quot;&gt;&#10;         &lt;idReserva&gt;122334&lt;/idReserva&gt;&#10;         &lt;servicio&gt;ePuerto&lt;/servicio&gt;&#10;      &lt;/ser:anularReservas&gt;" revision="1.0" showComponentDetails="false">
+<Global>
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/EntradaJms" _dataStructure="OBJECT" _id="__id" _type="Output" id="72f036b0-afe7-4d18-89a0-017cb2d38bea">
+<Record fieldDelimiter="," name="EntradaJms" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __sourcePath="{http://services.mgcoders.uy=ser}/EntradaJms/ser:anularOrden/@identificadorReserva" containerType="SINGLE" label="identificadorReserva" name="identificadorReserva" type="string"/>
+</Record>
+</Metadata>
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/EntradaJms" _dataStructure="OBJECT" _id="__id" _type="Input" id="723938a9-7ac9-47be-8daf-d7b3ef11f16a">
+<Record fieldDelimiter="," name="EntradaJms" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __sourcePath="{http://services.mgcoders.uy=ser}/EntradaJms/ser:anularReservas/@idReserva" containerType="SINGLE" label="idReserva" name="idReserva" type="string"/>
+<Field __sourcePath="{http://services.mgcoders.uy=ser}/EntradaJms/ser:anularReservas/@servicio" containerType="SINGLE" label="servicio" name="servicio" type="string"/>
+</Record>
+</Metadata>
+<Dictionary>
+<Entry id="DictionaryEntry0" input="true" name="inputPayload" output="false" type="object"/>
+<Entry id="DictionaryEntry1" input="false" name="outputPayload" output="true" type="object"/>
+</Dictionary>
+</Global>
+<Phase number="0">
+<Node cacheInMemory="true" charset="UTF-8" enabled="enabled" fileURL="dict:outputPayload" guiName="XML WRITER" guiX="900" guiY="20" id="EXT_XML_WRITER0" type="EXT_XML_WRITER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<EntradaJms xmlns:clover="http://www.cloveretl.com/ns/xmlmapping" clover:inPort="0">
+  <clover:element clover:name="ser:anularOrden" xmlns:ser="http://services.mgcoders.uy" identificadorReserva="$0.identificadorReserva"/>
+</EntradaJms>]]></attr>
+<attr name="_data_format"><![CDATA[XML]]></attr>
+</Node>
+<Node enabled="enabled" guiName="Foreach 'EntradaJms' -&gt; 'EntradaJms'" guiX="460" guiY="20" id="FOREACH_ENTRADA_JMS_ENTRADA_JMS" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
+<attr name="melScript"><![CDATA[//MEL
+//START -> DO NOT REMOVE
+output.__id = input.__id;
+//END -> DO NOT REMOVE
+output.identificadorReserva = input.idReserva;]]></attr>
+</Node>
+<Node charset="UTF-8" enabled="enabled" fileURL="dict:inputPayload" guiName="XML READER" guiX="20" guiY="20" id="XML_READER0" type="XML_READER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Context outPort="0" sequenceField="__id" xpath="/EntradaJms">
+  <Mapping cloverField="idReserva" namespacePaths="ser=&quot;http://services.mgcoders.uy&quot;" trim="true" xpath="ser:anularReservas/@idReserva"/>
+  <Mapping cloverField="servicio" namespacePaths="ser=&quot;http://services.mgcoders.uy&quot;" trim="true" xpath="ser:anularReservas/@servicio"/>
+</Context>
+]]></attr>
+<attr name="_data_format"><![CDATA[XML]]></attr>
+</Node>
+<Edge debugMode="true" fromNode="FOREACH_ENTRADA_JMS_ENTRADA_JMS:0" guiBendpoints="" id="Edge1" inPort="Port 0 (in)" metadata="72f036b0-afe7-4d18-89a0-017cb2d38bea" outPort="Port 0 (out)" toNode="EXT_XML_WRITER0:0"/>
+<Edge debugMode="true" fromNode="XML_READER0:0" guiBendpoints="" id="Edge0" inPort="Port 0 (in)" metadata="723938a9-7ac9-47be-8daf-d7b3ef11f16a" outPort="Port 0 (out)" toNode="FOREACH_ENTRADA_JMS_ENTRADA_JMS:0"/>
+</Phase>
+</Graph>
