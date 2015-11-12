@@ -9,6 +9,7 @@ import uy.mgcoders.wsclient.pagosya.ConfirmacionPago;
 import uy.mgcoders.wsclient.pagosya.ServicioRecepcionPagos;
 import uy.mgcoders.wsclient.pagosya.ServicioRecepcionPagosService;
 import uy.mgcoders.wsclient.stock.Reserva;
+import uy.mgcoders.wsclient.stock.ResultadoAnulacion;
 import uy.mgcoders.wsclient.stock.ServicioRecepcionStock;
 import uy.mgcoders.wsclient.stock.ServicioRecepcionStockService;
 
@@ -29,18 +30,35 @@ public class ComposicionESBHandler {
 
     public Resultado procesarOrdenCompra(OrdenCompra ordenCompra) {
 
+        Resultado resultado = new Resultado();
+
         uy.mgcoders.wsclient.stock.Resultado resultadoStockLocal = reservarProductosStockLocal(ordenCompra.getProductos());
 
-        if(resultadoStockLocal.getCodigo().equalsIgnoreCase("OK")) {
+        long idReserva;
 
+        if(resultadoStockLocal.getCodigo().equalsIgnoreCase("OK")) {
+            idReserva = resultadoStockLocal.getIdReserva();
+        }
+        else {
+            idReserva = 2500; // TODO llamar a ePuerto
         }
 
-        Resultado resultado = new Resultado();
-        resultado.setCodigo("OK");
+        ConfirmacionPago confirmacionPago = pagarOrdenCompra(ordenCompra);
+
+        if(confirmacionPago.getStatus().equalsIgnoreCase("true")) {
+            resultado.setCodigo("OK");
+        }
+        else {
+            resultado.setCodigo("Error");
+            resultado.setDescripcion(confirmacionPago.getMessage());
+            // Llamar al servicio publish suscribe para anular.
+        }
+
         resultado.setIdCompra(ordenCompra.getIdOrden());
-        resultado.setDescripcion("descr...");
+
         return resultado;
     }
+
 
     private uy.mgcoders.wsclient.stock.Resultado reservarProductosStockLocal(List<Producto> productos) {
         // Crear la lista de procutos para invocar a stock local.
@@ -58,6 +76,7 @@ public class ComposicionESBHandler {
         return servicioRecepcionStock.reservarProducto(reserva);
     }
 
+
     private ConfirmacionPago pagarOrdenCompra(OrdenCompra ordenCompra) {
         double montoTotal = 0;
         for(Producto p : ordenCompra.getProductos()) {
@@ -65,10 +84,14 @@ public class ComposicionESBHandler {
         }
 
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
         ServicioRecepcionPagos servicioRecepcionPagos = new ServicioRecepcionPagosService().getServicioRecepcionPagosPort();
-        return servicioRecepcionPagos.recepcionPago(ordenCompra.getIdOrden().toString(), String.valueOf(ordenCompra.getNumeroTarjeta()), String.valueOf(montoTotal), sdf.format(calendar.getTime()));
+        return servicioRecepcionPagos.recepcionPago(ordenCompra.getIdOrden(), String.valueOf(ordenCompra.getNumeroTarjeta()), String.valueOf(montoTotal), sdf.format(calendar.getTime()));
+    }
 
+    private ResultadoAnulacion anularReservaStockLocal(long idReserva) {
+        ServicioRecepcionStock servicioRecepcionStock = new ServicioRecepcionStockService().getServicioRecepcionStockPort();
+        return servicioRecepcionStock.anularReserva(idReserva);
     }
 }
