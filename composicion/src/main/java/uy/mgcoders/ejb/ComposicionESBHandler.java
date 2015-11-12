@@ -14,10 +14,10 @@ import uy.mgcoders.wsclient.stock.ServicioRecepcionStock;
 import uy.mgcoders.wsclient.stock.ServicioRecepcionStockService;
 
 import javax.ejb.Stateless;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by pablo on 11/11/15.
@@ -104,17 +104,18 @@ public class ComposicionESBHandler {
             }
 
             // Pasa la fecha al formato adecuado.
-            Calendar calendar = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            GregorianCalendar c = new GregorianCalendar();
+            c.setTime(new Date());
+            XMLGregorianCalendar fecha = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
 
             ServicioRecepcionPagos servicioRecepcionPagos = new ServicioRecepcionPagosService().getServicioRecepcionPagosPort();
 
             // FIXME ver porque tira exception al invocar el ws :(
             RecepcionPago recepcionPago = new RecepcionPago();
-            recepcionPago.setFecha(sdf.format(calendar.getTime()));
+            recepcionPago.setFecha(fecha);
             recepcionPago.setIdCompra(ordenCompra.getIdOrden());
-            recepcionPago.setMonto(String.valueOf(montoTotal));
-            recepcionPago.setNumeroTarjeta(String.valueOf(ordenCompra.getNumeroTarjeta()));
+            recepcionPago.setMonto(montoTotal);
+            recepcionPago.setNumeroTarjeta(ordenCompra.getNumeroTarjeta());
             confirmacionPago = servicioRecepcionPagos.recepcionPago(recepcionPago);
         } catch (Exception e) {
             logger.error("Error al invocar el servicio de pagos-ya");
