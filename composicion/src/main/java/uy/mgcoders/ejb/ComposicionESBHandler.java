@@ -16,7 +16,6 @@ import uy.mgcoders.wsclient.stock.ServicioRecepcionStockService;
 import javax.ejb.Stateless;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -110,7 +109,6 @@ public class ComposicionESBHandler {
 
             ServicioRecepcionPagos servicioRecepcionPagos = new ServicioRecepcionPagosService().getServicioRecepcionPagosPort();
 
-            // FIXME ver porque tira exception al invocar el ws :(
             RecepcionPago recepcionPago = new RecepcionPago();
             recepcionPago.setFecha(fecha);
             recepcionPago.setIdCompra(ordenCompra.getIdOrden());

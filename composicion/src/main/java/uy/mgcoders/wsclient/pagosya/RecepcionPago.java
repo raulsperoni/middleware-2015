@@ -9,9 +9,9 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 
 /**
- * <p>Clase Java para recepcionPago complex type.
+ * <p>Java class for recepcionPago complex type.
  * 
- * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
+ * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="recepcionPago">
@@ -46,7 +46,7 @@ public class RecepcionPago {
     protected long numeroTarjeta;
 
     /**
-     * Obtiene el valor de la propiedad fecha.
+     * Gets the value of the fecha property.
      * 
      * @return
      *     possible object is
@@ -58,7 +58,7 @@ public class RecepcionPago {
     }
 
     /**
-     * Define el valor de la propiedad fecha.
+     * Sets the value of the fecha property.
      * 
      * @param value
      *     allowed object is
@@ -70,7 +70,7 @@ public class RecepcionPago {
     }
 
     /**
-     * Obtiene el valor de la propiedad idCompra.
+     * Gets the value of the idCompra property.
      * 
      * @return
      *     possible object is
@@ -82,7 +82,7 @@ public class RecepcionPago {
     }
 
     /**
-     * Define el valor de la propiedad idCompra.
+     * Sets the value of the idCompra property.
      * 
      * @param value
      *     allowed object is
@@ -94,7 +94,7 @@ public class RecepcionPago {
     }
 
     /**
-     * Obtiene el valor de la propiedad monto.
+     * Gets the value of the monto property.
      * 
      */
     public double getMonto() {
@@ -102,7 +102,7 @@ public class RecepcionPago {
     }
 
     /**
-     * Define el valor de la propiedad monto.
+     * Sets the value of the monto property.
      * 
      */
     public void setMonto(double value) {
@@ -110,7 +110,7 @@ public class RecepcionPago {
     }
 
     /**
-     * Obtiene el valor de la propiedad numeroTarjeta.
+     * Gets the value of the numeroTarjeta property.
      * 
      */
     public long getNumeroTarjeta() {
@@ -118,7 +118,7 @@ public class RecepcionPago {
     }
 
     /**
-     * Define el valor de la propiedad numeroTarjeta.
+     * Sets the value of the numeroTarjeta property.
      * 
      */
     public void setNumeroTarjeta(long value) {

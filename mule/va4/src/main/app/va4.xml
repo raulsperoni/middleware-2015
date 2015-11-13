@@ -85,7 +85,7 @@ http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/
 			wsdlLocation="ServicioRecepcionPagos.wsdl" doc:name="CXF" 
 			doc:description="Proveo contrato soap"/>
         <json:xml-to-json-transformer doc:name="XML to JSON" doc:description="Convierto de Xml a Json"/>
-		<set-payload value="#[json:ser:recepcionPago]" doc:name="Set Payload" 
+		<set-payload value="#[json:ns1:recepcionPago]" doc:name="Set Payload" 
 			doc:description="Bajo un nivel en los elementos json"/>
         <set-payload value="#[json:recepcionPago]" doc:name="Set Payload"/>
 		<set-payload
@@ -103,6 +103,9 @@ http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/
 		</http:request>
         <response>
             <data-mapper:transform config-ref="JSON_TO_XML" doc:name="Json To XML" doc:description="Convierto respuesta de Json a Xml"/>
+            <json:xml-to-json-transformer doc:name="XML to JSON"/>
+            <set-payload value="#[json:object]" doc:name="getObject"/>
+            <set-payload value="&lt;ns1:recepcionPagoResponse xmlns:ns1=&quot;http://services.mgcoders.uy/&quot;&gt;&lt;return xmlns:ns2=&quot;http://services.mgcoders.uy/&quot;&gt;&lt;status&gt;#[json:status]&lt;/status&gt; &lt;message&gt;#[json:mensaje]&lt;/message&gt;&lt;idConfirmacionPago&gt;#[json:idConfirmacionPago]&lt;/idConfirmacionPago&gt; &lt;/return&gt;&lt;/ns1:recepcionPagoResponse&gt;" doc:name="recepcionPagoResponse"/>
         </response>
 	</flow>
 
@@ -185,10 +188,8 @@ http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/
         	namespace="http://services.mgcoders.uy/" service="AnularViaPSService" wsdlLocation="AnularViaPS.wsdl"
         	doc:description="Proveo contrato soap"/>
         <response>
-            <set-payload value="OK" doc:name="Set Payload"
-            	doc:description="Contesto OK"/>
-            <mulexml:object-to-xml-transformer doc:name="Object to XML"
-            	doc:description="Transoformo a xml para response valida"/>
+            <set-payload value="OK" doc:name="Set Payload" doc:description="Contesto OK"/>
+            <mulexml:object-to-xml-transformer doc:name="Object to XML" doc:description="Transoformo a xml para response valida"/>
         </response>
         <mulexml:dom-to-xml-transformer doc:name="DOM to XML"
         	doc:description="Paso de DOM a XML para ir a JMS"/>
