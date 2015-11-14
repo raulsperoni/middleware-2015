@@ -203,8 +203,8 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
     </flow>
     <flow name="SubscriptorEpuerto">
         <jms:inbound-endpoint topic="publishAnulacion" doc:name="JMS"
-        	doc:description="Recibo Mensaje del Topic">
-            <jms:client-ack-transaction action="NONE"/>
+        	doc:description="Recibo Mensaje del Topic" connector-ref="Active_MQ">
+            <jms:transaction action="NONE"/>
         </jms:inbound-endpoint>
         <expression-filter expression="#[xpath3('/ser:anularReservas/servicio/text()') == 'ePuerto']" 
         	doc:name="Filtro Epuerto"

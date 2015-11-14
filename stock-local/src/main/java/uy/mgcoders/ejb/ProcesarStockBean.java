@@ -65,11 +65,11 @@ public class ProcesarStockBean {
             reservas.put(idReserva, reserva);
 
             logger.info("OK procesarReserva");
-            logger.info("idReserva....................:" + idReserva);
+            logger.info("idReserva....................: " + idReserva);
         }
         catch (Exception ex){ // Si ocurre algun error retornamos "Error" y el mensaje correspondiente.
             logger.info("ERROR procesarReserva");
-            logger.info("Mensaje....................:" + ex.getMessage());
+            logger.info("Mensaje....................: " + ex.getMessage());
             resultado.setCodigo("Error");
             resultado.setDescripcion("ERROR: " + ex.getMessage());
             resultado.setIdReserva(-1);
@@ -102,7 +102,7 @@ public class ProcesarStockBean {
         catch (Exception ex)
         {
             logger.info("ERROR anularReserva");
-            logger.info("Mensaje....................:" + ex.getMessage());
+            logger.info("Mensaje....................: " + ex.getMessage());
             resultadoAnulacion.setCodigo("Error");
             resultadoAnulacion.setDescripcion("ERROR: " + ex.getMessage());
         }

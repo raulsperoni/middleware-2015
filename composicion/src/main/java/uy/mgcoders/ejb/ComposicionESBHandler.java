@@ -45,7 +45,7 @@ public class ComposicionESBHandler {
                 idReserva = resultadoStockLocal.getIdReserva();
                 servicio = "stocklocal";
             } else {
-                servicio = "epuerto";
+                servicio = "ePuerto";
                 ConfirmacionOrden confirmacionOrden = reservarProductosEPuerto(ordenCompra);
                 idReserva = Integer.valueOf(confirmacionOrden.getIdentificadorReserva());
             }

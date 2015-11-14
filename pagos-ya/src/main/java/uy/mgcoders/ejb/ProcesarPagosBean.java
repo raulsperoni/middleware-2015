@@ -62,7 +62,7 @@ public class ProcesarPagosBean {
             resultado.setMensaje("ERROR: " + ex.getMessage());
         }
 
-        logger.info("########## START --> Servicio Procesar Pago --> Procesar pago ##########");
+        logger.info("########## END --> Servicio Procesar Pago --> Procesar pago ##########");
 
         return resultado;
     }
