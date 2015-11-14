@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ser:colocarOrden xmlns:ser="http://services.mgcoders.uy/">
+         <orden>
+            <lineas>
+               <cantidad>3</cantidad>               
+               <identificadorCompra>33</identificadorCompra>
+               <identificadorProducto>3</identificadorProducto>
+            </lineas>
+            <lineas>
+               <cantidad>4</cantidad>
+               <identificadorCompra>33</identificadorCompra>
+               <identificadorProducto>34</identificadorProducto>
+            </lineas>
+         </orden>
+      </ser:colocarOrden>

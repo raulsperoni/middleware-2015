@@ -39,8 +39,6 @@ http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/
 		doc:name="Web Service Consumer" />
 	<http:request-config name="HTTP_Request_Configuration"
 		host="localhost" port="8080" basePath="pagos-ya" doc:name="HTTP Request Configuration" />
-	<data-mapper:config name="XML_To_CSV"
-		transformationGraphPath="xml_to_csv.grf" doc:name="XML_To_CSV" />
 	<data-mapper:config name="CSV_To_Pojo"
 		transformationGraphPath="csv_to_pojo.grf" doc:name="CSV_To_Pojo" />
 	<data-mapper:config name="CSV_To_Pojo_1"
@@ -60,6 +58,7 @@ http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/
     <data-mapper:config name="JMS_XML_To_XML" transformationGraphPath="jms_xml_to_xml.grf" doc:name="JMS_XML_To_XML"/>
     <data-mapper:config name="JMS_XML_To_XML_1" transformationGraphPath="jms_xml_to_xml_1.grf" doc:name="JMS_XML_To_XML_1"/>
     <data-mapper:config name="PUB_SUB_XML_To_XML" transformationGraphPath="pub_sub_xml_to_xml.grf" doc:name="PUB_SUB_XML_To_XML"/>
+    <data-mapper:config name="XML_To_CSV" transformationGraphPath="xml_to_csv.grf" doc:name="XML_To_CSV"/>
 
 
 	<flow name="StockLocal">
@@ -115,7 +114,7 @@ http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/
 			path="/esb/epuerto" doc:name="HTTP"
 			doc:description="Escucho en localhost:8181/esb/epuerto"/>
 		<cxf:proxy-service namespace="http://services.mgcoders.uy/"
-			service="ServicioEPuertoService" payload="body" wsdlLocation="epuertoWsdl.wsdl"
+			service="ServicioEPuertoService" payload="body" wsdlLocation="epuerto.wsdl"
 			doc:name="CXF"
 			doc:description="Proveo contrato soap"/>
 		<mulexml:dom-to-xml-transformer
@@ -143,11 +142,10 @@ http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/
 	<sub-flow name="EpuertoColocarOrden" 
 		doc:description="Se procesa Colocar Orden de Epuerto">
 		<set-variable variableName="identificadorCompra"
-			value="#[xpath3('//ser:colocarOrden/identificadorCompra')]" doc:name="idCompra"
+			value="#[xpath3('//ser:colocarOrden/orden/lineas/identificadorCompra')]" doc:name="idCompra"
 			doc:description="Guardo el identificador de compra" />
-		<data-mapper:transform config-ref="XML_To_CSV"
-			doc:name="XML To CSV" 
-			doc:description="Paso de XML a CSV"/>
+        <logger message="#[payload]" level="INFO" doc:name="Logger"/>
+        <data-mapper:transform config-ref="XML_To_CSV" doc:name="XML To CSV"/>
 		<file:outbound-endpoint path="target/recepcion"
 			outputPattern="#[flowVars.identificadorCompra].csv" responseTimeout="10000"
 			doc:name="Recepcion" 

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="orden" type="ordenType"/>
+  <xs:complexType name="ordenType">
+    <xs:sequence>
+      <xs:element type="lineasType" name="lineas" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="lineasType">
+    <xs:sequence>
+      <xs:element name="cantidad">
+        <xs:simpleType>
+          <xs:restriction base="xs:byte">
+            <xs:enumeration value="3"/>
+            <xs:enumeration value="4"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="xs:byte" name="identificadorCompra"/>
+      <xs:element name="identificadorProducto">
+        <xs:simpleType>
+          <xs:restriction base="xs:byte">
+            <xs:enumeration value="3"/>
+            <xs:enumeration value="34"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://services.mgcoders.uy/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="colocarOrden" type="ser:colocarOrdenType" xmlns:ser="http://services.mgcoders.uy/"/>
+  <xs:complexType name="colocarOrdenType">
+    <xs:sequence>
+      <xs:element ref="orden"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
