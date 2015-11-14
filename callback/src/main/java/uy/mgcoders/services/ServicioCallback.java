@@ -29,6 +29,7 @@ public class ServicioCallback {
         logger.info("Codigo................: " + resultado.getCodigo());
         logger.info("Identificador De Orden: " + resultado.getIdCompra());
         logger.info("Descripcion...........:" + resultado.getDescripcion());
+        logger.info(resultado.getCodigo() +" - "+ resultado.getIdCompra() +" - "+ resultado.getDescripcion());
 
         logger.info("########## END --> Servicio Callback --> Confirmar Orden ##########");
     }

@@ -15,6 +15,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.ws.soap.Addressing;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,7 @@ public class ServicioRecepcionOrdenCompra {
 
     @WebMethod
     @WebResult(name = "resultado")
-    public Resultado ingresarOrden(@WebParam(name = "ordencompra") OrdenCompra ordenCompra) {
+    public Resultado ingresarOrden(@WebParam(name = "ordencompra") @XmlElement(required = true) OrdenCompra ordenCompra) {
 
         logger.info("########## START --> Servicio Recepcion Orden de compra --> Ingresar Orden ##########");
         logger.info("idOrden...................: " + ordenCompra.getIdOrden());

@@ -5,10 +5,15 @@ import org.slf4j.LoggerFactory;
 import uy.mgcoders.dto.OrdenCompra;
 import uy.mgcoders.dto.Producto;
 import uy.mgcoders.dto.Resultado;
+import uy.mgcoders.wsclient.epuerto.ConfirmacionOrden;
+import uy.mgcoders.wsclient.epuerto.ServicioEPuerto;
+import uy.mgcoders.wsclient.epuerto.ServicioEPuertoService;
 import uy.mgcoders.wsclient.pagosya.ConfirmacionPago;
 import uy.mgcoders.wsclient.pagosya.RecepcionPago;
 import uy.mgcoders.wsclient.pagosya.ServicioRecepcionPagos;
 import uy.mgcoders.wsclient.pagosya.ServicioRecepcionPagosService;
+import uy.mgcoders.wsclient.pubsub.AnularViaPS;
+import uy.mgcoders.wsclient.pubsub.AnularViaPSService;
 import uy.mgcoders.wsclient.stock.Reserva;
 import uy.mgcoders.wsclient.stock.ServicioRecepcionStock;
 import uy.mgcoders.wsclient.stock.ServicioRecepcionStockService;
@@ -30,41 +35,45 @@ public class ComposicionESBHandler {
     public Resultado procesarOrdenCompra(OrdenCompra ordenCompra) {
 
         Resultado resultado = new Resultado();
-
-        uy.mgcoders.wsclient.stock.Resultado resultadoStockLocal = reservarProductosStockLocal(ordenCompra.getProductos());
-
-        long idReserva;
-        String servicio;
-
-        if(resultadoStockLocal.getCodigo().equalsIgnoreCase("OK")) {
-            idReserva = resultadoStockLocal.getIdReserva();
-            servicio = "stocklocal";
-        }
-        else {
-            idReserva = 2500;
-            // TODO llamar a ePuerto - Pasar idOrden + lista productos.
-            // TODO pasar idOrden para obtener id reserva
-            servicio = "epuerto";
-        }
-
-        ConfirmacionPago confirmacionPago = pagarOrdenCompra(ordenCompra);
-
-        if(confirmacionPago.getStatus().equalsIgnoreCase("true")) {
-            resultado.setCodigo("OK");
-        }
-        else {
-            resultado.setCodigo("Error");
-            resultado.setDescripcion(confirmacionPago.getMessage());
-            // TODO llamar al ws del P&S
-            // Llamar al servicio publish suscribe para anular.
-            // pasar: idReserva y servicio
-        }
-
         resultado.setIdCompra(ordenCompra.getIdOrden());
+        try {
+
+            uy.mgcoders.wsclient.stock.Resultado resultadoStockLocal = reservarProductosStockLocal(ordenCompra.getProductos());
+
+            long idReserva;
+            String servicio;
+
+            if (resultadoStockLocal.getCodigo() != null && resultadoStockLocal.getCodigo().equalsIgnoreCase("OK")) {
+                idReserva = resultadoStockLocal.getIdReserva();
+                servicio = "stocklocal";
+            } else {
+
+                // TODO llamar a ePuerto - Pasar idOrden + lista productos.
+                // TODO pasar idOrden para obtener id reserva
+                servicio = "epuerto";
+                ConfirmacionOrden confirmacionOrden = reservarProductosEPuerto(ordenCompra);
+                idReserva = Integer.valueOf(confirmacionOrden.getIdentificadorReserva());
+            }
+
+            ConfirmacionPago confirmacionPago = pagarOrdenCompra(ordenCompra);
+
+            if (confirmacionPago.getStatus() != null && confirmacionPago.getStatus().equalsIgnoreCase("true")) {
+                resultado.setCodigo("OK");
+                resultado.setDescripcion("Orden procesada correctamente");
+            } else {
+                anularReserva(idReserva, servicio);
+                resultado.setCodigo("Error");
+                resultado.setDescripcion(confirmacionPago.getMessage());
+            }
+
+        } catch (Exception e) {
+            logger.error("Mensaje: " + e.getMessage());
+            resultado.setCodigo("Error");
+            resultado.setDescripcion("Error inesperado al procesar la orden.");
+        }
 
         return resultado;
     }
-
 
     private uy.mgcoders.wsclient.stock.Resultado reservarProductosStockLocal(List<Producto> productos) {
         uy.mgcoders.wsclient.stock.Resultado resultadoStock;
@@ -91,6 +100,28 @@ public class ComposicionESBHandler {
             resultadoStock.setDescripcion("Error al invocar el servicio de stock-local");
         }
         return resultadoStock;
+    }
+
+    private ConfirmacionOrden reservarProductosEPuerto(OrdenCompra ordenCompra) {
+        ConfirmacionOrden confirmacionOrden;
+        try {
+
+            // TODO cambiar esta invocacion para enviar una lista de los productos!!!!
+
+            ServicioEPuerto servicioEPuerto = new ServicioEPuertoService().getServicioEPuertoPort();
+            confirmacionOrden = servicioEPuerto.colocarOrden(ordenCompra.getIdOrden(), 15, 12);
+
+        } catch (Exception e) {
+            logger.error("Error al invocar el servicio de ePuerto");
+            logger.error("Mensaje: " + e.getMessage());
+
+            confirmacionOrden = new ConfirmacionOrden();
+            confirmacionOrden.setIdentificadorCompra(ordenCompra.getIdOrden());
+            confirmacionOrden.setCodigoResultado(1);
+            confirmacionOrden.setDescripcionResultado("Error al invocar el servicio de ePuerto");
+
+        }
+        return confirmacionOrden;
     }
 
     private ConfirmacionPago pagarOrdenCompra(OrdenCompra ordenCompra) {
@@ -124,6 +155,16 @@ public class ComposicionESBHandler {
             confirmacionPago.setMessage("Error al invocar el servicio de pagos-ya");
         }
         return confirmacionPago;
+    }
+
+    private void anularReserva(long idReserva, String servicio) {
+        try {
+            AnularViaPS anularViaPS = new AnularViaPSService().getAnularViaPSPort();
+            String response = anularViaPS.anularReservas(idReserva, servicio);
+        } catch (Exception e) {
+            logger.error("Error al invocar el servicio de anular reserva");
+            logger.error("Mensaje: " + e.getMessage());
+        }
     }
 
 }
