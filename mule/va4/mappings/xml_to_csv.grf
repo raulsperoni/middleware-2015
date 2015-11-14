@@ -28,7 +28,7 @@
 </Dictionary>
 </Global>
 <Phase number="0">
-<Node charset="UTF-8" enabled="enabled" excludeFields="__id" fileURL="dict:outputPayload" guiName="CSV WRITER" guiX="900" guiY="20" id="DATA_WRITER0" quotedStrings="true" type="DATA_WRITER">
+<Node charset="UTF-8" enabled="enabled" excludeFields="__id" fileURL="dict:outputPayload" guiName="CSV WRITER" guiX="900" guiY="20" id="DATA_WRITER0" outputFieldNames="true" quotedStrings="true" type="DATA_WRITER">
 <attr name="_data_format"><![CDATA[CSV]]></attr>
 <attr name="__dataSourceDefinition"><![CDATA[${Project_Home}/src/main/resources/exampleout.csv]]></attr>
 </Node>

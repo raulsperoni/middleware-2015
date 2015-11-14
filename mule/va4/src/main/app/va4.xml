@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:jms="http://www.mulesoft.org/schema/mule/jms" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+<mule xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns:jms="http://www.mulesoft.org/schema/mule/jms" xmlns:file="http://www.mulesoft.org/schema/mule/file"
 	xmlns:json="http://www.mulesoft.org/schema/mule/json"
 	xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper"
 	xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata"
@@ -19,14 +19,14 @@ http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/
 http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd
 http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
 http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
-http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd">
+http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd">
 
 	<mulexml:namespace-manager>
 		<mulexml:namespace prefix="ser"
 			uri="http://services.mgcoders.uy/" />
 		<mulexml:namespace prefix="soapenv"
 			uri="http://schemas.xmlsoap.org/soap/envelope/" />
-
 	</mulexml:namespace-manager>
 
 
@@ -59,6 +59,7 @@ http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/
     <data-mapper:config name="JMS_XML_To_XML_1" transformationGraphPath="jms_xml_to_xml_1.grf" doc:name="JMS_XML_To_XML_1"/>
     <data-mapper:config name="PUB_SUB_XML_To_XML" transformationGraphPath="pub_sub_xml_to_xml.grf" doc:name="PUB_SUB_XML_To_XML"/>
     <data-mapper:config name="XML_To_CSV" transformationGraphPath="xml_to_csv.grf" doc:name="XML_To_CSV"/>
+    <ws:consumer-config name="Web_Service_Consumer1" wsdlLocation="localWsdl.wsdl" service="ServicioRecepcionStockService" port="ServicioRecepcionStockPort" serviceAddress="http://localhost:8080/stock-local/ServicioRecepcionStock" doc:name="Web Service Consumer"/>
 
 
 	<flow name="StockLocal">
@@ -69,7 +70,7 @@ http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/
 			namespace="http://services.mgcoders.uy/" payload="body" wsdlLocation="localWsdl.wsdl"
 			service="ServicioRecepcionStockService"
 			doc:description="Proveo contrato soap"/>
-		<logger level="INFO" doc:name="Logger" />
+		<logger level="INFO" doc:name="Logger" message="#[payload]"/>
 		<ws:consumer config-ref="Web_Service_Consumer" operation="reservarProducto"
 			doc:name="Web Service Consumer" 
 			doc:description="Reenvio llamadas a soap provisto por sistema de Stock Local"/>
@@ -135,6 +136,10 @@ http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/
 		</choice>
         <response>
             <mulexml:object-to-xml-transformer metadata:id="77e432e9-a4db-47f3-9251-1fa83cf83478" doc:name="Object to XML" doc:description="Transformo Respuesta a Xml"/>
+            <json:xml-to-json-transformer doc:name="XML to JSON"/>
+            <logger message="#[payload]" level="INFO" doc:name="Logger"/>
+            <set-payload value="#[json:va4.ConfirmacionOrden]" doc:name="getObjectOrdenCompra"/>
+            <set-payload value="&lt;ns1:colocarOrdenResponse xmlns:ns1=&quot;http://services.mgcoders.uy/&quot;&gt;&lt;return&gt;&lt;codigoResultado&gt;#[json:codigoResultado]&lt;/codigoResultado&gt; &lt;identificadorCompra&gt;#[json:identificadorCompra]&lt;/identificadorCompra&gt; &lt;identificadorReserva&gt;#[json:identificadorReserva]&lt;/identificadorReserva&gt; &lt;descripcionResultado&gt;#[json:descripcionResultado]&lt;/descripcionResultado&gt; &lt;/return&gt;&lt;/ns1:colocarOrdenResponse&gt;" doc:name="Set Payload"/>
         </response>
 	</flow>
 
@@ -208,6 +213,18 @@ http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/
         	doc:description="Tranformo para que quede adecuado para Epuerto"/>
         <flow-ref name="EPuertoAnularOrden" doc:name="EPuertoAnularOrden"
         	doc:description="Mando a Epuerto como si hubiera llegado por WebService"/>
+    </flow>
+    <flow name="SuscriptorStockLocal">
+        <jms:inbound-endpoint topic="publishAnulacion" connector-ref="Active_MQ" doc:name="JMS">
+            <jms:transaction action="NONE"/>
+        </jms:inbound-endpoint>
+        <expression-filter expression="#[xpath3('/ser:anularReservas/servicio/text()') == 'stocklocal']" doc:name="Filtro StockLocal"/>
+        <json:xml-to-json-transformer doc:name="XML to JSON"/>
+        <logger message="#[payload]" level="INFO" doc:name="Logger"/>
+        <set-payload doc:name="Set Payload" value="#[json:ns1:anularReservas]"/>
+        <set-payload value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;ser:anularReserva xmlns:ser=&quot;http://services.mgcoders.uy/&quot;&gt;&lt;idReserva&gt;#[json:idReserva]&lt;/idReserva&gt;&lt;/ser:anularReserva&gt;" doc:name="Set Payload"/>
+        <logger message="#[payload]" level="INFO" doc:name="Logger"/>
+        <ws:consumer config-ref="Web_Service_Consumer1" operation="anularReserva" doc:name="Web Service Consumer"/>
     </flow>
 
 </mule>

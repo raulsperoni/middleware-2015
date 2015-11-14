@@ -5,9 +5,7 @@ import org.slf4j.LoggerFactory;
 import uy.mgcoders.dto.OrdenCompra;
 import uy.mgcoders.dto.Producto;
 import uy.mgcoders.dto.Resultado;
-import uy.mgcoders.wsclient.epuerto.ConfirmacionOrden;
-import uy.mgcoders.wsclient.epuerto.ServicioEPuerto;
-import uy.mgcoders.wsclient.epuerto.ServicioEPuertoService;
+import uy.mgcoders.wsclient.epuerto.*;
 import uy.mgcoders.wsclient.pagosya.ConfirmacionPago;
 import uy.mgcoders.wsclient.pagosya.RecepcionPago;
 import uy.mgcoders.wsclient.pagosya.ServicioRecepcionPagos;
@@ -47,13 +45,11 @@ public class ComposicionESBHandler {
                 idReserva = resultadoStockLocal.getIdReserva();
                 servicio = "stocklocal";
             } else {
-
-                // TODO llamar a ePuerto - Pasar idOrden + lista productos.
-                // TODO pasar idOrden para obtener id reserva
                 servicio = "epuerto";
                 ConfirmacionOrden confirmacionOrden = reservarProductosEPuerto(ordenCompra);
                 idReserva = Integer.valueOf(confirmacionOrden.getIdentificadorReserva());
             }
+            logger.info("idReserva....: " + idReserva);
 
             ConfirmacionPago confirmacionPago = pagarOrdenCompra(ordenCompra);
 
@@ -109,7 +105,17 @@ public class ComposicionESBHandler {
             // TODO cambiar esta invocacion para enviar una lista de los productos!!!!
 
             ServicioEPuerto servicioEPuerto = new ServicioEPuertoService().getServicioEPuertoPort();
-            confirmacionOrden = servicioEPuerto.colocarOrden(ordenCompra.getIdOrden(), 15, 12);
+            OrdenEpuerto ordenEpuerto = new OrdenEpuerto();
+
+            for(Producto p : ordenCompra.getProductos()) {
+                Lineas lineas = new Lineas();
+                lineas.setIdentificadorCompra(ordenCompra.getIdOrden());
+                lineas.setCantidad(p.getCantidad());
+                lineas.setIdentificadorProducto(p.getIdProducto());
+                ordenEpuerto.getLineas().add(lineas);
+            }
+
+            confirmacionOrden = servicioEPuerto.colocarOrden(ordenEpuerto);
 
         } catch (Exception e) {
             logger.error("Error al invocar el servicio de ePuerto");

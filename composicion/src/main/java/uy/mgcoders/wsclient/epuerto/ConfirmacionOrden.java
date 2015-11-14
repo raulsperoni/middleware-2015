@@ -16,10 +16,10 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="identificadorCompra" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="identificadorReserva" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="codigoResultado" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="descripcionResultado" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="identificadorCompra" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="identificadorReserva" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -30,17 +30,57 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "confirmacionOrden", propOrder = {
-    "identificadorCompra",
-    "identificadorReserva",
     "codigoResultado",
-    "descripcionResultado"
+    "descripcionResultado",
+    "identificadorCompra",
+    "identificadorReserva"
 })
 public class ConfirmacionOrden {
 
-    protected String identificadorCompra;
-    protected String identificadorReserva;
     protected int codigoResultado;
     protected String descripcionResultado;
+    protected String identificadorCompra;
+    protected String identificadorReserva;
+
+    /**
+     * Gets the value of the codigoResultado property.
+     * 
+     */
+    public int getCodigoResultado() {
+        return codigoResultado;
+    }
+
+    /**
+     * Sets the value of the codigoResultado property.
+     * 
+     */
+    public void setCodigoResultado(int value) {
+        this.codigoResultado = value;
+    }
+
+    /**
+     * Gets the value of the descripcionResultado property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getDescripcionResultado() {
+        return descripcionResultado;
+    }
+
+    /**
+     * Sets the value of the descripcionResultado property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setDescripcionResultado(String value) {
+        this.descripcionResultado = value;
+    }
 
     /**
      * Gets the value of the identificadorCompra property.
@@ -88,46 +128,6 @@ public class ConfirmacionOrden {
      */
     public void setIdentificadorReserva(String value) {
         this.identificadorReserva = value;
-    }
-
-    /**
-     * Gets the value of the codigoResultado property.
-     * 
-     */
-    public int getCodigoResultado() {
-        return codigoResultado;
-    }
-
-    /**
-     * Sets the value of the codigoResultado property.
-     * 
-     */
-    public void setCodigoResultado(int value) {
-        this.codigoResultado = value;
-    }
-
-    /**
-     * Gets the value of the descripcionResultado property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getDescripcionResultado() {
-        return descripcionResultado;
-    }
-
-    /**
-     * Sets the value of the descripcionResultado property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setDescripcionResultado(String value) {
-        this.descripcionResultado = value;
     }
 
 }

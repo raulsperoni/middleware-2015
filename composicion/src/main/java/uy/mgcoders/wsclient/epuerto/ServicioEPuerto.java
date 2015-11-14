@@ -5,9 +5,8 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
 import javax.xml.bind.annotation.XmlSeeAlso;
-import javax.xml.ws.RequestWrapper;
-import javax.xml.ws.ResponseWrapper;
 
 
 /**
@@ -17,6 +16,7 @@ import javax.xml.ws.ResponseWrapper;
  * 
  */
 @WebService(name = "ServicioEPuerto", targetNamespace = "http://services.mgcoders.uy/")
+@SOAPBinding(style = SOAPBinding.Style.RPC)
 @XmlSeeAlso({
     ObjectFactory.class
 })
@@ -30,31 +30,21 @@ public interface ServicioEPuerto {
      *     returns java.lang.String
      */
     @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "anularOrden", targetNamespace = "http://services.mgcoders.uy/", className = "uy.mgcoders.wsclient.epuerto.AnularOrden")
-    @ResponseWrapper(localName = "anularOrdenResponse", targetNamespace = "http://services.mgcoders.uy/", className = "uy.mgcoders.wsclient.epuerto.AnularOrdenResponse")
+    @WebResult(partName = "return")
     public String anularOrden(
-        @WebParam(name = "identificadorReserva", targetNamespace = "")
+        @WebParam(name = "identificadorReserva", partName = "identificadorReserva")
         String identificadorReserva);
 
     /**
      * 
-     * @param identificadorProducto
-     * @param identificadorCompra
-     * @param cantidad
+     * @param orden
      * @return
      *     returns uy.mgcoders.wsclient.epuerto.ConfirmacionOrden
      */
     @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "colocarOrden", targetNamespace = "http://services.mgcoders.uy/", className = "uy.mgcoders.wsclient.epuerto.ColocarOrden")
-    @ResponseWrapper(localName = "colocarOrdenResponse", targetNamespace = "http://services.mgcoders.uy/", className = "uy.mgcoders.wsclient.epuerto.ColocarOrdenResponse")
+    @WebResult(partName = "return")
     public ConfirmacionOrden colocarOrden(
-        @WebParam(name = "identificadorCompra", targetNamespace = "")
-        String identificadorCompra,
-        @WebParam(name = "identificadorProducto", targetNamespace = "")
-        long identificadorProducto,
-        @WebParam(name = "cantidad", targetNamespace = "")
-        int cantidad);
+        @WebParam(name = "orden", partName = "orden")
+        OrdenEpuerto orden);
 
 }

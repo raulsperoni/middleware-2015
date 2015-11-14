@@ -18,7 +18,7 @@ public class EpuertoConfirmacion implements Callable{
 		output.descripcionResultado = "OK";
 		output.identificadorCompra = input.getIdentificadorCompra();
 		java.util.Random r = new java.util.Random();
-		output.identificadorReserva = String.valueOf(r.nextInt());
+		output.identificadorReserva = String.valueOf(r.nextInt((5000000 - 1) + 1));
 		return output;
 	}
 
