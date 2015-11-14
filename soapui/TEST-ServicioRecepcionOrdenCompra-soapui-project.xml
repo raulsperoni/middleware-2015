@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="2cb012e5-6c62-4030-8e43-6b2e5f548af2" activeEnvironment="Default" name="TEST-ServicioRecepcionOrdenCompra" resourceRoot="" soapui-version="5.2.0" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="44236b96-cf8e-47fb-b001-87f7e6ab6903" wsaVersion="200508" name="ServicioRecepcionOrdenCompraServiceSoapBinding" type="wsdl" bindingName="{http://services.mgcoders.uy/}ServicioRecepcionOrdenCompraServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/composicion/ServicioRecepcionOrdenCompra?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/composicion/ServicioRecepcionOrdenCompra?wsdl"><con:part><con:url>http://localhost:8080/composicion/ServicioRecepcionOrdenCompra?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="ServicioRecepcionOrdenCompraService" targetNamespace="http://services.mgcoders.uy/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:tns="http://services.mgcoders.uy/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http">
+  <wsdl:types>
+    <xs:schema elementFormDefault="unqualified" targetNamespace="http://services.mgcoders.uy/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="OrdenCompra" type="tns:ordenCompra"/>
+      <xs:element name="Producto" type="tns:producto"/>
+      <xs:element name="Resultado" type="tns:resultado"/>
+      <xs:element name="ingresarOrden" type="tns:ingresarOrden"/>
+      <xs:element name="ingresarOrdenResponse" type="tns:ingresarOrdenResponse"/>
+      <xs:complexType name="ingresarOrden">
+        <xs:sequence>
+          <xs:element name="ordencompra" type="tns:ordenCompra"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ordenCompra">
+        <xs:sequence>
+          <xs:element name="idOrden" type="xs:string"/>
+          <xs:element name="numeroTarjeta" type="xs:long"/>
+          <xs:element maxOccurs="unbounded" name="productos" type="tns:producto"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="producto">
+        <xs:sequence>
+          <xs:element name="idProducto" type="xs:long"/>
+          <xs:element name="cantidad" type="xs:int"/>
+          <xs:element name="precioUnitario" type="xs:double"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ingresarOrdenResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="resultado" type="tns:resultado"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="resultado">
+        <xs:sequence>
+          <xs:element name="idCompra" type="xs:string"/>
+          <xs:element name="codigo" type="xs:string"/>
+          <xs:element minOccurs="0" name="descripcion" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="ingresarOrden">
+    <wsdl:part element="tns:ingresarOrden" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ingresarOrdenResponse">
+    <wsdl:part element="tns:ingresarOrdenResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ServicioRecepcionOrdenCompra">
+    <wsdl:operation name="ingresarOrden">
+      <wsdl:input message="tns:ingresarOrden" name="ingresarOrden" wsam:Action="http://services.mgcoders.uy/ServicioRecepcionOrdenCompra/ingresarOrdenRequest" wsaw:Action="http://services.mgcoders.uy/ServicioRecepcionOrdenCompra/ingresarOrdenRequest"></wsdl:input>
+      <wsdl:output message="tns:ingresarOrdenResponse" name="ingresarOrdenResponse" wsam:Action="http://services.mgcoders.uy/ServicioRecepcionOrdenCompra/ingresarOrdenResponse" wsaw:Action="http://services.mgcoders.uy/ServicioRecepcionOrdenCompra/ingresarOrdenResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ServicioRecepcionOrdenCompraServiceSoapBinding" type="tns:ServicioRecepcionOrdenCompra">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsaw:UsingAddressing wsdl:required="true"/>
+    <wsp:PolicyReference URI="#ServicioRecepcionOrdenCompraServiceSoapBinding_WSAM_Addressing_Policy" xmlns:wsp="http://www.w3.org/ns/ws-policy"/>
+    <wsdl:operation name="ingresarOrden">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="ingresarOrden">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ingresarOrdenResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ServicioRecepcionOrdenCompraService">
+    <wsdl:port binding="tns:ServicioRecepcionOrdenCompraServiceSoapBinding" name="ServicioRecepcionOrdenCompraPort">
+      <soap:address location="http://localhost:8080/composicion/ServicioRecepcionOrdenCompra"/>
+    </wsdl:port>
+    <wsp:PolicyReference URI="#policy0"/>
+  </wsdl:service>
+  <wsp:Policy wsu:Id="policy0" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body/>
+        </sp:SignedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="ServicioRecepcionOrdenCompraServiceSoapBinding_WSAM_Addressing_Policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsp="http://www.w3.org/ns/ws-policy">
+    <wsam:Addressing>
+      <wsp:Policy/>
+    </wsam:Addressing>
+  </wsp:Policy>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/composicion/ServicioRecepcionOrdenCompra</con:endpoint></con:endpoints><con:operation id="61d36174-9878-4266-a165-56640a6ff4d7" isOneWay="false" action="" name="ingresarOrden" bindingOperationName="ingresarOrden" type="Request-Response" outputName="ingresarOrdenResponse" inputName="ingresarOrden" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="852accd6-762d-4297-9245-c8a7a8c33724" name="Request 1" useWsAddressing="true"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/composicion/ServicioRecepcionOrdenCompra</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:ser="http://services.mgcoders.uy/" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+   <soapenv:Header><wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"><wsse:BinarySecurityToken EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3" wsu:Id="X509-16045E9A1EC27FE721144746413413920">MIIDgTCCAmmgAwIBAgIEeKIKDzANBgkqhkiG9w0BAQsFADBxMQswCQYDVQQGEwJVWTETMBEGA1UECBMKTW9udGV2aWRlbzETMBEGA1UEBxMKTW9udGV2aWRlbzENMAsGA1UEChMEZmluZzENMAsGA1UECxMEZmluZzEaMBgGA1UEAxMRY2xpZW50IG1pZGRsZXdhcmUwHhcNMTUxMTA3MjAzMjM3WhcNMTYxMTA2MjAzMjM3WjBxMQswCQYDVQQGEwJVWTETMBEGA1UECBMKTW9udGV2aWRlbzETMBEGA1UEBxMKTW9udGV2aWRlbzENMAsGA1UEChMEZmluZzENMAsGA1UECxMEZmluZzEaMBgGA1UEAxMRY2xpZW50IG1pZGRsZXdhcmUwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCV5MA9LcjcE/UyrPJCGe5FslmsOMSDnlYLj1x6xNwnLCu8GOvZAnqMeMww9rgZZzwrPu/zapA0tSvY6sRpZzqsJUQOa2sFYQRzZG8sn/WWr0fK0jKO96tr6ad5v2fNHj9YIyEqmnSa7ReK012mgLRIIbjxMC6JjGwa1P9fkEtnVlr4B0z2GGnUmClfnagu2CwdoYiH0pck8YCzrlYXUOZjzOoPrmojZ28r0c8lWQzOvxxSzn6t7lAX5N4AEpdozbduLZyAH3nlwYw+FzDssKkvHwQ5i5ZTU2CzqcQlm3Ol1naoF79hNd4+GkOeJgxDMWw/8pQBqmzngGy6f1oP7aXlAgMBAAGjITAfMB0GA1UdDgQWBBQ9D+/dC7ekvbak4PHMMMXmOZP2HjANBgkqhkiG9w0BAQsFAAOCAQEACuxRKeERuKj36DktGne/E+BqR+FDVXHTBYIY5qbd9oLhPqcB+MtYb6Z16oo5q3jni68WIm5IsTZo1s77AYFAMSWWdDjBVs0GYWjBZzFgW3SwVnZ6NZZWJrdPRGcANz6KUiZbB3pfWscnIfbKLkdSVqUVGkgGDawMqa2pA+l5CUKOQgH8e3NeN83lk0yDnWxvzOTPXbCjaY1PqP35HGmwrAw+CrlmDr5dpc/kuYlwuD7CT3GoOuFslFj8GML8zecl7yv8YhnB2tVAoFlrM9Cgv0dgfcCzWkR2pOafvqe2nuZ8VAB8naor16NMWp3VI95PF6ZYXN38RT+Agz5U1ETBOw==</wsse:BinarySecurityToken><ds:Signature Id="SIG-16045E9A1EC27FE721144746413414123" xmlns:ds="http://www.w3.org/2000/09/xmldsig#"><ds:SignedInfo><ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"><ec:InclusiveNamespaces PrefixList="ser soapenv" xmlns:ec="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:CanonicalizationMethod><ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/><ds:Reference URI="#id-16045E9A1EC27FE721144746338290418"><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"><ec:InclusiveNamespaces PrefixList="ser" xmlns:ec="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:Transform></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>sElwPBd4+f7oIMQ9zx/uwz7nF48=</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue>lc/mUWdefYxcH6pmmWFDQZgJRwbXEZv6PaKYR/ovqfctaU+4d0HodZkOcwP4uoJuCapdZx4GpPxF
+RRGoEP2Q5rqg1GyLSFfryin32m+eGRF/bmdUWWfP+HBec6x29ipufoW/Gy7Z6R5uEyO5e874Cfkb
+Q24W5cW72eR6jLGn09cG7XvDrkxZS04DPTmDmjHB7PtQRljjRu5fZc7klu6XFjzTINM8dNWdbEZb
+CjyREN4okaVZIXl0iDb36y/4LZGLlVpG5BzlgRpZ0zGNRl9rPCDmQ3NyTLf5zrAt8VvN/rZ5DsSz
+NLJL5NaRQlbXyu0tRzzsRbUL0je8C+uaboY2FA==</ds:SignatureValue><ds:KeyInfo Id="KI-16045E9A1EC27FE721144746413413921"><wsse:SecurityTokenReference wsu:Id="STR-16045E9A1EC27FE721144746413413922"><wsse:Reference URI="#X509-16045E9A1EC27FE721144746413413920" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3"/></wsse:SecurityTokenReference></ds:KeyInfo></ds:Signature></wsse:Security></soapenv:Header>
+   <soapenv:Body wsu:Id="id-16045E9A1EC27FE721144746338290418" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+      <ser:ingresarOrden>
+         <ordencompra>
+            <idOrden>34</idOrden>
+            <numeroTarjeta>444455</numeroTarjeta>
+            <!--1 or more repetitions:-->
+            <productos>
+               <idProducto>2</idProducto>
+               <cantidad>34</cantidad>
+               <precioUnitario>345</precioUnitario>
+            </productos>
+            <productos>
+               <idProducto>3</idProducto>
+               <cantidad>400</cantidad>
+               <precioUnitario>7643</precioUnitario>
+            </productos>
+         </ordencompra>
+      </ser:ingresarOrden>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://services.mgcoders.uy/ServicioRecepcionOrdenCompra/ingresarOrdenRequest" addDefaultAction="true" addDefaultTo="true" generateMessageId="true" replyTo="http://localhost:8080/callback/ServicioCallback"/><con:wsrmConfig version="1.2"/></con:call><con:call id="0c2bdf0c-e659-4451-b3d3-ddfc1d710154" name="Request 2" useWsAddressing="true"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/composicion/ServicioRecepcionOrdenCompra</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:ser="http://services.mgcoders.uy/" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+   <soapenv:Header><wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"><wsse:BinarySecurityToken EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3" wsu:Id="X509-16045E9A1EC27FE721144746669319324">MIIDgTCCAmmgAwIBAgIEeKIKDzANBgkqhkiG9w0BAQsFADBxMQswCQYDVQQGEwJVWTETMBEGA1UECBMKTW9udGV2aWRlbzETMBEGA1UEBxMKTW9udGV2aWRlbzENMAsGA1UEChMEZmluZzENMAsGA1UECxMEZmluZzEaMBgGA1UEAxMRY2xpZW50IG1pZGRsZXdhcmUwHhcNMTUxMTA3MjAzMjM3WhcNMTYxMTA2MjAzMjM3WjBxMQswCQYDVQQGEwJVWTETMBEGA1UECBMKTW9udGV2aWRlbzETMBEGA1UEBxMKTW9udGV2aWRlbzENMAsGA1UEChMEZmluZzENMAsGA1UECxMEZmluZzEaMBgGA1UEAxMRY2xpZW50IG1pZGRsZXdhcmUwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCV5MA9LcjcE/UyrPJCGe5FslmsOMSDnlYLj1x6xNwnLCu8GOvZAnqMeMww9rgZZzwrPu/zapA0tSvY6sRpZzqsJUQOa2sFYQRzZG8sn/WWr0fK0jKO96tr6ad5v2fNHj9YIyEqmnSa7ReK012mgLRIIbjxMC6JjGwa1P9fkEtnVlr4B0z2GGnUmClfnagu2CwdoYiH0pck8YCzrlYXUOZjzOoPrmojZ28r0c8lWQzOvxxSzn6t7lAX5N4AEpdozbduLZyAH3nlwYw+FzDssKkvHwQ5i5ZTU2CzqcQlm3Ol1naoF79hNd4+GkOeJgxDMWw/8pQBqmzngGy6f1oP7aXlAgMBAAGjITAfMB0GA1UdDgQWBBQ9D+/dC7ekvbak4PHMMMXmOZP2HjANBgkqhkiG9w0BAQsFAAOCAQEACuxRKeERuKj36DktGne/E+BqR+FDVXHTBYIY5qbd9oLhPqcB+MtYb6Z16oo5q3jni68WIm5IsTZo1s77AYFAMSWWdDjBVs0GYWjBZzFgW3SwVnZ6NZZWJrdPRGcANz6KUiZbB3pfWscnIfbKLkdSVqUVGkgGDawMqa2pA+l5CUKOQgH8e3NeN83lk0yDnWxvzOTPXbCjaY1PqP35HGmwrAw+CrlmDr5dpc/kuYlwuD7CT3GoOuFslFj8GML8zecl7yv8YhnB2tVAoFlrM9Cgv0dgfcCzWkR2pOafvqe2nuZ8VAB8naor16NMWp3VI95PF6ZYXN38RT+Agz5U1ETBOw==</wsse:BinarySecurityToken><ds:Signature Id="SIG-16045E9A1EC27FE721144746669319428" xmlns:ds="http://www.w3.org/2000/09/xmldsig#"><ds:SignedInfo><ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"><ec:InclusiveNamespaces PrefixList="ser soapenv" xmlns:ec="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:CanonicalizationMethod><ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/><ds:Reference URI="#id-16045E9A1EC27FE721144746669319427"><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"><ec:InclusiveNamespaces PrefixList="ser" xmlns:ec="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:Transform></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>cYjMmy37kM+yD/cx4WTb044QB74=</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue>Rx1RWs79/NUbqd+CMAeLwOmz4P9nhD+g0j8wo6sUqg7sHPQWMrRe2KbxvKMGXiyyccQQIrKWaBix
+Tvp4WXWC4QGH04jQkUSwJmCK6TN1ZLtjJXBn9v49GO+Hp/frsfIdV0emwMOK5Tm8J5q2UkZVH6Al
+PgEQpal8Ng6QnrNuoG1LcySnLJTtaPofONbje6astWvWMzjBqmo6fogZ7RQBvaRwu16B5FNM5C9A
+Ux+ovB6EAJfXrZmtAOQS4Q6+ZlddpkL9qz7iyei8E5u7wP6gEdEmF8J9NaSrdJfMcpRPu6K+u0I2
+s4ZBpOv56hF+3uRJTYEbMs3KqSEbg3niZpYCjQ==</ds:SignatureValue><ds:KeyInfo Id="KI-16045E9A1EC27FE721144746669319325"><wsse:SecurityTokenReference wsu:Id="STR-16045E9A1EC27FE721144746669319326"><wsse:Reference URI="#X509-16045E9A1EC27FE721144746669319324" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3"/></wsse:SecurityTokenReference></ds:KeyInfo></ds:Signature></wsse:Security></soapenv:Header>
+   <soapenv:Body wsu:Id="id-16045E9A1EC27FE721144746669319427" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+      <ser:ingresarOrden>
+         <ordencompra>
+            <idOrden>120</idOrden>
+            <numeroTarjeta>112538</numeroTarjeta>
+            <!--1 or more repetitions:-->
+            <productos>
+               <idProducto>23</idProducto>
+               <cantidad>7</cantidad>
+               <precioUnitario>125</precioUnitario>
+            </productos>
+            <productos>
+               <idProducto>45</idProducto>
+               <cantidad>8</cantidad>
+               <precioUnitario>45</precioUnitario>
+            </productos>
+         </ordencompra>
+      </ser:ingresarOrden>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://services.mgcoders.uy/ServicioRecepcionOrdenCompra/ingresarOrdenRequest" addDefaultAction="true" addDefaultTo="true" replyTo="http://localhost:8080/callback/ServicioCallback" generateMessageId="true"/><con:wsrmConfig version="1.2"/></con:call><con:call id="581d9cf9-58d7-4a88-8433-27127c6ce899" name="Request 3" useWsAddressing="true"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/composicion/ServicioRecepcionOrdenCompra</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:ser="http://services.mgcoders.uy/" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+   <soapenv:Header><wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"><wsse:BinarySecurityToken EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3" wsu:Id="X509-16045E9A1EC27FE721144746707599629">MIIDgTCCAmmgAwIBAgIEeKIKDzANBgkqhkiG9w0BAQsFADBxMQswCQYDVQQGEwJVWTETMBEGA1UECBMKTW9udGV2aWRlbzETMBEGA1UEBxMKTW9udGV2aWRlbzENMAsGA1UEChMEZmluZzENMAsGA1UECxMEZmluZzEaMBgGA1UEAxMRY2xpZW50IG1pZGRsZXdhcmUwHhcNMTUxMTA3MjAzMjM3WhcNMTYxMTA2MjAzMjM3WjBxMQswCQYDVQQGEwJVWTETMBEGA1UECBMKTW9udGV2aWRlbzETMBEGA1UEBxMKTW9udGV2aWRlbzENMAsGA1UEChMEZmluZzENMAsGA1UECxMEZmluZzEaMBgGA1UEAxMRY2xpZW50IG1pZGRsZXdhcmUwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCV5MA9LcjcE/UyrPJCGe5FslmsOMSDnlYLj1x6xNwnLCu8GOvZAnqMeMww9rgZZzwrPu/zapA0tSvY6sRpZzqsJUQOa2sFYQRzZG8sn/WWr0fK0jKO96tr6ad5v2fNHj9YIyEqmnSa7ReK012mgLRIIbjxMC6JjGwa1P9fkEtnVlr4B0z2GGnUmClfnagu2CwdoYiH0pck8YCzrlYXUOZjzOoPrmojZ28r0c8lWQzOvxxSzn6t7lAX5N4AEpdozbduLZyAH3nlwYw+FzDssKkvHwQ5i5ZTU2CzqcQlm3Ol1naoF79hNd4+GkOeJgxDMWw/8pQBqmzngGy6f1oP7aXlAgMBAAGjITAfMB0GA1UdDgQWBBQ9D+/dC7ekvbak4PHMMMXmOZP2HjANBgkqhkiG9w0BAQsFAAOCAQEACuxRKeERuKj36DktGne/E+BqR+FDVXHTBYIY5qbd9oLhPqcB+MtYb6Z16oo5q3jni68WIm5IsTZo1s77AYFAMSWWdDjBVs0GYWjBZzFgW3SwVnZ6NZZWJrdPRGcANz6KUiZbB3pfWscnIfbKLkdSVqUVGkgGDawMqa2pA+l5CUKOQgH8e3NeN83lk0yDnWxvzOTPXbCjaY1PqP35HGmwrAw+CrlmDr5dpc/kuYlwuD7CT3GoOuFslFj8GML8zecl7yv8YhnB2tVAoFlrM9Cgv0dgfcCzWkR2pOafvqe2nuZ8VAB8naor16NMWp3VI95PF6ZYXN38RT+Agz5U1ETBOw==</wsse:BinarySecurityToken><ds:Signature Id="SIG-16045E9A1EC27FE721144746707599833" xmlns:ds="http://www.w3.org/2000/09/xmldsig#"><ds:SignedInfo><ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"><ec:InclusiveNamespaces PrefixList="ser soapenv" xmlns:ec="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:CanonicalizationMethod><ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/><ds:Reference URI="#id-16045E9A1EC27FE721144746707599732"><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"><ec:InclusiveNamespaces PrefixList="ser" xmlns:ec="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:Transform></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>dtQt+8iS0gRw0ptjh+Hd48CRm8o=</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue>EbJ3DcfTkGCH8ZyYQQH5UhPzFEgTHXCPA/rpol+PhbEkKP+UWY/eSewAXzXz0Jzd1eKR9WEwfaoU
+9p3jT8YialMlMa74b+NAbs1eMn+Bo6vlq4wi2DC+H+0OoUckdsdSjFjq+ULVRPb/BU+Zty+POO/N
+oI/s+gKi51zbmvWC668NXQoTxo74H2W7h7lpGA3EatHhy64eCGEF3j9Z0fQx5wO/PdfCfT7jmRDv
+MleBkB1L/7xYeZ1CfW6kIAKy5MFPLQBX6VvNa5esuv2RHSXZJnGnd3tTLeUWM8rXSxEmT71MqWev
+OUHfLXJcPUV7flG1Tdtg7UjNjwqc77yPGFpiAg==</ds:SignatureValue><ds:KeyInfo Id="KI-16045E9A1EC27FE721144746707599630"><wsse:SecurityTokenReference wsu:Id="STR-16045E9A1EC27FE721144746707599631"><wsse:Reference URI="#X509-16045E9A1EC27FE721144746707599629" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3"/></wsse:SecurityTokenReference></ds:KeyInfo></ds:Signature></wsse:Security></soapenv:Header>
+   <soapenv:Body wsu:Id="id-16045E9A1EC27FE721144746707599732" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+      <ser:ingresarOrden>
+         <ordencompra>
+            <idOrden>741</idOrden>
+            <numeroTarjeta>987452</numeroTarjeta>
+            <!--1 or more repetitions:-->
+            <productos>
+               <idProducto>120</idProducto>
+               <cantidad>45</cantidad>
+               <precioUnitario>854</precioUnitario>
+            </productos>
+         </ordencompra>
+      </ser:ingresarOrden>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://services.mgcoders.uy/ServicioRecepcionOrdenCompra/ingresarOrdenRequest" addDefaultAction="true" addDefaultTo="true" replyTo="http://localhost:8080/callback/ServicioCallback" generateMessageId="true"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:testSuite id="8425e584-e71d-495f-92bc-8509b0311d84" name="ServicioRecepcionOrdenCompraServiceSoapBinding TestSuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase id="a62c7106-d6cb-4e35-b8d1-35ffa2db1b85" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="ingresarOrden TestCase" searchProperties="true"><con:settings/><con:testStep type="request" id="d7665126-c676-4fd5-8969-0eb305d99a55" name="ingresarOrden 1 - 34"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>ServicioRecepcionOrdenCompraServiceSoapBinding</con:interface><con:operation>ingresarOrden</con:operation><con:request name="ingresarOrden 1 - 34" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="true" useWsReliableMessaging="false" wssPasswordType="" id="0347aea8-0590-4ac4-8215-50987ddcdd85"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/composicion/ServicioRecepcionOrdenCompra</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:ser="http://services.mgcoders.uy/" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+   <soapenv:Header><wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"><wsse:BinarySecurityToken EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3" wsu:Id="X509-16045E9A1EC27FE721144746727816534">MIIDgTCCAmmgAwIBAgIEeKIKDzANBgkqhkiG9w0BAQsFADBxMQswCQYDVQQGEwJVWTETMBEGA1UECBMKTW9udGV2aWRlbzETMBEGA1UEBxMKTW9udGV2aWRlbzENMAsGA1UEChMEZmluZzENMAsGA1UECxMEZmluZzEaMBgGA1UEAxMRY2xpZW50IG1pZGRsZXdhcmUwHhcNMTUxMTA3MjAzMjM3WhcNMTYxMTA2MjAzMjM3WjBxMQswCQYDVQQGEwJVWTETMBEGA1UECBMKTW9udGV2aWRlbzETMBEGA1UEBxMKTW9udGV2aWRlbzENMAsGA1UEChMEZmluZzENMAsGA1UECxMEZmluZzEaMBgGA1UEAxMRY2xpZW50IG1pZGRsZXdhcmUwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCV5MA9LcjcE/UyrPJCGe5FslmsOMSDnlYLj1x6xNwnLCu8GOvZAnqMeMww9rgZZzwrPu/zapA0tSvY6sRpZzqsJUQOa2sFYQRzZG8sn/WWr0fK0jKO96tr6ad5v2fNHj9YIyEqmnSa7ReK012mgLRIIbjxMC6JjGwa1P9fkEtnVlr4B0z2GGnUmClfnagu2CwdoYiH0pck8YCzrlYXUOZjzOoPrmojZ28r0c8lWQzOvxxSzn6t7lAX5N4AEpdozbduLZyAH3nlwYw+FzDssKkvHwQ5i5ZTU2CzqcQlm3Ol1naoF79hNd4+GkOeJgxDMWw/8pQBqmzngGy6f1oP7aXlAgMBAAGjITAfMB0GA1UdDgQWBBQ9D+/dC7ekvbak4PHMMMXmOZP2HjANBgkqhkiG9w0BAQsFAAOCAQEACuxRKeERuKj36DktGne/E+BqR+FDVXHTBYIY5qbd9oLhPqcB+MtYb6Z16oo5q3jni68WIm5IsTZo1s77AYFAMSWWdDjBVs0GYWjBZzFgW3SwVnZ6NZZWJrdPRGcANz6KUiZbB3pfWscnIfbKLkdSVqUVGkgGDawMqa2pA+l5CUKOQgH8e3NeN83lk0yDnWxvzOTPXbCjaY1PqP35HGmwrAw+CrlmDr5dpc/kuYlwuD7CT3GoOuFslFj8GML8zecl7yv8YhnB2tVAoFlrM9Cgv0dgfcCzWkR2pOafvqe2nuZ8VAB8naor16NMWp3VI95PF6ZYXN38RT+Agz5U1ETBOw==</wsse:BinarySecurityToken><ds:Signature Id="SIG-16045E9A1EC27FE721144746727816637" xmlns:ds="http://www.w3.org/2000/09/xmldsig#"><ds:SignedInfo><ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"><ec:InclusiveNamespaces PrefixList="ser soapenv" xmlns:ec="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:CanonicalizationMethod><ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/><ds:Reference URI="#id-16045E9A1EC27FE721144746338290418"><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"><ec:InclusiveNamespaces PrefixList="ser" xmlns:ec="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:Transform></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>jo3HOHBxmeTmZOFPlBK3Sz1BgA0=</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue>CGzn/NS5RDB8Mv3jYsMS2sDzDjDnHp03dmo05kBsrY+SpJHIwOns0Iy2gO3JgOZhoT3OITKPdPQa
+JjnxRvarJ9MpBB3NgTw69RAaDZvgMPsOwq5WRBDkOGDuYuPVJlRR66b91mw5qzTpXGgKeaW4B1ty
+Ps8jUOV/kpfg5I0lA3hDprdn+qXGQzbCr+ZghWAb9+FwjjcV3U8hBLO3/9iseCES7vMvNiU0gxZZ
+MxzgErl6jrFW9s5GzbOmkXrfyfwFqIvMxGnd1q+H0Y0YID4AQIX9DQesMwZ47NMtEjhcxSGyZWA2
+Y0DnhX0Zg6jOg8wkN/hyLBGGXgz/v0ZziXlyoQ==</ds:SignatureValue><ds:KeyInfo Id="KI-16045E9A1EC27FE721144746727816535"><wsse:SecurityTokenReference wsu:Id="STR-16045E9A1EC27FE721144746727816536"><wsse:Reference URI="#X509-16045E9A1EC27FE721144746727816534" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3"/></wsse:SecurityTokenReference></ds:KeyInfo></ds:Signature></wsse:Security></soapenv:Header>
+   <soapenv:Body wsu:Id="id-16045E9A1EC27FE721144746338290418" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+      <ser:ingresarOrden>
+         <ordencompra>
+            <idOrden>34</idOrden>
+            <numeroTarjeta>444455</numeroTarjeta>
+            <!--1 or more repetitions:-->
+            <productos>
+               <idProducto>2</idProducto>
+               <cantidad>34</cantidad>
+               <precioUnitario>345</precioUnitario>
+            </productos>
+            <productos>
+               <idProducto>3</idProducto>
+               <cantidad>40</cantidad>
+               <precioUnitario>7643</precioUnitario>
+            </productos>
+         </ordencompra>
+      </ser:ingresarOrden>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="Valid HTTP Status Codes" id="381b1a71-277f-45d5-8f5b-1adceef62f8e" name="Valid HTTP Status Codes"><con:configuration><codes>202</codes></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://services.mgcoders.uy/ServicioRecepcionOrdenCompra/ingresarOrdenRequest" addDefaultAction="true" addDefaultTo="true" generateMessageId="true" replyTo="http://localhost:8080/callback/ServicioCallback"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" id="ce0f7679-b59a-44cd-8a47-268f37b12dc5" name="ingresarOrden 2 - 120"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>ServicioRecepcionOrdenCompraServiceSoapBinding</con:interface><con:operation>ingresarOrden</con:operation><con:request name="ingresarOrden 2 - 120" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="true" useWsReliableMessaging="false" wssPasswordType="" id="c62c5b86-dd81-4685-a825-85550dd21e9d"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/composicion/ServicioRecepcionOrdenCompra</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:ser="http://services.mgcoders.uy/" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+   <soapenv:Header><wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"><wsse:BinarySecurityToken EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3" wsu:Id="X509-16045E9A1EC27FE721144746669319324">MIIDgTCCAmmgAwIBAgIEeKIKDzANBgkqhkiG9w0BAQsFADBxMQswCQYDVQQGEwJVWTETMBEGA1UECBMKTW9udGV2aWRlbzETMBEGA1UEBxMKTW9udGV2aWRlbzENMAsGA1UEChMEZmluZzENMAsGA1UECxMEZmluZzEaMBgGA1UEAxMRY2xpZW50IG1pZGRsZXdhcmUwHhcNMTUxMTA3MjAzMjM3WhcNMTYxMTA2MjAzMjM3WjBxMQswCQYDVQQGEwJVWTETMBEGA1UECBMKTW9udGV2aWRlbzETMBEGA1UEBxMKTW9udGV2aWRlbzENMAsGA1UEChMEZmluZzENMAsGA1UECxMEZmluZzEaMBgGA1UEAxMRY2xpZW50IG1pZGRsZXdhcmUwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCV5MA9LcjcE/UyrPJCGe5FslmsOMSDnlYLj1x6xNwnLCu8GOvZAnqMeMww9rgZZzwrPu/zapA0tSvY6sRpZzqsJUQOa2sFYQRzZG8sn/WWr0fK0jKO96tr6ad5v2fNHj9YIyEqmnSa7ReK012mgLRIIbjxMC6JjGwa1P9fkEtnVlr4B0z2GGnUmClfnagu2CwdoYiH0pck8YCzrlYXUOZjzOoPrmojZ28r0c8lWQzOvxxSzn6t7lAX5N4AEpdozbduLZyAH3nlwYw+FzDssKkvHwQ5i5ZTU2CzqcQlm3Ol1naoF79hNd4+GkOeJgxDMWw/8pQBqmzngGy6f1oP7aXlAgMBAAGjITAfMB0GA1UdDgQWBBQ9D+/dC7ekvbak4PHMMMXmOZP2HjANBgkqhkiG9w0BAQsFAAOCAQEACuxRKeERuKj36DktGne/E+BqR+FDVXHTBYIY5qbd9oLhPqcB+MtYb6Z16oo5q3jni68WIm5IsTZo1s77AYFAMSWWdDjBVs0GYWjBZzFgW3SwVnZ6NZZWJrdPRGcANz6KUiZbB3pfWscnIfbKLkdSVqUVGkgGDawMqa2pA+l5CUKOQgH8e3NeN83lk0yDnWxvzOTPXbCjaY1PqP35HGmwrAw+CrlmDr5dpc/kuYlwuD7CT3GoOuFslFj8GML8zecl7yv8YhnB2tVAoFlrM9Cgv0dgfcCzWkR2pOafvqe2nuZ8VAB8naor16NMWp3VI95PF6ZYXN38RT+Agz5U1ETBOw==</wsse:BinarySecurityToken><ds:Signature Id="SIG-16045E9A1EC27FE721144746669319428" xmlns:ds="http://www.w3.org/2000/09/xmldsig#"><ds:SignedInfo><ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"><ec:InclusiveNamespaces PrefixList="ser soapenv" xmlns:ec="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:CanonicalizationMethod><ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/><ds:Reference URI="#id-16045E9A1EC27FE721144746669319427"><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"><ec:InclusiveNamespaces PrefixList="ser" xmlns:ec="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:Transform></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>cYjMmy37kM+yD/cx4WTb044QB74=</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue>Rx1RWs79/NUbqd+CMAeLwOmz4P9nhD+g0j8wo6sUqg7sHPQWMrRe2KbxvKMGXiyyccQQIrKWaBix
+Tvp4WXWC4QGH04jQkUSwJmCK6TN1ZLtjJXBn9v49GO+Hp/frsfIdV0emwMOK5Tm8J5q2UkZVH6Al
+PgEQpal8Ng6QnrNuoG1LcySnLJTtaPofONbje6astWvWMzjBqmo6fogZ7RQBvaRwu16B5FNM5C9A
+Ux+ovB6EAJfXrZmtAOQS4Q6+ZlddpkL9qz7iyei8E5u7wP6gEdEmF8J9NaSrdJfMcpRPu6K+u0I2
+s4ZBpOv56hF+3uRJTYEbMs3KqSEbg3niZpYCjQ==</ds:SignatureValue><ds:KeyInfo Id="KI-16045E9A1EC27FE721144746669319325"><wsse:SecurityTokenReference wsu:Id="STR-16045E9A1EC27FE721144746669319326"><wsse:Reference URI="#X509-16045E9A1EC27FE721144746669319324" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3"/></wsse:SecurityTokenReference></ds:KeyInfo></ds:Signature></wsse:Security></soapenv:Header>
+   <soapenv:Body wsu:Id="id-16045E9A1EC27FE721144746669319427" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+      <ser:ingresarOrden>
+         <ordencompra>
+            <idOrden>120</idOrden>
+            <numeroTarjeta>112538</numeroTarjeta>
+            <!--1 or more repetitions:-->
+            <productos>
+               <idProducto>23</idProducto>
+               <cantidad>7</cantidad>
+               <precioUnitario>125</precioUnitario>
+            </productos>
+            <productos>
+               <idProducto>45</idProducto>
+               <cantidad>8</cantidad>
+               <precioUnitario>45</precioUnitario>
+            </productos>
+         </ordencompra>
+      </ser:ingresarOrden>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="Valid HTTP Status Codes" id="eff6e8a6-f94e-4f85-943f-cf9177d5617e" name="Valid HTTP Status Codes"><con:configuration><codes>202</codes></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://services.mgcoders.uy/ServicioRecepcionOrdenCompra/ingresarOrdenRequest" addDefaultAction="true" addDefaultTo="true" replyTo="http://localhost:8080/callback/ServicioCallback" generateMessageId="true"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" id="f91d34d3-1752-4ed6-8990-ff75e503d94c" name="ingresarOrden 3 - 741"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>ServicioRecepcionOrdenCompraServiceSoapBinding</con:interface><con:operation>ingresarOrden</con:operation><con:request name="ingresarOrden 3 - 741" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="true" useWsReliableMessaging="false" wssPasswordType="" id="9695d8f8-e557-473d-9c7e-3befecc211fe"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/composicion/ServicioRecepcionOrdenCompra</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:ser="http://services.mgcoders.uy/" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+   <soapenv:Header><wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"><wsse:BinarySecurityToken EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3" wsu:Id="X509-16045E9A1EC27FE721144746707599629">MIIDgTCCAmmgAwIBAgIEeKIKDzANBgkqhkiG9w0BAQsFADBxMQswCQYDVQQGEwJVWTETMBEGA1UECBMKTW9udGV2aWRlbzETMBEGA1UEBxMKTW9udGV2aWRlbzENMAsGA1UEChMEZmluZzENMAsGA1UECxMEZmluZzEaMBgGA1UEAxMRY2xpZW50IG1pZGRsZXdhcmUwHhcNMTUxMTA3MjAzMjM3WhcNMTYxMTA2MjAzMjM3WjBxMQswCQYDVQQGEwJVWTETMBEGA1UECBMKTW9udGV2aWRlbzETMBEGA1UEBxMKTW9udGV2aWRlbzENMAsGA1UEChMEZmluZzENMAsGA1UECxMEZmluZzEaMBgGA1UEAxMRY2xpZW50IG1pZGRsZXdhcmUwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCV5MA9LcjcE/UyrPJCGe5FslmsOMSDnlYLj1x6xNwnLCu8GOvZAnqMeMww9rgZZzwrPu/zapA0tSvY6sRpZzqsJUQOa2sFYQRzZG8sn/WWr0fK0jKO96tr6ad5v2fNHj9YIyEqmnSa7ReK012mgLRIIbjxMC6JjGwa1P9fkEtnVlr4B0z2GGnUmClfnagu2CwdoYiH0pck8YCzrlYXUOZjzOoPrmojZ28r0c8lWQzOvxxSzn6t7lAX5N4AEpdozbduLZyAH3nlwYw+FzDssKkvHwQ5i5ZTU2CzqcQlm3Ol1naoF79hNd4+GkOeJgxDMWw/8pQBqmzngGy6f1oP7aXlAgMBAAGjITAfMB0GA1UdDgQWBBQ9D+/dC7ekvbak4PHMMMXmOZP2HjANBgkqhkiG9w0BAQsFAAOCAQEACuxRKeERuKj36DktGne/E+BqR+FDVXHTBYIY5qbd9oLhPqcB+MtYb6Z16oo5q3jni68WIm5IsTZo1s77AYFAMSWWdDjBVs0GYWjBZzFgW3SwVnZ6NZZWJrdPRGcANz6KUiZbB3pfWscnIfbKLkdSVqUVGkgGDawMqa2pA+l5CUKOQgH8e3NeN83lk0yDnWxvzOTPXbCjaY1PqP35HGmwrAw+CrlmDr5dpc/kuYlwuD7CT3GoOuFslFj8GML8zecl7yv8YhnB2tVAoFlrM9Cgv0dgfcCzWkR2pOafvqe2nuZ8VAB8naor16NMWp3VI95PF6ZYXN38RT+Agz5U1ETBOw==</wsse:BinarySecurityToken><ds:Signature Id="SIG-16045E9A1EC27FE721144746707599833" xmlns:ds="http://www.w3.org/2000/09/xmldsig#"><ds:SignedInfo><ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"><ec:InclusiveNamespaces PrefixList="ser soapenv" xmlns:ec="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:CanonicalizationMethod><ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/><ds:Reference URI="#id-16045E9A1EC27FE721144746707599732"><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"><ec:InclusiveNamespaces PrefixList="ser" xmlns:ec="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:Transform></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>dtQt+8iS0gRw0ptjh+Hd48CRm8o=</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue>EbJ3DcfTkGCH8ZyYQQH5UhPzFEgTHXCPA/rpol+PhbEkKP+UWY/eSewAXzXz0Jzd1eKR9WEwfaoU
+9p3jT8YialMlMa74b+NAbs1eMn+Bo6vlq4wi2DC+H+0OoUckdsdSjFjq+ULVRPb/BU+Zty+POO/N
+oI/s+gKi51zbmvWC668NXQoTxo74H2W7h7lpGA3EatHhy64eCGEF3j9Z0fQx5wO/PdfCfT7jmRDv
+MleBkB1L/7xYeZ1CfW6kIAKy5MFPLQBX6VvNa5esuv2RHSXZJnGnd3tTLeUWM8rXSxEmT71MqWev
+OUHfLXJcPUV7flG1Tdtg7UjNjwqc77yPGFpiAg==</ds:SignatureValue><ds:KeyInfo Id="KI-16045E9A1EC27FE721144746707599630"><wsse:SecurityTokenReference wsu:Id="STR-16045E9A1EC27FE721144746707599631"><wsse:Reference URI="#X509-16045E9A1EC27FE721144746707599629" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3"/></wsse:SecurityTokenReference></ds:KeyInfo></ds:Signature></wsse:Security></soapenv:Header>
+   <soapenv:Body wsu:Id="id-16045E9A1EC27FE721144746707599732" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+      <ser:ingresarOrden>
+         <ordencompra>
+            <idOrden>741</idOrden>
+            <numeroTarjeta>987452</numeroTarjeta>
+            <!--1 or more repetitions:-->
+            <productos>
+               <idProducto>120</idProducto>
+               <cantidad>45</cantidad>
+               <precioUnitario>854</precioUnitario>
+            </productos>
+         </ordencompra>
+      </ser:ingresarOrden>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="Valid HTTP Status Codes" id="b6d2b99f-f714-43d7-94b6-36bf838d31e8" name="Valid HTTP Status Codes"><con:configuration><codes>202</codes></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://services.mgcoders.uy/ServicioRecepcionOrdenCompra/ingresarOrdenRequest" addDefaultAction="true" addDefaultTo="true" replyTo="http://localhost:8080/callback/ServicioCallback" generateMessageId="true"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:loadTest id="95966a55-ba5e-44ad-b0d6-1d1ca7c3f363" name="LoadTest 1"><con:settings><con:setting id="HttpSettings@close-connections">false</con:setting></con:settings><con:threadCount>5</con:threadCount><con:startDelay>0</con:startDelay><con:sampleInterval>250</con:sampleInterval><con:calculateTPSOnTimePassed>true</con:calculateTPSOnTimePassed><con:resetStatisticsOnThreadCountChange>true</con:resetStatisticsOnThreadCountChange><con:historyLimit>-1</con:historyLimit><con:testLimit>5</con:testLimit><con:limitType>COUNT_PER_THREAD</con:limitType><con:loadStrategy><con:type>Simple</con:type><con:config><testDelay>700</testDelay><randomFactor>0.5</randomFactor></con:config></con:loadStrategy><con:assertion type="Step Status" name="Step Status"/><con:maxAssertionErrors>100</con:maxAssertionErrors><con:cancelExcessiveThreads>true</con:cancelExcessiveThreads><con:strategyInterval>500</con:strategyInterval></con:loadTest><con:properties/></con:testCase><con:properties/></con:testSuite><con:properties/><con:wssContainer><con:crypto><con:source>/home/pablo/Programs/keystore/clientkeystore.jks</con:source><con:password>middleware2015</con:password><con:type>KEYSTORE</con:type></con:crypto><con:outgoing><con:name>securityout</con:name><con:entry type="Signature" username="client" password="middleware2015"><con:configuration><crypto>clientkeystore.jks</crypto><keyIdentifierType>1</keyIdentifierType><signatureAlgorithm/><signatureCanonicalization/><useSingleCert>true</useSingleCert><digestAlgorithm/><customTokenValueType/><customTokenId/><signaturePart><![CDATA[<xml-fragment xmlns:con="http://eviware.com/soapui/config">
+  <con:entry key="name" value="Body"/>
+  <con:entry key="namespace" value="http://schemas.xmlsoap.org/soap/envelope/"/>
+  <con:entry key="id" value=""/>
+  <con:entry key="enc" value="Content"/>
+</xml-fragment>]]></signaturePart></con:configuration></con:entry></con:outgoing></con:wssContainer><con:oAuth2ProfileContainer/><con:sensitiveInformation/></con:soapui-project>
