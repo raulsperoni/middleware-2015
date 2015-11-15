@@ -1,10 +1,12 @@
-# Instrucciones MULE
+#Guia para ejecutar el sistema
+##Recomendamos seguir los siguientes pasos para hacer funcionar la solución planteada:
 
-http://localhost:8181/esb/pagosya?wsdl
+###Para generar los war de cada módulo ejecutar el comando: 
+mvn clean package
 
-http://localhost:8181/esb/epuerto?wsdl
+###Se debe iniciar ActiveMQ mediante el comando: 
+./activemq start
 
-http://localhost:8181/esb/stock?wsdl
+###Hacer el deploy de los war en JBoss (Wildfly)
 
-
-
+###Desde el Anypoint Studio importar proyecto “va4”:
